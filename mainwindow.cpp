@@ -37,7 +37,7 @@ MainWindow::MainWindow()
     widget->setLayout(layout);
 
     setCentralWidget(widget);
-    setWindowTitle(tr("Diagramscene"));
+    setWindowTitle(tr("TrackSim - Ecobee Case-Study"));
     setUnifiedTitleAndToolBarOnMac(true);
 }
 //! [0]
