@@ -39,6 +39,7 @@ private:
     DiagramItem *myEndItem;
     QPolygonF arrowHead;
     QColor myColor = Qt::black;
+    void paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 };
 //! [0]
 

@@ -54,8 +54,7 @@ void Arrow::updatePosition()
 //! [3]
 
 //! [4]
-void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
-                  QWidget *)
+void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QWidget * _widget)
 {
     if (myStartItem->collidesWithItem(myEndItem))
         return;
@@ -95,14 +94,7 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
     }
 //! [5] //! [6]
     if (trafficLightEnd != TrafficLight::noLight) {
-        // double angle = std::atan2(-line().dy(), line().dx());
-
-        // QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
-        //                                 cos(angle + M_PI / 3) * arrowSize);
-        // QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
-        //                                 cos(angle + M_PI - M_PI / 3) * arrowSize);
         arrowHead.clear();
-
         arrowHead << line().p1();
         int i;
         float x,y,a;
@@ -112,13 +104,80 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
             y = arrowSize/2 * cos(a);
             arrowHead << line().p1() + QPointF(x,y);
         }
-
-
-        //arrowHead << line().p1() << arrowP1 << arrowP2;
-    //! [6] //! [7]
-        // painter->drawLine(line());
         painter->drawPolygon(arrowHead);
     }
+
+    if (isSelected()) {
+        painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
+        QLineF myLine = line();
+        myLine.translate(0, 4.0);
+        painter->drawLine(myLine);
+        myLine.translate(0,-8.0);
+        painter->drawLine(myLine);
+        setPen(QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        painter->drawEllipse(0, 0, 100, 100); // drawEllipse(int x, int y, int width, int height)
+    }
+
+    // draw reverse track
+    paint_reverse(painter, _style, _widget);
+                  
+}
+//! [7]
+
+void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
+                  QWidget *)
+{
+    if (myStartItem->collidesWithItem(myEndItem))
+        return;
+
+    QPen myPen = pen();
+    myPen.setColor(myColor);
+    qreal arrowSize = 20;
+    painter->setPen(myPen);
+    painter->setBrush(myColor);
+//! [4] //! [5]
+
+
+    QLineF centerLine(myEndItem->pos(), myStartItem->pos());
+    QPolygonF endPolygon = myStartItem->polygon();
+    QPointF p1 = endPolygon.first() + myStartItem->pos();
+    QPointF intersectPoint;
+    for (int i = 1; i < endPolygon.count(); ++i) {
+        QPointF p2 = endPolygon.at(i) + myStartItem->pos();
+        QLineF polyLine = QLineF(p1, p2);
+        QLineF::IntersectionType intersectionType =
+            polyLine.intersects(centerLine, &intersectPoint);
+        if (intersectionType == QLineF::BoundedIntersection)
+            break;
+        p1 = p2;
+    }
+
+    setLine(QLineF(intersectPoint, myEndItem->pos()));
+        painter->drawLine(line());
+
+    if (trafficLightEnd == TrafficLight::RedLight) {
+        painter->setPen(Qt::red);
+        painter->setBrush(Qt::red);
+    }
+    else {
+        painter->setPen(Qt::green);
+        painter->setBrush(Qt::green);
+    }
+//! [5] //! [6]
+    if (trafficLightEnd != TrafficLight::noLight) {
+        arrowHead.clear();
+        arrowHead << line().p1();
+        int i;
+        float x,y,a;
+        for (i=0; i<360; i += 5) {
+            a = (i * 3.1415926) / 180;
+            x = arrowSize/2 * sin(a);
+            y = arrowSize/2 * cos(a);
+            arrowHead << line().p1() + QPointF(x,y);
+        }
+        painter->drawPolygon(arrowHead);
+    }
+
     if (isSelected()) {
         painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
         QLineF myLine = line();
@@ -130,4 +189,3 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
         painter->drawEllipse(0, 0, 100, 100); // drawEllipse(int x, int y, int width, int height)
     }
 }
-//! [7]
