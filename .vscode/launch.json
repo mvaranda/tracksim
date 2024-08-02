@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+     {
+            "name": "tracksim",
+            "type": "cppdbg",
+            // "preLaunchTask": "",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/Desktop_Qt_6_7_2-Debug/tracksim",
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}/",
+            "environment": [],
+            "miDebuggerArgs": "",
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        }
+
+    ]
+  }
+  
