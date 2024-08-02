@@ -54,6 +54,7 @@ private slots:
     void handleFontChange();
     void itemSelected(QGraphicsItem *item);
     void about();
+    void centerAndResize();
 
 private:
     void createToolBox();

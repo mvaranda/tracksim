@@ -8,6 +8,7 @@
 #include "mainwindow.h"
 
 #include <QtWidgets>
+#include <QScreen> 
 
 const int InsertTextButton = 10;
 
@@ -39,6 +40,8 @@ MainWindow::MainWindow()
     setCentralWidget(widget);
     setWindowTitle(tr("TrackSim - Ecobee Case-Study"));
     setUnifiedTitleAndToolBarOnMac(true);
+    //resize(5000,5000);
+    centerAndResize();
 }
 //! [0]
 
@@ -277,9 +280,9 @@ void MainWindow::itemSelected(QGraphicsItem *item)
 //! [20]
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About Diagram Scene"),
-                       tr("The <b>Diagram Scene</b> example shows "
-                          "use of the graphics framework."));
+    QMessageBox::about(this, tr("TrackSim"),
+                       tr("The <b>Tracks Simulator</b>\n"
+                          "\nBy: Marcelo Varanda."));
 }
 //! [20]
 
@@ -598,3 +601,28 @@ QIcon MainWindow::createColorIcon(QColor color)
     return QIcon(pixmap);
 }
 //! [32]
+
+void MainWindow::centerAndResize() {
+    // get the dimension available on this screen
+    // QSize availableSize = qApp->desktop()->availableGeometry().size();
+    QSize availableSize = QApplication::primaryScreen()->geometry().size();  // Qt6 , along with the #include <QScreen>
+    int width = availableSize.width();
+    int height = availableSize.height();
+    qDebug() << "Available dimensions " << width << "x" << height;
+    width *= 0.9; // 90% of the screen size
+    height *= 0.9; // 90% of the screen size
+    qDebug() << "Computed dimensions " << width << "x" << height;
+    // QSize newSize( width, height );
+
+    // setGeometry(
+    //     QStyle::alignedRect(
+    //         Qt::LeftToRight,
+    //         Qt::AlignCenter,
+    //         newSize,
+    //         QApplication::primaryScreen()->availableGeometry()
+    //         //qApp->desktop()->availableGeometry()
+    //     )
+    // );
+    setMinimumSize(width,height);
+}
+
