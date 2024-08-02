@@ -446,10 +446,10 @@ void MainWindow::createToolbars()
 //! [26]
     fillColorToolButton = new QToolButton;
     fillColorToolButton->setPopupMode(QToolButton::MenuButtonPopup);
-    fillColorToolButton->setMenu(createColorMenu(&MainWindow::itemColorChanged, Qt::white));
+    fillColorToolButton->setMenu(createColorMenu(&MainWindow::itemColorChanged, DEFAULT_ITEM_COLOR));
     fillAction = fillColorToolButton->menu()->defaultAction();
     fillColorToolButton->setIcon(createColorToolButtonIcon(
-                                     ":/images/floodfill.png", Qt::white));
+                                     ":/images/floodfill.png", DEFAULT_ITEM_COLOR));
     connect(fillColorToolButton, &QAbstractButton::clicked,
             this, &MainWindow::fillButtonTriggered);
 //! [26]

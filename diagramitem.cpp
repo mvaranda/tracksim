@@ -99,6 +99,8 @@ QPixmap DiagramItem::image() const
     QPainter painter(&pixmap);
     painter.setPen(QPen(Qt::black, 8));
     painter.translate(125, 125);
+    if (myDiagramType == DiagramType::TrackPoint)
+        painter.scale(3.0, 3.0);
     painter.drawPolyline(myPolygon);
 
     return pixmap;

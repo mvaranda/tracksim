@@ -16,7 +16,7 @@ DiagramScene::DiagramScene(QMenu *itemMenu, QObject *parent)
     myItemType = DiagramItem::Step;
     line = nullptr;
     textItem = nullptr;
-    myItemColor = Qt::white;
+    myItemColor = DEFAULT_ITEM_COLOR;
     myTextColor = Qt::black;
     myLineColor = Qt::black;
 }
