@@ -9,6 +9,8 @@
 #include <QMenu>
 #include <QPainter>
 
+#define TRACK_POINT_CIRCLE_SIZE 20.0
+
 //! [0]
 DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
                          QGraphicsItem *parent)
@@ -36,6 +38,17 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
                       << QPointF(100, 100) << QPointF(-100, 100)
                       << QPointF(-100, -100);
             break;
+        case TrackPoint:
+            int i;
+            float x,y,a;
+            for (i=0; i<360; i += 5) {
+                a = (i * 3.1415926) / 180;
+                x = TRACK_POINT_CIRCLE_SIZE * sin(a);
+                y = TRACK_POINT_CIRCLE_SIZE * cos(a);
+                myPolygon << QPointF(x,y);
+            }
+            break;
+
         default:
             myPolygon << QPointF(-120, -80) << QPointF(-70, 80)
                       << QPointF(120, 80) << QPointF(70, -80)

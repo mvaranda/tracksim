@@ -281,7 +281,7 @@ void MainWindow::itemSelected(QGraphicsItem *item)
 void MainWindow::about()
 {
     QMessageBox::about(this, tr("TrackSim"),
-                       tr("The <b>Tracks Simulator</b>\n"
+                       tr("The <b>Tracks Simulator</b><br>\n"
                           "\nBy: Marcelo Varanda."));
 }
 //! [20]
@@ -297,6 +297,7 @@ void MainWindow::createToolBox()
     layout->addWidget(createCellWidget(tr("Conditional"), DiagramItem::Conditional), 0, 0);
     layout->addWidget(createCellWidget(tr("Process"), DiagramItem::Step),0, 1);
     layout->addWidget(createCellWidget(tr("Input/Output"), DiagramItem::Io), 1, 0);
+    layout->addWidget(createCellWidget(tr("Track Point"), DiagramItem::TrackPoint), 2, 0);
 //! [21]
 
     QToolButton *textButton = new QToolButton;

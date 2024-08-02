@@ -21,7 +21,7 @@ class DiagramItem : public QGraphicsPolygonItem
 {
 public:
     enum { Type = UserType + 15 };
-    enum DiagramType { Step, Conditional, StartEnd, Io };
+    enum DiagramType { Step, Conditional, StartEnd, Io, TrackPoint };
 
     DiagramItem(DiagramType diagramType, QMenu *contextMenu, QGraphicsItem *parent = nullptr);
 
