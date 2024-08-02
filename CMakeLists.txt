@@ -15,7 +15,14 @@ qt_add_executable(tracksim
     diagramtextitem.cpp diagramtextitem.h
     main.cpp
     mainwindow.cpp mainwindow.h
+    simulator/segment.cpp
+    simulator/tracks.cpp
+    simulator/track.cpp
+    simulator/trackpoints.cpp
+    simulator/trackpoint.cpp
 )
+
+target_compile_features(tracksim PRIVATE cxx_std_20)
 
 set_target_properties(tracksim PROPERTIES
     WIN32_EXECUTABLE TRUE
@@ -46,6 +53,8 @@ set(tracksim_resource_files
     "images/textpointer.png"
     "images/underline.png"
 )
+
+target_include_directories(tracksim PRIVATE ./simulator)
 
 qt_add_resources(tracksim "tracksim"
     PREFIX

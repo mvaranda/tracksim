@@ -7,6 +7,7 @@
 #include "diagramitem.h"
 
 #include <QMainWindow>
+#include "simulator.h"
 
 class DiagramScene;
 
@@ -32,6 +33,7 @@ class MainWindow : public QMainWindow
 
 public:
    MainWindow();
+   Segment seg;
 
 private slots:
     void backgroundButtonGroupClicked(QAbstractButton *button);

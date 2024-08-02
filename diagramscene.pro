@@ -14,6 +14,7 @@ SOURCES	    =   mainwindow.cpp \
 		diagramscene.cpp
 RESOURCES   =	diagramscene.qrc
 
+CONFIG += c++17
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/diagramscene
