@@ -13,6 +13,7 @@ class Arrow : public QGraphicsLineItem
 {
 public:
     enum { Type = UserType + 4 };
+    enum TrafficLight { noLight, GreenLight, RedLight};
 
     Arrow(DiagramItem *startItem, DiagramItem *endItem,
           QGraphicsItem *parent = nullptr);
@@ -25,6 +26,9 @@ public:
     DiagramItem *endItem() const { return myEndItem; }
 
     void updatePosition();
+
+    TrafficLight trafficLightStart;
+    TrafficLight trafficLightEnd;
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

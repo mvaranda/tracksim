@@ -9,9 +9,15 @@
 #include <QPen>
 #include <QtMath>
 
+#define SELECTED_COLOR Qt::cyan
+
 //! [0]
 Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, QGraphicsItem *parent)
-    : QGraphicsLineItem(parent), myStartItem(startItem), myEndItem(endItem)
+    : QGraphicsLineItem(parent), 
+        myStartItem(startItem), 
+        myEndItem(endItem), 
+        trafficLightEnd(TrafficLight::GreenLight),
+        trafficLightStart(TrafficLight::GreenLight)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(myColor, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
@@ -61,6 +67,7 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
     painter->setBrush(myColor);
 //! [4] //! [5]
 
+
     QLineF centerLine(myStartItem->pos(), myEndItem->pos());
     QPolygonF endPolygon = myEndItem->polygon();
     QPointF p1 = endPolygon.first() + myEndItem->pos();
@@ -76,27 +83,51 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
     }
 
     setLine(QLineF(intersectPoint, myStartItem->pos()));
+        painter->drawLine(line());
+
+    if (trafficLightEnd == TrafficLight::RedLight) {
+        painter->setPen(Qt::red);
+        painter->setBrush(Qt::red);
+    }
+    else {
+        painter->setPen(Qt::green);
+        painter->setBrush(Qt::green);
+    }
 //! [5] //! [6]
+    if (trafficLightEnd != TrafficLight::noLight) {
+        // double angle = std::atan2(-line().dy(), line().dx());
 
-    double angle = std::atan2(-line().dy(), line().dx());
+        // QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
+        //                                 cos(angle + M_PI / 3) * arrowSize);
+        // QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
+        //                                 cos(angle + M_PI - M_PI / 3) * arrowSize);
+        arrowHead.clear();
 
-    QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
-                                    cos(angle + M_PI / 3) * arrowSize);
-    QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
-                                    cos(angle + M_PI - M_PI / 3) * arrowSize);
+        arrowHead << line().p1();
+        int i;
+        float x,y,a;
+        for (i=0; i<360; i += 5) {
+            a = (i * 3.1415926) / 180;
+            x = arrowSize/2 * sin(a);
+            y = arrowSize/2 * cos(a);
+            arrowHead << line().p1() + QPointF(x,y);
+        }
 
-    arrowHead.clear();
-    arrowHead << line().p1() << arrowP1 << arrowP2;
-//! [6] //! [7]
-    painter->drawLine(line());
-    painter->drawPolygon(arrowHead);
+
+        //arrowHead << line().p1() << arrowP1 << arrowP2;
+    //! [6] //! [7]
+        // painter->drawLine(line());
+        painter->drawPolygon(arrowHead);
+    }
     if (isSelected()) {
-        painter->setPen(QPen(myColor, 1, Qt::DashLine));
+        painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
         QLineF myLine = line();
         myLine.translate(0, 4.0);
         painter->drawLine(myLine);
         myLine.translate(0,-8.0);
         painter->drawLine(myLine);
+        setPen(QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        painter->drawEllipse(0, 0, 100, 100); // drawEllipse(int x, int y, int width, int height)
     }
 }
 //! [7]
