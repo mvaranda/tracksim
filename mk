@@ -4,5 +4,5 @@ clear
 set -e
 
 ninja
-./tracksim
+GTK_THEME=light ./tracksim
 
