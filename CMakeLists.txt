@@ -56,7 +56,8 @@ set(tracksim_resource_files
     "images/underline.png"
 )
 
-target_include_directories(tracksim PRIVATE ./simulator)
+target_include_directories(tracksim PRIVATE ./simulator
+./rapidjson)
 
 qt_add_resources(tracksim "tracksim"
     PREFIX

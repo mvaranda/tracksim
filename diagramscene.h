@@ -43,8 +43,8 @@ public:
                     QPointF pos,
                     QColor color);
     void loadScene(QString data);
-    void saveItems(const char * name);
-    void loadItems(const char * name);
+    void saveItems(QString &  name);
+    void loadItems(QString &  name);
 
 public slots:
     void setMode(Mode mode);

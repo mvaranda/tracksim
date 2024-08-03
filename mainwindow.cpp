@@ -96,14 +96,14 @@ void MainWindow::saveItems()
 {
     auto fileName = QFileDialog::getSaveFileName(this,
     tr("Save Railway"), "./", tr("Railway Files (*.rlw)"));
-    scene->saveItems(fileName.toStdString().c_str());
+    scene->saveItems(fileName); //.toStdString());
 }
 
 void MainWindow::loadItems()
 {
     auto fileName = QFileDialog::getOpenFileName(this,
     tr("Load Railway"), "./", tr("Railway Files (*.rlw)"));
-    scene->loadItems(fileName.toStdString().c_str());
+    scene->loadItems(fileName); //.toStdString());
 }
 
 //! [3]
