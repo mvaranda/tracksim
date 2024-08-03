@@ -15,6 +15,7 @@ qt_add_executable(tracksim
     diagramtextitem.cpp diagramtextitem.h
     main.cpp
     mainwindow.cpp mainwindow.h
+    store.cpp store.h
     simulator/segment.cpp
     simulator/tracks.cpp
     simulator/track.cpp
