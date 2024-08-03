@@ -5,11 +5,12 @@
 #define ARROW_H
 
 #include <QGraphicsLineItem>
+#include "simitemid.h"
 
 class DiagramItem;
 
 //! [0]
-class Arrow : public QGraphicsLineItem
+class Arrow : public QGraphicsLineItem, public SimItemID
 {
 public:
     enum { Type = UserType + 4 };

@@ -296,13 +296,14 @@ void MainWindow::about()
             Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
             QPointF startPos = arrow->getStartPos();
             QPointF endPos = arrow->getEndPos();
-            qDebug() << "Item is an Arrow";
+            qDebug() << "Item is an Arrow, sim ID = " << arrow->GetSimItemID();
             qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
             qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
         }
         else if (item->type() == DiagramItem::Type) {
              DiagramItem * dia = qgraphicsitem_cast<DiagramItem *>(item);
-             qDebug() << "Item is a DiagramItem type: " << dia->myDiagramType;
+             qDebug() << "Item is a DiagramItem type: " << dia->myDiagramType << ", sim ID = " << dia->GetSimItemID();
+
         }
         else if (item->type() == 65539) {
             qDebug() << "Item is Text";

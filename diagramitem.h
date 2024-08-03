@@ -6,6 +6,7 @@
 
 #include <QGraphicsPixmapItem>
 #include <QList>
+#include "simitemid.h"
 
 QT_BEGIN_NAMESPACE
 class QPixmap;
@@ -17,7 +18,7 @@ QT_END_NAMESPACE
 class Arrow;
 
 //! [0]
-class DiagramItem : public QGraphicsPolygonItem
+class DiagramItem : public QGraphicsPolygonItem, public SimItemID
 {
 public:
     enum { Type = UserType + 15 };

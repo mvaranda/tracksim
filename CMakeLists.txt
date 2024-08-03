@@ -21,6 +21,7 @@ qt_add_executable(tracksim
     simulator/trackpoints.cpp
     simulator/trackpoint.cpp
     simulator/simulator.cpp
+    simulator/simitemid.cpp
 )
 
 target_compile_features(tracksim PRIVATE cxx_std_20)
