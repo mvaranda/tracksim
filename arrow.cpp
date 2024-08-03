@@ -189,3 +189,10 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
         painter->drawEllipse(0, 0, 100, 100); // drawEllipse(int x, int y, int width, int height)
     }
 }
+
+    QPointF Arrow::getStartPos() {
+        return myStartItem->pos();
+    }
+    QPointF Arrow::getEndPos() {
+        return myEndItem->pos();
+    }

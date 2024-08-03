@@ -33,12 +33,13 @@ public:
     QPixmap image() const;
     int type() const override { return Type; }
 
+    DiagramType myDiagramType;
+
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 private:
-    DiagramType myDiagramType;
     QPolygonF myPolygon;
     QMenu *myContextMenu;
     QList<Arrow *> arrows;

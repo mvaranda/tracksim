@@ -286,6 +286,29 @@ void MainWindow::about()
     QMessageBox::about(this, tr("TrackSim"),
                        tr("The <b>Tracks Simulator</b><br>\n"
                           "\nBy: Marcelo Varanda."));
+
+    QList<QGraphicsItem *> items = scene->items();
+    foreach( QGraphicsItem *item, items ) {
+        if (item->type() == Arrow::Type) {
+            Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
+            QPointF startPos = arrow->getStartPos();
+            QPointF endPos = arrow->getEndPos();
+            qDebug() << "Item is an Arrow";
+            qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
+            qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
+        }
+        else if (item->type() == DiagramItem::Type) {
+             DiagramItem * dia = qgraphicsitem_cast<DiagramItem *>(item);
+             qDebug() << "Item is a DiagramItem type: " << dia->myDiagramType;
+        }
+        else if (item->type() == 65539) {
+            qDebug() << "Item is Text";
+        }
+        else {
+            qDebug() << "Item is unknown: " << item->type();
+        }
+
+    }
 }
 //! [20]
 

@@ -30,6 +30,9 @@ public:
     TrafficLight trafficLightStart;
     TrafficLight trafficLightEnd;
 
+    QPointF getStartPos();
+    QPointF getEndPos();
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
