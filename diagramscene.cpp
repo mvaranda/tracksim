@@ -94,7 +94,45 @@ void DiagramScene::editorLostFocus(DiagramTextItem *item)
 }
 //! [5]
 
+void DiagramScene::loadScene(QString data)
+{
+    // 3 TrackPoints:
+    QPoint p1(2418 , 2346); 
+    QPoint p2(2539 , 2513);
+    QPoint p3(2275 , 2507);
+
+    AddItem( DiagramItem::TrackPoint,
+                            myItemMenu,
+                            p1,
+                            Qt::blue);
+
+    AddItem( DiagramItem::TrackPoint,
+                            myItemMenu,
+                            p2,
+                            Qt::green);
+
+    AddItem( DiagramItem::TrackPoint,
+                            myItemMenu,
+                            p3,
+                            Qt::red);
+}
+
+void DiagramScene::AddItem( DiagramItem::DiagramType itemType,
+                            QMenu * itemMenu,
+                            QPointF pos,
+                            QColor color)
+{
+    DiagramItem *item;
+    item = new DiagramItem(itemType, itemMenu);
+    item->setBrush(color);
+    addItem(item);
+    item->setPos(pos);
+    emit itemInserted(item);
+}
+
 //! [6]
+// scenePos xp=2156 yp=2396
+// myItemType = TrackPoint
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (mouseEvent->button() != Qt::LeftButton)
@@ -103,11 +141,10 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     DiagramItem *item;
     switch (myMode) {
         case InsertItem:
-            item = new DiagramItem(myItemType, myItemMenu);
-            item->setBrush(myItemColor);
-            addItem(item);
-            item->setPos(mouseEvent->scenePos());
-            emit itemInserted(item);
+            AddItem(myItemType,
+                    myItemMenu,
+                    mouseEvent->scenePos(),
+                    myItemColor);
             break;
 //! [6] //! [7]
         case InsertLine:

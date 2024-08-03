@@ -38,6 +38,11 @@ public:
     void setTextColor(const QColor &color);
     void setItemColor(const QColor &color);
     void setFont(const QFont &font);
+    void AddItem(   DiagramItem::DiagramType itemType,
+                    QMenu * itemMenu,
+                    QPointF pos,
+                    QColor color);
+    void loadScene(QString data);
 
 public slots:
     void setMode(Mode mode);

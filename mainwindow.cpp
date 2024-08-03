@@ -45,6 +45,9 @@ MainWindow::MainWindow()
     // Get simulator
     sim = Simulator::GetInstance();
     sim->AddSegment( 111 );
+
+    // load scene
+    scene->loadScene("Test");
 }
 //! [0]
 
