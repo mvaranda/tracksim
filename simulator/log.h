@@ -19,7 +19,7 @@
     #define LOG_W qDebug() << "Warning: "
     #define LOG_E qDebug() << "Error: "
 #else
-    // TODO: create a dummy stream
+    // TODO: create a dum__ stream
     #define LOG qDebug() << "Debug: "
     #define LOG_W qDebug() << "Warning: "
     #define LOG_E qDebug() << "Error: "

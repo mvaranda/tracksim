@@ -55,8 +55,8 @@ MainWindow::MainWindow()
 void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 {
     const QList<QAbstractButton *> buttons = backgroundButtonGroup->buttons();
-    for (QAbstractButton *myButton : buttons) {
-        if (myButton != button)
+    for (QAbstractButton *__Button : buttons) {
+        if (__Button != button)
             button->setChecked(false);
     }
     QString text = button->text();
@@ -78,8 +78,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 void MainWindow::buttonGroupClicked(QAbstractButton *button)
 {
     const QList<QAbstractButton *> buttons = buttonGroup->buttons();
-    for (QAbstractButton *myButton : buttons) {
-        if (myButton != button)
+    for (QAbstractButton *__Button : buttons) {
+        if (__Button != button)
             button->setChecked(false);
     }
     const int id = buttonGroup->id(button);
@@ -302,7 +302,7 @@ void MainWindow::about()
         }
         else if (item->type() == DiagramItem::Type) {
              DiagramItem * dia = qgraphicsitem_cast<DiagramItem *>(item);
-             qDebug() << "Item is a DiagramItem type: " << dia->myDiagramType << ", sim ID = " << dia->GetSimItemID();
+             qDebug() << "Item is a DiagramItem type: " << dia->__DiagramType << ", sim ID = " << dia->GetSimItemID();
 
         }
         else if (item->type() == 65539) {

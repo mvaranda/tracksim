@@ -14,11 +14,11 @@
 //! [0]
 DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
                          QGraphicsItem *parent)
-    : QGraphicsPolygonItem(parent), myDiagramType(diagramType)
-    , myContextMenu(contextMenu)
+    : QGraphicsPolygonItem(parent), __DiagramType(diagramType)
+    , __ContextMenu(contextMenu)
 {
     QPainterPath path;
-    switch (myDiagramType) {
+    switch (__DiagramType) {
         case StartEnd:
             path.moveTo(200, 50);
             path.arcTo(150, 0, 50, 50, 0, 90);
@@ -26,15 +26,15 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
             path.arcTo(50, 50, 50, 50, 180, 90);
             path.arcTo(150, 50, 50, 50, 270, 90);
             path.lineTo(200, 25);
-            myPolygon = path.toFillPolygon();
+            __Polygon = path.toFillPolygon();
             break;
         case Conditional:
-            myPolygon << QPointF(-100, 0) << QPointF(0, 100)
+            __Polygon << QPointF(-100, 0) << QPointF(0, 100)
                       << QPointF(100, 0) << QPointF(0, -100)
                       << QPointF(-100, 0);
             break;
         case Step:
-            myPolygon << QPointF(-100, -100) << QPointF(100, -100)
+            __Polygon << QPointF(-100, -100) << QPointF(100, -100)
                       << QPointF(100, 100) << QPointF(-100, 100)
                       << QPointF(-100, -100);
             break;
@@ -45,17 +45,17 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
                 a = (i * 3.1415926) / 180;
                 x = TRACK_POINT_CIRCLE_SIZE * sin(a);
                 y = TRACK_POINT_CIRCLE_SIZE * cos(a);
-                myPolygon << QPointF(x,y);
+                __Polygon << QPointF(x,y);
             }
             break;
 
         default:
-            myPolygon << QPointF(-120, -80) << QPointF(-70, 80)
+            __Polygon << QPointF(-120, -80) << QPointF(-70, 80)
                       << QPointF(120, 80) << QPointF(70, -80)
                       << QPointF(-120, -80);
             break;
     }
-    setPolygon(myPolygon);
+    setPolygon(__Polygon);
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -99,9 +99,9 @@ QPixmap DiagramItem::image() const
     QPainter painter(&pixmap);
     painter.setPen(QPen(Qt::black, 8));
     painter.translate(125, 125);
-    if (myDiagramType == DiagramType::TrackPoint)
+    if (__DiagramType == DiagramType::TrackPoint)
         painter.scale(3.0, 3.0);
-    painter.drawPolyline(myPolygon);
+    painter.drawPolyline(__Polygon);
 
     return pixmap;
 }
@@ -112,7 +112,7 @@ void DiagramItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     scene()->clearSelection();
     setSelected(true);
-    myContextMenu->popup(event->screenPos());
+    __ContextMenu->popup(event->screenPos());
 }
 //! [5]
 

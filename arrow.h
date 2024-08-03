@@ -22,9 +22,9 @@ public:
     int type() const override { return Type; }
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
-    void setColor(const QColor &color) { myColor = color; }
-    DiagramItem *startItem() const { return myStartItem; }
-    DiagramItem *endItem() const { return myEndItem; }
+    void setColor(const QColor &color) { __Color = color; }
+    DiagramItem *startItem() const { return __StartItem; }
+    DiagramItem *endItem() const { return __EndItem; }
 
     void updatePosition();
 
@@ -39,10 +39,10 @@ protected:
                QWidget *widget = nullptr) override;
 
 private:
-    DiagramItem *myStartItem;
-    DiagramItem *myEndItem;
+    DiagramItem *__StartItem;
+    DiagramItem *__EndItem;
     QPolygonF arrowHead;
-    QColor myColor = Qt::black;
+    QColor __Color = Qt::black;
     void paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 };
 //! [0]

@@ -30,10 +30,10 @@ public:
     enum Mode { InsertItem, InsertLine, InsertText, MoveItem, Simulating };
 
     explicit DiagramScene(QMenu *itemMenu, QObject *parent = nullptr);
-    QFont font() const { return myFont; }
-    QColor textColor() const { return myTextColor; }
-    QColor itemColor() const { return myItemColor; }
-    QColor lineColor() const { return myLineColor; }
+    QFont font() const { return __Font; }
+    QColor textColor() const { return __TextColor; }
+    QColor itemColor() const { return __ItemColor; }
+    QColor lineColor() const { return __LineColor; }
     void setLineColor(const QColor &color);
     void setTextColor(const QColor &color);
     void setItemColor(const QColor &color);
@@ -62,17 +62,17 @@ protected:
 private:
     bool isItemChange(int type) const;
 
-    DiagramItem::DiagramType myItemType;
-    QMenu *myItemMenu;
-    Mode myMode;
+    DiagramItem::DiagramType __ItemType;
+    QMenu *__ItemMenu;
+    Mode __Mode;
     bool leftButtonDown;
     QPointF startPoint;
     QGraphicsLineItem *line;
-    QFont myFont;
+    QFont __Font;
     DiagramTextItem *textItem;
-    QColor myTextColor;
-    QColor myItemColor;
-    QColor myLineColor;
+    QColor __TextColor;
+    QColor __ItemColor;
+    QColor __LineColor;
 };
 //! [0]
 
