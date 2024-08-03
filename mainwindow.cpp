@@ -95,7 +95,7 @@ void MainWindow::buttonGroupClicked(QAbstractButton *button)
 void MainWindow::saveItems()
 {
     auto fileName = QFileDialog::getSaveFileName(this,
-    tr("Save Railway"), "./", tr("Railway Files (*.rlw)"));
+    tr("Save Railway"), "./", tr("Railway Files (*.rlw)"), 0, QFileDialog::DontUseNativeDialog);
     scene->saveItems(fileName); //.toStdString());
 }
 
