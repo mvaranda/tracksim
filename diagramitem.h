@@ -28,21 +28,21 @@ public:
 
     void removeArrow(Arrow *arrow);
     void removeArrows();
-    DiagramType diagramType() const { return __DiagramType; }
-    QPolygonF polygon() const { return __Polygon; }
+    DiagramType diagramType() const { return diagramItemType; }
+    QPolygonF polygon() const { return m_Polygon; }
     void addArrow(Arrow *arrow);
     QPixmap image() const;
     int type() const override { return Type; }
 
-    DiagramType __DiagramType;
+    DiagramType diagramItemType;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 private:
-    QPolygonF __Polygon;
-    QMenu *__ContextMenu;
+    QPolygonF m_Polygon;
+    QMenu *m_ContextMenu;
     QList<Arrow *> arrows;
 };
 //! [0]

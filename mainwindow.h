@@ -39,6 +39,8 @@ private slots:
     void backgroundButtonGroupClicked(QAbstractButton *button);
     void buttonGroupClicked(QAbstractButton *button);
     void deleteItem();
+    void saveItems();
+    void loadItems();
     void pointerGroupClicked();
     void bringToFront();
     void sendToBack();
@@ -79,6 +81,8 @@ private:
     QAction *exitAction;
     QAction *addAction;
     QAction *deleteAction;
+    QAction *saveAction;
+    QAction *loadAction;
 
     QAction *toFrontAction;
     QAction *sendBackAction;

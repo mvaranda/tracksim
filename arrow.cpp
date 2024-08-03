@@ -14,13 +14,13 @@
 //! [0]
 Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, QGraphicsItem *parent)
     : QGraphicsLineItem(parent), 
-        __StartItem(startItem), 
-        __EndItem(endItem), 
+        m_StartItem(startItem), 
+        m_EndItem(endItem), 
         trafficLightEnd(TrafficLight::GreenLight),
         trafficLightStart(TrafficLight::GreenLight)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setPen(QPen(__Color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    setPen(QPen(m_Color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 }
 //! [0]
 
@@ -48,7 +48,7 @@ QPainterPath Arrow::shape() const
 //! [3]
 void Arrow::updatePosition()
 {
-    QLineF line(mapFromItem(__StartItem, 0, 0), mapFromItem(__EndItem, 0, 0));
+    QLineF line(mapFromItem(m_StartItem, 0, 0), mapFromItem(m_EndItem, 0, 0));
     setLine(line);
 }
 //! [3]
@@ -56,23 +56,23 @@ void Arrow::updatePosition()
 //! [4]
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QWidget * _widget)
 {
-    if (__StartItem->collidesWithItem(__EndItem))
+    if (m_StartItem->collidesWithItem(m_EndItem))
         return;
 
-    QPen __Pen = pen();
-    __Pen.setColor(__Color);
+    QPen m_Pen = pen();
+    m_Pen.setColor(m_Color);
     qreal arrowSize = 20;
-    painter->setPen(__Pen);
-    painter->setBrush(__Color);
+    painter->setPen(m_Pen);
+    painter->setBrush(m_Color);
 //! [4] //! [5]
 
 
-    QLineF centerLine(__StartItem->pos(), __EndItem->pos());
-    QPolygonF endPolygon = __EndItem->polygon();
-    QPointF p1 = endPolygon.first() + __EndItem->pos();
+    QLineF centerLine(m_StartItem->pos(), m_EndItem->pos());
+    QPolygonF endPolygon = m_EndItem->polygon();
+    QPointF p1 = endPolygon.first() + m_EndItem->pos();
     QPointF intersectPoint;
     for (int i = 1; i < endPolygon.count(); ++i) {
-        QPointF p2 = endPolygon.at(i) + __EndItem->pos();
+        QPointF p2 = endPolygon.at(i) + m_EndItem->pos();
         QLineF polyLine = QLineF(p1, p2);
         QLineF::IntersectionType intersectionType =
             polyLine.intersects(centerLine, &intersectPoint);
@@ -81,7 +81,7 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
         p1 = p2;
     }
 
-    setLine(QLineF(intersectPoint, __StartItem->pos()));
+    setLine(QLineF(intersectPoint, m_StartItem->pos()));
         painter->drawLine(line());
 
     if (trafficLightEnd == TrafficLight::RedLight) {
@@ -109,11 +109,11 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
 
     if (isSelected()) {
         painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
-        QLineF __Line = line();
-        __Line.translate(0, 4.0);
-        painter->drawLine(__Line);
-        __Line.translate(0,-8.0);
-        painter->drawLine(__Line);
+        QLineF m_Line = line();
+        m_Line.translate(0, 4.0);
+        painter->drawLine(m_Line);
+        m_Line.translate(0,-8.0);
+        painter->drawLine(m_Line);
         setPen(QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         painter->drawEllipse(0, 0, 100, 100); // drawEllipse(int x, int y, int width, int height)
     }
@@ -127,23 +127,23 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
 void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
                   QWidget *)
 {
-    if (__StartItem->collidesWithItem(__EndItem))
+    if (m_StartItem->collidesWithItem(m_EndItem))
         return;
 
-    QPen __Pen = pen();
-    __Pen.setColor(__Color);
+    QPen m_Pen = pen();
+    m_Pen.setColor(m_Color);
     qreal arrowSize = 20;
-    painter->setPen(__Pen);
-    painter->setBrush(__Color);
+    painter->setPen(m_Pen);
+    painter->setBrush(m_Color);
 //! [4] //! [5]
 
 
-    QLineF centerLine(__EndItem->pos(), __StartItem->pos());
-    QPolygonF endPolygon = __StartItem->polygon();
-    QPointF p1 = endPolygon.first() + __StartItem->pos();
+    QLineF centerLine(m_EndItem->pos(), m_StartItem->pos());
+    QPolygonF endPolygon = m_StartItem->polygon();
+    QPointF p1 = endPolygon.first() + m_StartItem->pos();
     QPointF intersectPoint;
     for (int i = 1; i < endPolygon.count(); ++i) {
-        QPointF p2 = endPolygon.at(i) + __StartItem->pos();
+        QPointF p2 = endPolygon.at(i) + m_StartItem->pos();
         QLineF polyLine = QLineF(p1, p2);
         QLineF::IntersectionType intersectionType =
             polyLine.intersects(centerLine, &intersectPoint);
@@ -152,7 +152,7 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
         p1 = p2;
     }
 
-    setLine(QLineF(intersectPoint, __EndItem->pos()));
+    setLine(QLineF(intersectPoint, m_EndItem->pos()));
         painter->drawLine(line());
 
     if (trafficLightEnd == TrafficLight::RedLight) {
@@ -180,19 +180,19 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
 
     if (isSelected()) {
         painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
-        QLineF __Line = line();
-        __Line.translate(0, 4.0);
-        painter->drawLine(__Line);
-        __Line.translate(0,-8.0);
-        painter->drawLine(__Line);
+        QLineF m_Line = line();
+        m_Line.translate(0, 4.0);
+        painter->drawLine(m_Line);
+        m_Line.translate(0,-8.0);
+        painter->drawLine(m_Line);
         setPen(QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         painter->drawEllipse(0, 0, 100, 100); // drawEllipse(int x, int y, int width, int height)
     }
 }
 
     QPointF Arrow::getStartPos() {
-        return __StartItem->pos();
+        return m_StartItem->pos();
     }
     QPointF Arrow::getEndPos() {
-        return __EndItem->pos();
+        return m_EndItem->pos();
     }

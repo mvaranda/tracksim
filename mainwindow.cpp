@@ -55,8 +55,8 @@ MainWindow::MainWindow()
 void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 {
     const QList<QAbstractButton *> buttons = backgroundButtonGroup->buttons();
-    for (QAbstractButton *__Button : buttons) {
-        if (__Button != button)
+    for (QAbstractButton *bt : buttons) {
+        if (bt != button)
             button->setChecked(false);
     }
     QString text = button->text();
@@ -78,8 +78,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 void MainWindow::buttonGroupClicked(QAbstractButton *button)
 {
     const QList<QAbstractButton *> buttons = buttonGroup->buttons();
-    for (QAbstractButton *__Button : buttons) {
-        if (__Button != button)
+    for (QAbstractButton *bt : buttons) {
+        if (bt != button)
             button->setChecked(false);
     }
     const int id = buttonGroup->id(button);
@@ -91,6 +91,20 @@ void MainWindow::buttonGroupClicked(QAbstractButton *button)
     }
 }
 //! [2]
+
+void MainWindow::saveItems()
+{
+    auto fileName = QFileDialog::getSaveFileName(this,
+    tr("Save Railway"), "./", tr("Railway Files (*.rlw)"));
+    scene->saveItems(fileName.toStdString().c_str());
+}
+
+void MainWindow::loadItems()
+{
+    auto fileName = QFileDialog::getOpenFileName(this,
+    tr("Load Railway"), "./", tr("Railway Files (*.rlw)"));
+    scene->loadItems(fileName.toStdString().c_str());
+}
 
 //! [3]
 void MainWindow::deleteItem()
@@ -302,7 +316,7 @@ void MainWindow::about()
         }
         else if (item->type() == DiagramItem::Type) {
              DiagramItem * dia = qgraphicsitem_cast<DiagramItem *>(item);
-             qDebug() << "Item is a DiagramItem type: " << dia->__DiagramType << ", sim ID = " << dia->GetSimItemID();
+             qDebug() << "Item is a DiagramItem type: " << dia->diagramItemType << ", sim ID = " << dia->GetSimItemID();
 
         }
         else if (item->type() == 65539) {
@@ -403,6 +417,18 @@ void MainWindow::createActions()
     exitAction->setStatusTip(tr("Quit Scenediagram example"));
     connect(exitAction, &QAction::triggered, this, &QWidget::close);
 
+    // save
+    saveAction = new QAction(tr("&Save"), this);
+    saveAction->setShortcut(tr("S"));
+    saveAction->setStatusTip(tr("Store Railway to file"));
+    connect(saveAction, &QAction::triggered, this, &MainWindow::saveItems);
+
+    // load
+    loadAction = new QAction(tr("&Load"), this);
+    loadAction->setShortcut(tr("L"));
+    loadAction->setStatusTip(tr("Load Railway from file"));
+    connect(loadAction, &QAction::triggered, this, &MainWindow::loadItems);
+
     boldAction = new QAction(tr("Bold"), this);
     boldAction->setCheckable(true);
     QPixmap pixmap(":/images/bold.png");
@@ -430,6 +456,9 @@ void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(exitAction);
+
+    fileMenu->addAction(loadAction);
+    fileMenu->addAction(saveAction);
 
     itemMenu = menuBar()->addMenu(tr("&Item"));
     itemMenu->addAction(deleteAction);
