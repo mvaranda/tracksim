@@ -33,7 +33,7 @@ class MainWindow : public QMainWindow
 
 public:
    MainWindow();
-   Segment seg;
+   Simulator * sim;
 
 private slots:
     void backgroundButtonGroupClicked(QAbstractButton *button);

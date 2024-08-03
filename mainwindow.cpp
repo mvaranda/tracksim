@@ -40,8 +40,11 @@ MainWindow::MainWindow()
     setCentralWidget(widget);
     setWindowTitle(tr("TrackSim - Ecobee Case-Study"));
     setUnifiedTitleAndToolBarOnMac(true);
-    //resize(5000,5000);
     centerAndResize();
+
+    // Get simulator
+    sim = Simulator::GetInstance();
+    sim->AddSegment( 111 );
 }
 //! [0]
 
