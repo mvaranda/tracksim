@@ -1,1 +1,1 @@
-GTK_THEME=light ./build/Desktop_Qt_6_7_2-Debug/tracksim
+GTK_THEME=light PYTHONPATH=$PWD ./build/Desktop_Qt_6_7_2-Debug/tracksim
