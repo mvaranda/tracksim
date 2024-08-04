@@ -1,6 +1,8 @@
 
 GLOBAL_VAR = "*********** This is my global var **************"
 
+gItems = []
+
 def sim_init():
     print("\n******* Hello from simulator.py ********\n")
 
@@ -15,6 +17,8 @@ def print_global():
     print(GLOBAL_VAR)
 
 def add_item(item_dic):
-    print("receive an item dic:");
-    print(item_dic)
-    return 100
+    global gItems
+    print("receive an item dic, gItens now is like:");
+    print(gItems)
+    gItems.append(item_dic)
+    return len(gItems)

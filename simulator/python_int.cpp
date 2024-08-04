@@ -1,5 +1,13 @@
-
-
+/*
+*************************************************************
+*                                                           *
+*              Part of the Tracks Simulator                 *
+*                                                           *
+* Copyright: Marcelo Varanda                                *
+* License: GPL3                                             *
+*                                                           *
+************************************************************
+*/
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -54,6 +62,14 @@ void simInt_clearAll()
 
 }
 
+// static const char * toChars(PyObject * _value)
+// {
+//   const char *value;
+//   if (!PyArg_ParseTuple(_value, "s", &value))
+//       return NULL; /* fails! */
+//   return value;
+// }
+
 bool simInt_addItem(item_t * item)
 {
     PyObject *pFunc, *pValue, *dic, *pArgs;
@@ -96,7 +112,8 @@ bool simInt_addItem(item_t * item)
     if (pFunc && PyCallable_Check(pFunc)) {
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
-            LOG("Result of add_item call: %ld\n", PyLong_AsLong(pValue));
+            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
+            LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }
