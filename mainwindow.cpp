@@ -19,7 +19,7 @@ MainWindow::MainWindow()
 {
     QStringList args = QCoreApplication::arguments();
     qDebug() << args[0];
-    pyint_init(args[0].toStdString().c_str());
+    simInt_init(args[0].toStdString().c_str());
 
     createActions();
     createToolBox();

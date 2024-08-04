@@ -5,13 +5,14 @@
 #define DIAGRAMTEXTITEM_H
 
 #include <QGraphicsTextItem>
+#include "simitemid.h"
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
 //! [0]
-class DiagramTextItem : public QGraphicsTextItem
+class DiagramTextItem : public QGraphicsTextItem, public SimItemID
 {
     Q_OBJECT
 

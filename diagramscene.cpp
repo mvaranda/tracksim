@@ -8,6 +8,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QTextCursor>
 #include <QFile>
+#include "python_int.h"
 
 
 //! [0]
@@ -179,6 +180,18 @@ void DiagramScene::saveItems(QString & name)
                                 arrow->endItem()->GetSimItemID(),
                                 arrow->trafficLightStart,
                                 arrow->trafficLightStart);
+            segment_t seg;
+            snprintf(seg.name, sizeof(seg.name), "%s", "Segment"); // sure I could use strcpy/strncpy. Ask me why.
+            snprintf(seg.type, sizeof(seg.type), "%s", "Arrow");
+            seg.sim_id = arrow->GetSimItemID();
+            seg.pos_x = startPos.x();
+            seg.pos_y = startPos.y();
+            seg.startTrackPoint_id = arrow->startItem()->GetSimItemID();
+            seg.endTrackPoint_id = arrow->endItem()->GetSimItemID();
+            seg.startLightState = arrow->trafficLightStart;
+            seg.endLightState = arrow->trafficLightStart;
+            simInt_addSegment(&seg);
+
 
         }
         else if (item->type() == DiagramItem::Type) {
@@ -191,6 +204,18 @@ void DiagramScene::saveItems(QString & name)
             //     j_item.AddMember("sim_id", dia_obj->GetSimItemID(), d.GetAllocator());
             //     dia.AddMember("Item", j_item, d.GetAllocator());
             // }
+            if (dia_obj->diagramType() == DiagramItem::DiagramType::TrackPoint) {
+                item_t it;
+                memset(&it, 0, sizeof(it));
+                snprintf(it.name, sizeof(it.name), "%s", "TrackPoint"); // sure I could use strcpy/strncpy. Ask me why.
+                snprintf(it.type, sizeof(it.type), "%s", "TrackPoint");
+                it.sim_id = dia_obj->GetSimItemID();
+                // it.pos_x; 
+                // it.pos_y;
+                // it.segment_ids[8];
+                simInt_addItem(&it);
+
+            }
         }
         else if (item->type() == 65539) {
             qDebug() << "Item is Text";
@@ -237,7 +262,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if (mouseEvent->button() != Qt::LeftButton)
         return;
 
-    DiagramItem *item;
+    //DiagramItem *item;
     switch (m_Mode) {
         case InsertItem:
             AddItem(m_ItemType,

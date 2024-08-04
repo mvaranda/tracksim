@@ -9,7 +9,7 @@
             "program": "${workspaceRoot}/build/Desktop_Qt_6_7_2-Debug/tracksim",
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}/",
-            "environment": [],
+            //"environment": [{"GTK_THEME": "light", "PYTHONPATH": "$PWD" }],
             "miDebuggerArgs": "",
             "externalConsole": false,
             "MIMode": "gdb",
@@ -20,6 +20,12 @@
                     "ignoreFailures": true
                 }
             ],
+            "environment": [
+                // {
+                //     "GTK_THEME": "light",
+                //     "PYTHONPATH": "$PWD"
+                // }
+            ]
         }
 
     ]

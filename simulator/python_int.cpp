@@ -3,13 +3,14 @@
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "python_int.h"
 
 #ifdef __cplusplus
   extern "C" {
 #endif
 
 #if 1
-void pyint_init(const char * _program)
+void simInt_init(const char * _program)
 {
     PyObject *pName, *pModule, *pFunc, *pFunc2;
     PyObject *pArgs, *pValue;
@@ -62,7 +63,7 @@ void pyint_init(const char * _program)
         /* pFunc2 is a new reference */
 
         if (pFunc2 && PyCallable_Check(pFunc2)) {
-          pValue = PyObject_CallObject(pFunc2, nullptr);
+          pValue = PyObject_CallObject(pFunc2, 0);
           if (pValue != NULL) {
               printf("Result of call: %ld\n", PyLong_AsLong(pValue));
               Py_DECREF(pValue);
@@ -81,8 +82,8 @@ void pyint_init(const char * _program)
 #if 1
         PyRun_SimpleString("for i in range(10):\n\n"
                        "  print(\"Simul console inputs \" + str(i))\n");
-        //PyRun_SimpleString("print(\"GLOBAL_VAR = \" + GLOBAL_VAR)");
-        PyRun_SimpleString("print(\"simulator.GLOBAL_VAR = \" + simulator.GLOBAL_VAR)");
+        PyRun_SimpleString("print(\"PyRun_SimpleString: GLOBAL_VAR = \" + GLOBAL_VAR)\n");
+
 #else
         PyRun_SimpleString("for i in range(10):\n");
         PyRun_SimpleString("  print(\"Simul console inputs \" + str(i))\n");
@@ -103,7 +104,7 @@ void pyint_init(const char * _program)
     }
 }
 #else
-void pyint_init(const char * _program)
+void simInt_init(const char * _program)
 {
     wchar_t *program = Py_DecodeLocale(_program, NULL);
     if (program == NULL) {
@@ -122,14 +123,29 @@ void pyint_init(const char * _program)
 }
 #endif
 
-void pyint_add(int x, int y)
+void simInt_add(int x, int y)
 {
 
 }
 
-void pyint_get_val(const char * var_name)
+void simInt_get_val(const char * var_name)
 {
 
+}
+
+void simInt_clearAll()
+{
+
+}
+
+bool simInt_addItem(item_t * item)
+{
+    return true;
+}
+
+bool simInt_addSegment(segment_t * seg)
+{
+    return true;
 }
 
 #ifdef __cplusplus
