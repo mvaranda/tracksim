@@ -2,5 +2,5 @@ CMakeLists.txt.user
 build/
 .vscode/settings.json
 __pycache__
-
+CMakeLists.txt
 
