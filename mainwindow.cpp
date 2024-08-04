@@ -9,12 +9,18 @@
 
 #include <QtWidgets>
 #include <QScreen> 
+#include <QCoreApplication>
+#include "python_int.h"
 
 const int InsertTextButton = 10;
 
 //! [0]
 MainWindow::MainWindow()
 {
+    QStringList args = QCoreApplication::arguments();
+    qDebug() << args[0];
+    pyint_init(args[0].toStdString().c_str());
+
     createActions();
     createToolBox();
     createMenus();
@@ -48,6 +54,9 @@ MainWindow::MainWindow()
 
     // load scene
     scene->loadScene("Test");
+
+    // Initializa embedded Python
+
 }
 //! [0]
 

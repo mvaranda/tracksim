@@ -8,6 +8,16 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 qt_standard_project_setup()
 
+## Linux (Debian 11)
+add_link_options( -L/usr/lib/python3.9/config-3.9-x86_64-linux-gnu -L/usr/lib
+-lpython3.9 -lcrypt -lpthread -ldl  -lutil -lm -lm )
+
+add_compile_options(
+    -I/usr/include/python3.9 -I/usr/include/python3.9  -Wno-unused-result -Wsign-compare
+    -g -ffile-prefix-map=/build/python3.9-RNBry6/python3.9-3.9.2=.
+    -specs=/usr/share/dpkg/no-pie-compile.specs -fstack-protector
+    -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall -fPIE)
+
 qt_add_executable(tracksim
     arrow.cpp arrow.h
     diagramitem.cpp diagramitem.h
@@ -16,6 +26,7 @@ qt_add_executable(tracksim
     main.cpp
     mainwindow.cpp mainwindow.h
     store.cpp store.h
+    simulator/python_int.cpp
     simulator/segment.cpp
     simulator/tracks.cpp
     simulator/track.cpp
@@ -36,6 +47,7 @@ target_link_libraries(tracksim PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
+    python3.9
 )
 
 # Resources:
