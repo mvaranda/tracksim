@@ -23,6 +23,40 @@
 
 static PyObject *pName = NULL, *pModule = NULL;
 
+//****************************************************
+//*       calls from python to C (extension)         *
+//****************************************************
+
+static int numargs=0;
+
+static PyObject*
+sim_numargs(PyObject *self, PyObject *args)
+{
+    if(!PyArg_ParseTuple(args, ":numargs"))
+        return NULL;
+    return PyLong_FromLong(numargs);
+}
+
+static PyMethodDef SimMethods[] = {
+    {"numargs", sim_numargs, METH_VARARGS,
+     "Return the number of arguments received by the process."},
+    {NULL, NULL, 0, NULL}
+};
+
+static PyModuleDef EmbModule = {
+    PyModuleDef_HEAD_INIT, "sim", NULL, -1, SimMethods,
+    NULL, NULL, NULL, NULL
+};
+
+static PyObject*
+PyInit_sim(void)
+{
+    return PyModule_Create(&EmbModule);
+}
+
+//****************************************************
+//*          calls C to Python (Embedded)            *
+//****************************************************
 void simInt_destroy()
 {
     Py_DECREF(pModule);
@@ -32,6 +66,8 @@ void simInt_destroy()
 void simInt_init(const char * _program)
 {
     const char * filename = "simulator";
+
+    PyImport_AppendInittab("sim", &PyInit_sim);
 
     Py_Initialize();
     pName = PyUnicode_DecodeFSDefault(filename);

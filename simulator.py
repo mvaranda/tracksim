@@ -1,3 +1,5 @@
+import sim
+print(">>>>>>>>>>>>>>> Number of arguments", sim.numargs())
 
 GLOBAL_VAR = "*********** This is my global var **************"
 
