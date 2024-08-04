@@ -38,6 +38,4 @@ void Simulator::AddSegment( int id,
                             bool has_start_light,
                             bool is_station)
 {
-    LOG << "Testing AddSegment Logs " << 123;
-    LOG_E << "Testing AddSegment Error Logs " << 456;
 }

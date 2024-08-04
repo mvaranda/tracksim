@@ -11,5 +11,10 @@ def multiply(a,b):
         c = c + b
     return c
 
-def pring_global():
+def print_global():
     print(GLOBAL_VAR)
+
+def add_item(item_dic):
+    print("receive an item dic:");
+    print(item_dic)
+    return 100

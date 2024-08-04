@@ -35,6 +35,8 @@ void simInt_add(int x, int y);
 
 void simInt_get_val(const char * var_name);
 
+void simInt_destroy();
+
 #ifdef __cplusplus
   }
 #endif
