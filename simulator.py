@@ -1,3 +1,6 @@
+
+GLOBAL_VAR = "*********** This is my global var **************"
+
 def sim_init():
     print("\n******* Hello from simulator.py ********\n")
 
@@ -7,3 +10,6 @@ def multiply(a,b):
     for i in range(0, a):
         c = c + b
     return c
+
+def pring_global():
+    print(GLOBAL_VAR)

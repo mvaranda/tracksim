@@ -46,7 +46,7 @@ MainWindow::MainWindow()
     setCentralWidget(widget);
     setWindowTitle(tr("TrackSim - Ecobee Case-Study"));
     setUnifiedTitleAndToolBarOnMac(true);
-    centerAndResize();
+    //centerAndResize();
 
     // Get simulator
     sim = Simulator::GetInstance();
@@ -681,17 +681,6 @@ void MainWindow::centerAndResize() {
     width *= 0.9; // 90% of the screen size
     height *= 0.9; // 90% of the screen size
     qDebug() << "Computed dimensions " << width << "x" << height;
-    // QSize newSize( width, height );
-
-    // setGeometry(
-    //     QStyle::alignedRect(
-    //         Qt::LeftToRight,
-    //         Qt::AlignCenter,
-    //         newSize,
-    //         QApplication::primaryScreen()->availableGeometry()
-    //         //qApp->desktop()->availableGeometry()
-    //     )
-    // );
     setMinimumSize(width,height);
 }
 

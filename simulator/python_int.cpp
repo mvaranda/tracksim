@@ -11,7 +11,7 @@
 #if 1
 void pyint_init(const char * _program)
 {
-    PyObject *pName, *pModule, *pFunc;
+    PyObject *pName, *pModule, *pFunc, *pFunc2;
     PyObject *pArgs, *pValue;
 
     const char * filename = "simulator";
@@ -57,6 +57,39 @@ void pyint_init(const char * _program)
                 PyErr_Print();
             fprintf(stderr, "Cannot find function \"%s\"\n", func_name);
         }
+
+        pFunc2 = PyObject_GetAttrString(pModule, "pring_global");
+        /* pFunc2 is a new reference */
+
+        if (pFunc2 && PyCallable_Check(pFunc2)) {
+          pValue = PyObject_CallObject(pFunc2, nullptr);
+          if (pValue != NULL) {
+              printf("Result of call: %ld\n", PyLong_AsLong(pValue));
+              Py_DECREF(pValue);
+          }
+          else {
+              Py_DECREF(pFunc2);
+              Py_DECREF(pModule);
+              PyErr_Print();
+              fprintf(stderr,"pFunc2 Call failed\n");
+              return;
+          }
+        }
+
+
+        // test if console would work
+#if 1
+        PyRun_SimpleString("for i in range(10):\n\n"
+                       "  print(\"Simul console inputs \" + str(i))\n");
+        //PyRun_SimpleString("print(\"GLOBAL_VAR = \" + GLOBAL_VAR)");
+        PyRun_SimpleString("print(\"simulator.GLOBAL_VAR = \" + simulator.GLOBAL_VAR)");
+#else
+        PyRun_SimpleString("for i in range(10):\n");
+        PyRun_SimpleString("  print(\"Simul console inputs \" + str(i))\n");
+        PyRun_SimpleString("\n");
+#endif
+
+
         Py_XDECREF(pFunc);
         Py_DECREF(pModule);
     }
