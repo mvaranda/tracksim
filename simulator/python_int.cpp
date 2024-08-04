@@ -121,6 +121,10 @@ bool simInt_addItem(item_t * item)
     Py_DECREF(pArgs);
     Py_DECREF(dic);
 
+    PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
+                       "print(GLOBAL_VAR)\n");
+    PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
+                       "print(\"PyRun_SimpleString: a = \" + a)\n");
 
     return true;
 }
