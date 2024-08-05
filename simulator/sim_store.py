@@ -23,18 +23,21 @@ ITEM = """    {
       "type": "$TYPE",
       "pos_x": $POS_X,
       "pos_y": $POS_Y,
+      "color_r": $COLOR_R,
+      "color_g": $COLOR_G,
+      "color_b": $COLOR_B,
       "segments": [
         {
-          "sim_id:": $SIM_ID_0
+          "sim_id:": $SEG_SIM_ID_0
         },
         {
-          "sim_id:": $SIM_ID_1
+          "sim_id:": $SEG_SIM_ID_1
         },
         {
-          "sim_id:": $SIM_ID_2
+          "sim_id:": $SEG_SIM_ID_2
         },
         {
-          "sim_id:": $SIM_ID_3
+          "sim_id:": $SEG_SIM_ID_3
         }
       ]
     }"""
@@ -55,6 +58,9 @@ SEGMENTS = """    {
       "type": "$TYPE",
       "pos_x": $POS_X,
       "pos_y": $POS_Y,
+      "color_r": $COLOR_R,
+      "color_g": $COLOR_G,
+      "color_b": $COLOR_B,
       "startTrackPoint_id": $START_TRACKPOINT_ID,
       "endTrackPoint_id": $END_TRACKPOINT_ID,
       "startLightState": $START_LIGHT_STATE,
@@ -131,10 +137,13 @@ def save(filename, items, segs):
         t = t.replace("$TYPE", i["type"])
         t = t.replace("$POS_X", str(i["pos_x"]))
         t = t.replace("$POS_Y", str(i["pos_y"]))
-        t = t.replace("$SIM_ID_0", str(i["segment_id_0"]))
-        t = t.replace("$SIM_ID_1", str(i["segment_id_1"]))
-        t = t.replace("$SIM_ID_2", str(i["segment_id_2"]))
-        t = t.replace("$SIM_ID_3", str(i["segment_id_3"]))
+        t = t.replace("$COLOR_R", str(i["color_r"]))
+        t = t.replace("$COLOR_G", str(i["color_g"]))
+        t = t.replace("$COLOR_B", str(i["color_b"]))
+        t = t.replace("$SEG_SIM_ID_0", str(i["segment_id_0"]))
+        t = t.replace("$SEG_SIM_ID_1", str(i["segment_id_1"]))
+        t = t.replace("$SEG_SIM_ID_2", str(i["segment_id_2"]))
+        t = t.replace("$SEG_SIM_ID_3", str(i["segment_id_3"]))
         f.write(t)
       f.write(ITEMS_END)
 
@@ -151,6 +160,9 @@ def save(filename, items, segs):
         t = t.replace("$TYPE", i["type"])
         t = t.replace("$POS_X", str(i["pos_x"]))
         t = t.replace("$POS_Y", str(i["pos_y"]))
+        t = t.replace("$COLOR_R", str(i["color_r"]))
+        t = t.replace("$COLOR_G", str(i["color_g"]))
+        t = t.replace("$COLOR_B", str(i["color_b"]))
         t = t.replace("$START_TRACKPOINT_ID", str(i["startTrackPoint_id"]))
         t = t.replace("$END_TRACKPOINT_ID", str(i["endTrackPoint_id"]))
         t = t.replace("$START_LIGHT_STATE", str(i["startLightState"]))
@@ -166,20 +178,18 @@ def save(filename, items, segs):
     return 1
 
 if __name__ == "__main__":
-  items = [{'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, \
-            'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}, \
-          {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, \
-           'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}]
-  segs = [{'name': 'Segment', 'type': 'Segment', 'sim_id': 7, 'pos_x': 2275, 'pos_y': 2507, \
-           'startTrackPoint_id': 6, 'endTrackPoint_id': 4, 'startLightState': 1, 'endLightState': 1}]
+  items = [{'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 6, 'pos_x': 2275, 'pos_y': 2507, 
+  'segment_id_0': 7, 'segment_id_1': 0, 'segment_id_2': 0, 'segment_id_3': 0}, 
+ {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 5, 'pos_x': 2539, 'pos_y': 2513, 
+   'segment_id_0': 8, 'segment_id_1': 0, 'segment_id_2': 0, 'segment_id_3': 0}, 
+ {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, 
+    'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}]
+  
+  segs = [{'name': 'Segment', 'type': 'Segment', 'sim_id': 8, 'pos_x': 2418, 'pos_y': 2346, 
+           'startTrackPoint_id': 4, 'endTrackPoint_id': 5, 'startLightState': 1, 'endLightState': 1}, 
+           {'name': 'Segment', 'type': 'Segment', 'sim_id': 7, 'pos_x': 2275, 'pos_y': 2507, 
+            'startTrackPoint_id': 6, 'endTrackPoint_id': 4, 'startLightState': 1, 'endLightState': 1}]
   if save("test.rlw", items, segs) != 0:
     print("All good")
   else:
     print("Error")
-
-[{'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, 'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}, 
- {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, 'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}]
-
-
-[{'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, 'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}, 
- {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, 'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}]

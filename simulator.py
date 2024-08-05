@@ -8,10 +8,8 @@
 #                                                         #
 ###########################################################
 
-import sim
-
-
-print(">>>>>>>>>>>>>>> Number of arguments", sim.numargs())
+#import sim
+#print(">>>>>>>>>>>>>>> Number of arguments", sim.numargs())
 
 GLOBAL_VAR = "*********** This is my global var **************"
 
@@ -39,3 +37,10 @@ def add_segment(seg_dic):
     gSegments.append(seg_dic)
     print(gSegments)
     return len(gSegments)
+
+## random tests
+if __name__ == "__main__":
+    d = {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 6, 'pos_x': 2275, 'pos_y': 2507, 'segment_id_0': 0, 'segment_id_1': 0, 'segment_id_2': 0, 'segment_id_3': 0}
+    add_item(d)
+    d2 = {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 5, 'pos_x': 2539, 'pos_y': 2513, 'segment_id_0': 0, 'segment_id_1': 0, 'segment_id_2': 0, 'segment_id_3': 0}
+    add_item(d2)

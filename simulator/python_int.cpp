@@ -200,6 +200,20 @@ bool simInt_addItem(item_t * item)
         Py_DECREF(dic);
         return false;
     }
+
+    if (!add_long_to_dic(dic, "color_r", item->color_r)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "color_g", item->color_g)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "color_b", item->color_b)) {
+        Py_DECREF(dic);
+        return false;
+    }
+
     char seg_key_name[64];
     for (int i = 0; i < MAX_NUM_SEGS_PER_TRACKPOINT; i++) {
         snprintf(seg_key_name, sizeof(seg_key_name), "segment_id_%d", i);
@@ -230,13 +244,13 @@ bool simInt_addItem(item_t * item)
     }
     Py_DECREF(pFunc);
     Py_DECREF(pArgs);
-    Py_DECREF(dic);
+    // Note: no need to Py_DECREF(dic) as PyTuple_SetItem seals reference
 
     // Hack to test object access for potential console
-    // PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
-    //                    "print(GLOBAL_VAR)\n");
-    // PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
-    //                    "print(\"PyRun_SimpleString: a = \" + a)\n");
+    PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
+                       "print(GLOBAL_VAR)\n");
+    PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
+                       "print(\"PyRun_SimpleString: a = \" + a)\n");
 
     return true;
 }
@@ -273,6 +287,19 @@ bool simInt_addSegment(segment_t * seg)
         return false;
     }
     if (!add_float_to_dic(dic, "pos_y", seg->pos_y)) { // float
+        Py_DECREF(dic);
+        return false;
+    }
+
+    if (!add_long_to_dic(dic, "color_r", seg->color_r)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "color_g", seg->color_g)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "color_b", seg->color_b)) {
         Py_DECREF(dic);
         return false;
     }
@@ -315,14 +342,8 @@ bool simInt_addSegment(segment_t * seg)
         }
     }
     Py_DECREF(pFunc);
-    Py_DECREF(pArgs);
-    Py_DECREF(dic);
-
-    // Hack to test object access for potential console
-    // PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
-    //                    "print(GLOBAL_VAR)\n");
-    // PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
-    //                    "print(\"PyRun_SimpleString: a = \" + a)\n");
+    Py_DECREF(pArgs);    
+    // Note: no need to Py_DECREF(dic) as PyTuple_SetItem seals reference
 
     return true;
 }

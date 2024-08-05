@@ -56,7 +56,9 @@ void DiagramScene::setItemColor(const QColor &color)
     m_ItemColor = color;
     if (isItemChange(DiagramItem::Type)) {
         DiagramItem *item = qgraphicsitem_cast<DiagramItem *>(selectedItems().first());
+
         item->setBrush(m_ItemColor);
+        item->setColor(color);
     }
 }
 //! [3]
@@ -165,6 +167,7 @@ void DiagramScene::saveItems(QString & name)
             seg.sim_id = arrow->GetSimItemID();
             seg.pos_x = startPos.x();
             seg.pos_y = startPos.y();
+            arrow->getColor(&seg.color_r, &seg.color_r, &seg.color_r);
             seg.startTrackPoint_id = arrow->startItem()->GetSimItemID();
             seg.endTrackPoint_id = arrow->endItem()->GetSimItemID();
             seg.startLightState = arrow->trafficLightStart;
@@ -179,6 +182,7 @@ void DiagramScene::saveItems(QString & name)
             // *     Item (TrackPoint...)   *
             // *                            *
             // ******************************
+
              DiagramItem * dia_obj = qgraphicsitem_cast<DiagramItem *>(item);
              qDebug() << "Item is a DiagramItem type: " << DiagramItem::Type << ", sim ID = " << dia_obj->GetSimItemID();
             if (dia_obj->diagramType() == DiagramItem::DiagramType::TrackPoint) {
@@ -189,6 +193,7 @@ void DiagramScene::saveItems(QString & name)
                 it.sim_id = dia_obj->GetSimItemID();
                 it.pos_x = dia_obj->pos().x(); 
                 it.pos_y = dia_obj->pos().y();
+                dia_obj->getColor(&it.color_r, &it.color_r, &it.color_r);
                 int i = 0;
 
                 foreach(auto a, dia_obj->arrows) {

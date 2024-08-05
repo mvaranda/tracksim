@@ -19,6 +19,9 @@ typedef struct item_st {
   int       sim_id;
   float     pos_x; 
   float     pos_y;
+  int       color_r;
+  int       color_g;
+  int       color_b;
   int       segment_id[MAX_NUM_SEGS_PER_TRACKPOINT]; // dic in py side gets key names: segment_id_0 to segment_id_3
 
 } item_t;
@@ -29,6 +32,9 @@ typedef struct segment_st {
   int       sim_id;
   float     pos_x;
   float     pos_y;
+  int       color_r;
+  int       color_g;
+  int       color_b;
   int       startTrackPoint_id;
   int       endTrackPoint_id;
   int       startLightState;

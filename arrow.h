@@ -23,6 +23,9 @@ public:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void setColor(const QColor &color) { m_Color = color; }
+    void getColor(int *r, int * g, int * b) { 
+        m_Color.getRgb(r, g, b);
+     }
     DiagramItem *startItem() const { return m_StartItem; }
     DiagramItem *endItem() const { return m_EndItem; }
 

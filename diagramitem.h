@@ -33,6 +33,11 @@ public:
     void addArrow(Arrow *arrow);
     QPixmap image() const;
     int type() const override { return Type; }
+    void setColor(const QColor &color) { m_Color = color; }
+    void getColor(int *r, int * g, int * b) { 
+        m_Color.getRgb(r, g, b);
+     }
+
 
     DiagramType diagramItemType;
     QList<Arrow *> arrows;
@@ -44,6 +49,7 @@ protected:
 private:
     QPolygonF m_Polygon;
     QMenu *m_ContextMenu;
+    QColor m_Color;
 
 };
 //! [0]
