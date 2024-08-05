@@ -105,6 +105,66 @@ void simInt_clearAll()
 //       return NULL; /* fails! */
 //   return value;
 // }
+static bool add_string_to_dic(PyObject * dic, const char * _key, const char * _val)
+{
+    PyObject *key = PyUnicode_FromString(_key);
+    if (!key) {
+        LOG_E("could not create a key %s\n", _key);
+        return false;
+    }
+
+    PyObject *value = PyUnicode_FromString(_val);
+    if (!value) {
+        LOG_E("could not create a value %s\n", _val);
+        Py_DECREF(key);
+        return false;
+    }
+    PyDict_SetItem(dic, key, value);
+    Py_DECREF(key);
+    Py_DECREF(value);
+    return true;
+}
+//PyLong_FromLong
+static bool add_long_to_dic(PyObject * dic, const char * _key, int _val)
+{
+    PyObject *key = PyUnicode_FromString(_key);
+    if (!key) {
+        LOG_E("could not create a key %s\n", _key);
+        return false;
+    }
+
+    PyObject *value = PyLong_FromLong(_val);
+    if (!value) {
+        LOG_E("could not create a value %d\n", _val);
+        Py_DECREF(key);
+        return false;
+    }
+    PyDict_SetItem(dic, key, value);
+    Py_DECREF(key);
+    Py_DECREF(value);
+    return true;
+}
+
+//PyLong_FromLong
+static bool add_float_to_dic(PyObject * dic, const char * _key, float _val)
+{
+    PyObject *key = PyUnicode_FromString(_key);
+    if (!key) {
+        LOG_E("could not create a key %s\n", _key);
+        return false;
+    }
+
+    PyObject *value = PyLong_FromDouble(_val);
+    if (!value) {
+        LOG_E("could not create a value %f\n", _val);
+        Py_DECREF(key);
+        return false;
+    }
+    PyDict_SetItem(dic, key, value);
+    Py_DECREF(key);
+    Py_DECREF(value);
+    return true;
+}
 
 bool simInt_addItem(item_t * item)
 {
@@ -118,22 +178,45 @@ bool simInt_addItem(item_t * item)
         LOG_E("could not create a dic\n");
         return false;
     }
-    PyObject *key = PyUnicode_FromString("name");
-    if (!key) {
-        LOG_E("could not create a key\n");
+
+    // populate all fields
+    if (!add_string_to_dic(dic, "name", item->name)) {
         Py_DECREF(dic);
         return false;
     }
-    PyObject *value = PyUnicode_FromString(item->name);
-    if (!value) {
-        LOG_E("could not create a value\n");
-        Py_DECREF(key);
+    if (!add_string_to_dic(dic, "type", item->type)) {
         Py_DECREF(dic);
         return false;
     }
-    PyDict_SetItem(dic, key, value);
-    Py_DECREF(key);
-    Py_DECREF(value);
+    if (!add_long_to_dic(dic, "sim_id", item->sim_id)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_float_to_dic(dic, "pos_x", item->pos_x)) { // float
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_float_to_dic(dic, "pos_y", item->pos_y)) { // float
+        Py_DECREF(dic);
+        return false;
+    }
+    
+    // if (!add_long_to_dic(dic, "startTrackPoint_id", item->startTrackPoint_id)) {
+    //     Py_DECREF(dic);
+    //     return false;
+    // }
+    // if (!add_long_to_dic(dic, "endTrackPoint_id", item->endTrackPoint_id)) {
+    //     Py_DECREF(dic);
+    //     return false;
+    // }
+    // if (!add_long_to_dic(dic, "startLightState", item->startLightState)) {
+    //     Py_DECREF(dic);
+    //     return false;
+    // }
+    // if (!add_long_to_dic(dic, "endLightState", item->endLightState)) {
+    //     Py_DECREF(dic);
+    //     return false;
+    // }
 
     pArgs = PyTuple_New(1);
     if (!pArgs) {
@@ -141,6 +224,8 @@ bool simInt_addItem(item_t * item)
         Py_DECREF(dic);
         return false;
     }
+
+
     PyTuple_SetItem(pArgs, 0, dic);
 
     // call python function passing the dic as argument

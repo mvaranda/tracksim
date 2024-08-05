@@ -136,30 +136,12 @@ void DiagramScene::AddItem( DiagramItem::DiagramType itemType,
 
 void DiagramScene::saveItems(QString & name)
 {
-    // char buffer[1024 * 4]; // 4K buffer
-  
-    // std::FILE* f = fopen(name.toStdString().c_str(), "w");
-    // if (!f) { 
-    //     qWarning() << "Could not open " << name;
+    // Store s;
+    // if ( ! s.SaveStart(name.toStdString()))
+    // {
+    //     qDebug() << "could not open " << name;
     //     return;
     // }
-
-    // rapidjson::Document d; 
-    // d.SetObject(); 
-
-    // // Add data to the JSON document 
-    // d.AddMember("name", "Geek", d.GetAllocator()); 
-    // d.AddMember("age", 30, d.GetAllocator());
-
-    // rapidjson::Value dia;
-    // dia.SetObject();
-
-    Store s;
-    if ( ! s.SaveStart(name.toStdString()))
-    {
-        qDebug() << "could not open " << name;
-        return;
-    }
 
 
     foreach( QGraphicsItem *item, items() ) {
@@ -167,19 +149,19 @@ void DiagramScene::saveItems(QString & name)
             Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
             QPointF startPos = arrow->getStartPos();
             QPointF endPos = arrow->getEndPos();
-            qDebug() << "Item is an Arrow, sim ID = " << arrow->GetSimItemID();
-            qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
-            qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
+            // qDebug() << "Item is an Arrow, sim ID = " << arrow->GetSimItemID();
+            // qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
+            // qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
 
-            s.SaveAddSegment(   std::string("Arrow"),
-                                std::to_string(Arrow::Type),
-                                arrow->GetSimItemID(), 
-                                startPos.x(), 
-                                startPos.y(),
-                                arrow->startItem()->GetSimItemID(),
-                                arrow->endItem()->GetSimItemID(),
-                                arrow->trafficLightStart,
-                                arrow->trafficLightStart);
+            // s.SaveAddSegment(   std::string("Arrow"),
+            //                     std::to_string(Arrow::Type),
+            //                     arrow->GetSimItemID(), 
+            //                     startPos.x(), 
+            //                     startPos.y(),
+            //                     arrow->startItem()->GetSimItemID(),
+            //                     arrow->endItem()->GetSimItemID(),
+            //                     arrow->trafficLightStart,
+            //                     arrow->trafficLightStart);
             segment_t seg;
             snprintf(seg.name, sizeof(seg.name), "%s", "Segment"); // sure I could use strcpy/strncpy. Ask me why.
             snprintf(seg.type, sizeof(seg.type), "%s", "Arrow");
@@ -197,13 +179,6 @@ void DiagramScene::saveItems(QString & name)
         else if (item->type() == DiagramItem::Type) {
              DiagramItem * dia_obj = qgraphicsitem_cast<DiagramItem *>(item);
              qDebug() << "Item is a DiagramItem type: " << DiagramItem::Type << ", sim ID = " << dia_obj->GetSimItemID();
-            // {
-            //     rapidjson::Value j_item;
-            //     j_item.SetObject();
-            //     j_item.AddMember("type", "Diagram", d.GetAllocator());
-            //     j_item.AddMember("sim_id", dia_obj->GetSimItemID(), d.GetAllocator());
-            //     dia.AddMember("Item", j_item, d.GetAllocator());
-            // }
             if (dia_obj->diagramType() == DiagramItem::DiagramType::TrackPoint) {
                 item_t it;
                 memset(&it, 0, sizeof(it));
@@ -242,7 +217,7 @@ void DiagramScene::saveItems(QString & name)
  
 
 
-    s.SaveFinish();
+    //s.SaveFinish();
 
 
 
