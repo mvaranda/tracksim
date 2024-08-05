@@ -35,6 +35,7 @@ public:
     int type() const override { return Type; }
 
     DiagramType diagramItemType;
+    QList<Arrow *> arrows;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
@@ -43,7 +44,7 @@ protected:
 private:
     QPolygonF m_Polygon;
     QMenu *m_ContextMenu;
-    QList<Arrow *> arrows;
+
 };
 //! [0]
 

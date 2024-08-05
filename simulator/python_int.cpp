@@ -200,7 +200,15 @@ bool simInt_addItem(item_t * item)
         Py_DECREF(dic);
         return false;
     }
-    
+    char seg_key_name[64];
+    for (int i = 0; i < MAX_NUM_SEGS_PER_TRACKPOINT; i++) {
+        snprintf(seg_key_name, sizeof(seg_key_name), "segment_id_%d", i);
+        if (!add_long_to_dic(dic, seg_key_name, item->segment_id[i])) {
+            Py_DECREF(dic);
+            return false;
+        }
+    }
+
     // if (!add_long_to_dic(dic, "startTrackPoint_id", item->startTrackPoint_id)) {
     //     Py_DECREF(dic);
     //     return false;

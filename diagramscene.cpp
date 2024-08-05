@@ -153,20 +153,8 @@ void DiagramScene::saveItems(QString & name)
             // ******************************
             Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
             QPointF startPos = arrow->getStartPos();
-            QPointF endPos = arrow->getEndPos();
-            // qDebug() << "Item is an Arrow, sim ID = " << arrow->GetSimItemID();
-            // qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
-            // qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
+            //QPointF endPos = arrow->getEndPos();
 
-            // s.SaveAddSegment(   std::string("Arrow"),
-            //                     std::to_string(Arrow::Type),
-            //                     arrow->GetSimItemID(), 
-            //                     startPos.x(), 
-            //                     startPos.y(),
-            //                     arrow->startItem()->GetSimItemID(),
-            //                     arrow->endItem()->GetSimItemID(),
-            //                     arrow->trafficLightStart,
-            //                     arrow->trafficLightStart);
             segment_t seg;
             snprintf(seg.name, sizeof(seg.name), "%s", "Segment"); // sure I could use strcpy/strncpy. Ask me why.
             snprintf(seg.type, sizeof(seg.type), "%s", "Arrow");
@@ -197,9 +185,17 @@ void DiagramScene::saveItems(QString & name)
                 it.sim_id = dia_obj->GetSimItemID();
                 it.pos_x = dia_obj->pos().x(); 
                 it.pos_y = dia_obj->pos().y();
-                // it.segment_ids[8];
-                simInt_addItem(&it);
+                int i = 0;
 
+                foreach(auto a, dia_obj->arrows) {
+                    if (i >= MAX_NUM_SEGS_PER_TRACKPOINT) {
+                        qWarning() << "TrackPoint with too many segments, sim_id: " << it.sim_id;
+                        break;
+                    }
+                    it.segment_id[i++] = a->GetSimItemID();
+                    //qDebug() << "add segment_id[" << i-1 << "] = " << a->GetSimItemID();
+                }
+                simInt_addItem(&it);
             }
         }
         else if (item->type() == 65539) {
