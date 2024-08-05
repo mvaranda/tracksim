@@ -132,6 +132,7 @@ void DiagramScene::AddItem( DiagramItem::DiagramType itemType,
     DiagramItem *item;
     item = new DiagramItem(itemType, itemMenu);
     item->setBrush(color);
+    item->setColor(color);
     addItem(item);
     item->setPos(pos);
     emit itemInserted(item);
@@ -167,7 +168,7 @@ void DiagramScene::saveItems(QString & name)
             seg.sim_id = arrow->GetSimItemID();
             seg.pos_x = startPos.x();
             seg.pos_y = startPos.y();
-            arrow->getColor(&seg.color_r, &seg.color_r, &seg.color_r);
+            arrow->getColor(&seg.color_r, &seg.color_g, &seg.color_b);
             seg.startTrackPoint_id = arrow->startItem()->GetSimItemID();
             seg.endTrackPoint_id = arrow->endItem()->GetSimItemID();
             seg.startLightState = arrow->trafficLightStart;
@@ -193,7 +194,7 @@ void DiagramScene::saveItems(QString & name)
                 it.sim_id = dia_obj->GetSimItemID();
                 it.pos_x = dia_obj->pos().x(); 
                 it.pos_y = dia_obj->pos().y();
-                dia_obj->getColor(&it.color_r, &it.color_r, &it.color_r);
+                dia_obj->getColor(&it.color_r, &it.color_g, &it.color_b);
                 int i = 0;
 
                 foreach(auto a, dia_obj->arrows) {
