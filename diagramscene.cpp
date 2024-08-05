@@ -146,6 +146,11 @@ void DiagramScene::saveItems(QString & name)
 
     foreach( QGraphicsItem *item, items() ) {
         if (item->type() == Arrow::Type) {
+            // ******************************
+            // *                            *
+            // *     Segment (Arrow)        *
+            // *                            *
+            // ******************************
             Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
             QPointF startPos = arrow->getStartPos();
             QPointF endPos = arrow->getEndPos();
@@ -177,6 +182,11 @@ void DiagramScene::saveItems(QString & name)
 
         }
         else if (item->type() == DiagramItem::Type) {
+            // ******************************
+            // *                            *
+            // *     Item (TrackPoint...)   *
+            // *                            *
+            // ******************************
              DiagramItem * dia_obj = qgraphicsitem_cast<DiagramItem *>(item);
              qDebug() << "Item is a DiagramItem type: " << DiagramItem::Type << ", sim ID = " << dia_obj->GetSimItemID();
             if (dia_obj->diagramType() == DiagramItem::DiagramType::TrackPoint) {
@@ -185,8 +195,8 @@ void DiagramScene::saveItems(QString & name)
                 snprintf(it.name, sizeof(it.name), "%s", "TrackPoint"); // sure I could use strcpy/strncpy. Ask me why.
                 snprintf(it.type, sizeof(it.type), "%s", "TrackPoint");
                 it.sim_id = dia_obj->GetSimItemID();
-                // it.pos_x; 
-                // it.pos_y;
+                it.pos_x = dia_obj->pos().x(); 
+                it.pos_y = dia_obj->pos().y();
                 // it.segment_ids[8];
                 simInt_addItem(&it);
 
