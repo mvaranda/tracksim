@@ -5,6 +5,6 @@ set -e
 
 ninja
 popd
-./runl
+./run
 #GTK_THEME=light ./tracksim
 
