@@ -8,8 +8,8 @@
 #                                                         #
 ###########################################################
 
-#import sim
-#print(">>>>>>>>>>>>>>> Number of arguments", sim.numargs())
+import sim, sim_store
+print(">>>>>>>>>>>>>>> Number of arguments", sim.numargs())
 
 GLOBAL_VAR = "*********** This is my global var **************"
 
@@ -37,6 +37,9 @@ def add_segment(seg_dic):
     gSegments.append(seg_dic)
     print(gSegments)
     return len(gSegments)
+
+def save(filename):
+    return sim_store.save(filename, gItems, gSegments)
 
 ## random tests
 if __name__ == "__main__":

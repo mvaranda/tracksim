@@ -74,53 +74,113 @@ SEGMENTS = """    {
 {
   "items": [
     {
-      "sim_id:": 10,
-      "type": "trackpoint",
-      "pos_x": 1234.5,
-      "pos_y": 3456.8,
+      "sim_id:": "6",
+      "name:": "TrackPoint",
+      "type": "TrackPoint",
+      "pos_x": 2275,
+      "pos_y": 2507,
+      "color_r": 255,
+      "color_g": 0,
+      "color_b": 0,
       "segments": [
         {
-          "sim_id:": 12
+          "sim_id:": 7
         },
         {
-          "sim_id:": 13
+          "sim_id:": 0
+        },
+        {
+          "sim_id:": 0
+        },
+        {
+          "sim_id:": 0
         }
       ]
     },
     {
-      "sim_id:": 11,
-      "type": "trackpoint",
-      "pos_x": 1234.5,
-      "pos_y": 3456.8
-    }
-  ],
-  "segments": [
-    {
-      "sim_id:": 12,
-      "type": "arrow",
-      "pos_x": 1234.5,
-      "pos_y": 3456.8,
-      "startTrackPoint_id": 1,
-      "endTrackPoint_id": 2,
-      "startLightState": 0,
-      "endLightState": 0
+      "sim_id:": "5",
+      "name:": "TrackPoint",
+      "type": "TrackPoint",
+      "pos_x": 2539,
+      "pos_y": 2513,
+      "color_r": 0,
+      "color_g": 255,
+      "color_b": 0,
+      "segments": [
+        {
+          "sim_id:": 8
+        },
+        {
+          "sim_id:": 0
+        },
+        {
+          "sim_id:": 0
+        },
+        {
+          "sim_id:": 0
+        }
+      ]
     },
     {
-      "sim_id:": 13,
-      "type": "arrow",
-      "pos_x": 1234.5,
-      "pos_y": 3456.8,
-      "startTrackPoint_id": 1,
-      "endTrackPoint_id": 2,
-      "startLightState": 0,
-      "endLightState": 0
+      "sim_id:": "4",
+      "name:": "TrackPoint",
+      "type": "TrackPoint",
+      "pos_x": 2418,
+      "pos_y": 2346,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 255,
+      "segments": [
+        {
+          "sim_id:": 7
+        },
+        {
+          "sim_id:": 8
+        },
+        {
+          "sim_id:": 0
+        },
+        {
+          "sim_id:": 0
+        }
+      ]
+    }
+  ]
+  "segments": [
+    {
+      "sim_id:": "8",
+      "name:": "Segment",
+      "type": "Segment",
+      "pos_x": 2418,
+      "pos_y": 2346,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 0,
+      "startTrackPoint_id": 4,
+      "endTrackPoint_id": 5,
+      "startLightState": 1,
+      "endLightState": 1,
+    },
+    {
+      "sim_id:": "7",
+      "name:": "Segment",
+      "type": "Segment",
+      "pos_x": 2275,
+      "pos_y": 2507,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 0,
+      "startTrackPoint_id": 6,
+      "endTrackPoint_id": 4,
+      "startLightState": 1,
+      "endLightState": 1,
     }
   ]
 }
 """
 
 def save(filename, items, segs):
-  #try:
+  try:
     f = open(filename, "w")
     f.write(DOC_START)
 
@@ -171,24 +231,27 @@ def save(filename, items, segs):
       f.write(SEGMENTS_END)
     f.write(DOC_END)
     f.close()
-  # except:
-  #   print("Could not save " + filename)
-  #   return 0
-  # all good
-    return 1
+  except:
+    print("Could not save " + filename)
+    return 0
+  #all good
+  return 1
 
 if __name__ == "__main__":
   items = [{'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 6, 'pos_x': 2275, 'pos_y': 2507, 
-  'segment_id_0': 7, 'segment_id_1': 0, 'segment_id_2': 0, 'segment_id_3': 0}, 
- {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 5, 'pos_x': 2539, 'pos_y': 2513, 
-   'segment_id_0': 8, 'segment_id_1': 0, 'segment_id_2': 0, 'segment_id_3': 0}, 
- {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, 
-    'segment_id_0': 7, 'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}]
+            'color_r': 255, 'color_g': 0, 'color_b': 0, 'segment_id_0': 7, 'segment_id_1': 0, 
+            'segment_id_2': 0, 'segment_id_3': 0}, {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 5, 
+            'pos_x': 2539, 'pos_y': 2513, 'color_r': 0, 'color_g': 255, 'color_b': 0, 'segment_id_0': 8, 
+            'segment_id_1': 0, 'segment_id_2': 0, 'segment_id_3': 0}, {'name': 'TrackPoint', 'type': 'TrackPoint', 
+            'sim_id': 4, 'pos_x': 2418, 'pos_y': 2346, 'color_r': 0, 'color_g': 0, 'color_b': 255, 'segment_id_0': 7, 
+            'segment_id_1': 8, 'segment_id_2': 0, 'segment_id_3': 0}]
   
   segs = [{'name': 'Segment', 'type': 'Segment', 'sim_id': 8, 'pos_x': 2418, 'pos_y': 2346, 
-           'startTrackPoint_id': 4, 'endTrackPoint_id': 5, 'startLightState': 1, 'endLightState': 1}, 
+           'color_r': 0, 'color_g': 0, 'color_b': 0, 'startTrackPoint_id': 4, 'endTrackPoint_id': 5, 
+           'startLightState': 1, 'endLightState': 1}, 
            {'name': 'Segment', 'type': 'Segment', 'sim_id': 7, 'pos_x': 2275, 'pos_y': 2507, 
-            'startTrackPoint_id': 6, 'endTrackPoint_id': 4, 'startLightState': 1, 'endLightState': 1}]
+            'color_r': 0, 'color_g': 0, 'color_b': 0, 'startTrackPoint_id': 6, 'endTrackPoint_id': 4, 
+            'startLightState': 1, 'endLightState': 1}]
   if save("test.rlw", items, segs) != 0:
     print("All good")
   else:

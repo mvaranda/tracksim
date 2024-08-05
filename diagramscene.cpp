@@ -163,8 +163,6 @@ void DiagramScene::saveItems(QString & name)
             memset(&seg, 0, sizeof(seg));
             strncpy(seg.name, "Segment", sizeof(seg.name) - 1);
             strncpy(seg.type, "Segment", sizeof(seg.type) - 1);            
-            // snprintf(seg.name, sizeof(seg.name), "%s", "Segment"); // sure I could use strcpy/strncpy. Ask me why.
-            // snprintf(seg.type, sizeof(seg.type), "%s", "Arrow");
             seg.sim_id = arrow->GetSimItemID();
             seg.pos_x = startPos.x();
             seg.pos_y = startPos.y();
@@ -189,8 +187,9 @@ void DiagramScene::saveItems(QString & name)
             if (dia_obj->diagramType() == DiagramItem::DiagramType::TrackPoint) {
                 item_t it;
                 memset(&it, 0, sizeof(it));
-                snprintf(it.name, sizeof(it.name), "%s", "TrackPoint"); // sure I could use strcpy/strncpy. Ask me why.
-                snprintf(it.type, sizeof(it.type), "%s", "TrackPoint");
+                strncpy(it.name, "TrackPoint", sizeof(it.name) - 1);
+                strncpy(it.type, "TrackPoint", sizeof(it.type) - 1);
+
                 it.sim_id = dia_obj->GetSimItemID();
                 it.pos_x = dia_obj->pos().x(); 
                 it.pos_y = dia_obj->pos().y();
@@ -217,27 +216,7 @@ void DiagramScene::saveItems(QString & name)
 
     }
 
-    // add children
-    //dia.AddMember("key", "value", d.GetAllocator());
-//     d.AddMember("DiaItem", dia, d.GetAllocator());
-
-//     // Write the JSON data to the file 
-//     rapidjson::FileWriteStream os(f, buffer, sizeof(buffer)); 
-// #ifdef COMPACT_JSON
-//     rapidjson::Writer<rapidjson::FileWriteStream> writer(os); 
-// #else
-//     rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(os);
-// #endif
-    
-//     d.Accept(writer); 
- 
-
-
-    //s.SaveFinish();
-
-
-
-
+    simInt_save(name.toStdString().c_str());
 }
 
 void DiagramScene::loadItems(QString &  name)

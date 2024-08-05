@@ -247,10 +247,10 @@ bool simInt_addItem(item_t * item)
     // Note: no need to Py_DECREF(dic) as PyTuple_SetItem seals reference
 
     // Hack to test object access for potential console
-    PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
-                       "print(GLOBAL_VAR)\n");
-    PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
-                       "print(\"PyRun_SimpleString: a = \" + a)\n");
+    // PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
+    //                    "print(GLOBAL_VAR)\n");
+    // PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
+    //                    "print(\"PyRun_SimpleString: a = \" + a)\n");
 
     return true;
 }
@@ -344,6 +344,47 @@ bool simInt_addSegment(segment_t * seg)
     Py_DECREF(pFunc);
     Py_DECREF(pArgs);    
     // Note: no need to Py_DECREF(dic) as PyTuple_SetItem seals reference
+
+    return true;
+}
+
+bool simInt_save(const char * file)
+{
+    PyObject *pFunc, *pValue, *filename, *pArgs;
+    bool result = false;
+
+    const char * func_name = "save";
+
+    filename = PyUnicode_FromString(file);
+    pArgs = PyTuple_New(1);
+    if (!pArgs) {
+        LOG_E("simInt_save: could not create args\n");
+        Py_DECREF(filename);
+        return false;
+    }
+
+    PyTuple_SetItem(pArgs, 0, filename);
+
+    // call python function passing the dic as argument
+    pFunc = PyObject_GetAttrString(pModule, func_name);
+    if (pFunc && PyCallable_Check(pFunc)) {
+        pValue = PyObject_CallObject(pFunc, pArgs);
+        if (pValue != NULL) {
+            int r = PyLong_AsLong(pValue);
+            LOG("simInt_save: Python Items size: %ld\n", r);
+            Py_DECREF(pValue);
+            result = r;
+        }
+    }
+    Py_DECREF(pFunc);
+    Py_DECREF(pArgs);   
+    Py_DECREF(filename); 
+
+    return result;
+}
+
+bool simInt_load(const char * file)
+{
 
     return true;
 }

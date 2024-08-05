@@ -56,6 +56,9 @@ void simInt_get_val(const char * var_name);
 
 void simInt_destroy();
 
+bool simInt_save(const char * file);
+bool simInt_load(const char * file);
+
 #ifdef __cplusplus
   }
 #endif
