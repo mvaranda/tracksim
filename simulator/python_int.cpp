@@ -209,23 +209,6 @@ bool simInt_addItem(item_t * item)
         }
     }
 
-    // if (!add_long_to_dic(dic, "startTrackPoint_id", item->startTrackPoint_id)) {
-    //     Py_DECREF(dic);
-    //     return false;
-    // }
-    // if (!add_long_to_dic(dic, "endTrackPoint_id", item->endTrackPoint_id)) {
-    //     Py_DECREF(dic);
-    //     return false;
-    // }
-    // if (!add_long_to_dic(dic, "startLightState", item->startLightState)) {
-    //     Py_DECREF(dic);
-    //     return false;
-    // }
-    // if (!add_long_to_dic(dic, "endLightState", item->endLightState)) {
-    //     Py_DECREF(dic);
-    //     return false;
-    // }
-
     pArgs = PyTuple_New(1);
     if (!pArgs) {
         LOG_E("could not create args tuple\n");

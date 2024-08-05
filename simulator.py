@@ -26,14 +26,16 @@ def print_global():
 
 def add_item(item_dic):
     global gItems
-    print("receive an item dic, gItems now is like:");
-    print(gItems)
+    print("receive an item dic:")
+    print(item_dic)
     gItems.append(item_dic)
+    print("gItems now is like:")
+    print(gItems)
     return len(gItems)
 
 def add_segment(seg_dic):
     global gSegments
-    print("receive an segment dic, gSegments now is like:");
-    print(gSegments)
+    print("receive an segment dic, gSegments now is like:")
     gSegments.append(seg_dic)
+    print(gSegments)
     return len(gSegments)
