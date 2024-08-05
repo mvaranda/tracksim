@@ -175,7 +175,7 @@ bool simInt_addItem(item_t * item)
     // create a dictionary for the item
     dic = PyDict_New();
     if (!dic) {
-        LOG_E("could not create a dic\n");
+        LOG_E("could not create a dic for item\n");
         return false;
     }
 
@@ -233,6 +233,91 @@ bool simInt_addItem(item_t * item)
         return false;
     }
 
+    PyTuple_SetItem(pArgs, 0, dic);
+
+    // call python function passing the dic as argument
+    pFunc = PyObject_GetAttrString(pModule, func_name);
+    if (pFunc && PyCallable_Check(pFunc)) {
+        pValue = PyObject_CallObject(pFunc, pArgs);
+        if (pValue != NULL) {
+            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
+            LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
+            Py_DECREF(pValue);
+        }
+    }
+    Py_DECREF(pFunc);
+    Py_DECREF(pArgs);
+    Py_DECREF(dic);
+
+    // Hack to test object access for potential console
+    // PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
+    //                    "print(GLOBAL_VAR)\n");
+    // PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
+    //                    "print(\"PyRun_SimpleString: a = \" + a)\n");
+
+    return true;
+}
+
+
+bool simInt_addSegment(segment_t * seg)
+{
+    PyObject *pFunc, *pValue, *dic, *pArgs;
+
+    const char * func_name = "add_segment";
+
+    // create a dictionary for the seg
+    dic = PyDict_New();
+    if (!dic) {
+        LOG_E("could not create a dic for segment\n");
+        return false;
+    }
+
+    // populate all fields
+    if (!add_string_to_dic(dic, "name", seg->name)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_string_to_dic(dic, "type", seg->type)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "sim_id", seg->sim_id)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_float_to_dic(dic, "pos_x", seg->pos_x)) { // float
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_float_to_dic(dic, "pos_y", seg->pos_y)) { // float
+        Py_DECREF(dic);
+        return false;
+    }
+
+
+    if (!add_long_to_dic(dic, "startTrackPoint_id", seg->startTrackPoint_id)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "endTrackPoint_id", seg->endTrackPoint_id)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "startLightState", seg->startLightState)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "endLightState", seg->endLightState)) {
+        Py_DECREF(dic);
+        return false;
+    }
+
+    pArgs = PyTuple_New(1);
+    if (!pArgs) {
+        LOG_E("could not create args tuple\n");
+        Py_DECREF(dic);
+        return false;
+    }
 
     PyTuple_SetItem(pArgs, 0, dic);
 
@@ -250,17 +335,12 @@ bool simInt_addItem(item_t * item)
     Py_DECREF(pArgs);
     Py_DECREF(dic);
 
-    PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
-                       "print(GLOBAL_VAR)\n");
-    PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
-                       "print(\"PyRun_SimpleString: a = \" + a)\n");
+    // Hack to test object access for potential console
+    // PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
+    //                    "print(GLOBAL_VAR)\n");
+    // PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
+    //                    "print(\"PyRun_SimpleString: a = \" + a)\n");
 
-    return true;
-}
-
-
-bool simInt_addSegment(segment_t * seg)
-{
     return true;
 }
 

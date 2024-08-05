@@ -156,8 +156,11 @@ void DiagramScene::saveItems(QString & name)
             //QPointF endPos = arrow->getEndPos();
 
             segment_t seg;
-            snprintf(seg.name, sizeof(seg.name), "%s", "Segment"); // sure I could use strcpy/strncpy. Ask me why.
-            snprintf(seg.type, sizeof(seg.type), "%s", "Arrow");
+            memset(&seg, 0, sizeof(seg));
+            strncpy(seg.name, "Segment", sizeof(seg.name) - 1);
+            strncpy(seg.type, "Segment", sizeof(seg.type) - 1);            
+            // snprintf(seg.name, sizeof(seg.name), "%s", "Segment"); // sure I could use strcpy/strncpy. Ask me why.
+            // snprintf(seg.type, sizeof(seg.type), "%s", "Arrow");
             seg.sim_id = arrow->GetSimItemID();
             seg.pos_x = startPos.x();
             seg.pos_y = startPos.y();
