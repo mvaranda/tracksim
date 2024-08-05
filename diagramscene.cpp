@@ -8,6 +8,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QTextCursor>
 #include <QFile>
+#include <QDebug>
 #include "python_int.h"
 
 

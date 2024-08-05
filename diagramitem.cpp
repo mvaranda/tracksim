@@ -8,6 +8,7 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 #include <QPainter>
+#include <QDebug>
 
 #define TRACK_POINT_CIRCLE_SIZE 20.0
 
