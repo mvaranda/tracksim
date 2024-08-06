@@ -1,0 +1,107 @@
+{
+  "items": [
+    {
+      "sim_id": 6,
+      "name": "TrackPoint",
+      "type": "TrackPoint",
+      "pos_x": 2275,
+      "pos_y": 2507,
+      "color_r": 255,
+      "color_g": 0,
+      "color_b": 0,
+      "segments": [
+        {
+          "sim_id": 7
+        },
+        {
+          "sim_id": 0
+        },
+        {
+          "sim_id": 0
+        },
+        {
+          "sim_id": 0
+        }
+      ]
+    },
+    {
+      "sim_id": 5,
+      "name": "TrackPoint",
+      "type": "TrackPoint",
+      "pos_x": 2539,
+      "pos_y": 2513,
+      "color_r": 0,
+      "color_g": 255,
+      "color_b": 0,
+      "segments": [
+        {
+          "sim_id": 8
+        },
+        {
+          "sim_id": 0
+        },
+        {
+          "sim_id": 0
+        },
+        {
+          "sim_id": 0
+        }
+      ]
+    },
+    {
+      "sim_id": 4,
+      "name": "TrackPoint",
+      "type": "TrackPoint",
+      "pos_x": 2418,
+      "pos_y": 2346,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 255,
+      "segments": [
+        {
+          "sim_id": 7
+        },
+        {
+          "sim_id": 8
+        },
+        {
+          "sim_id": 0
+        },
+        {
+          "sim_id": 0
+        }
+      ]
+    }
+  ]
+,
+  "segments": [
+    {
+      "sim_id": 8,
+      "name": "Segment",
+      "type": "Segment",
+      "pos_x": 2418,
+      "pos_y": 2346,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 0,
+      "startTrackPoint_id": 4,
+      "endTrackPoint_id": 5,
+      "startLightState": 1,
+      "endLightState": 1
+    },
+    {
+      "sim_id": 7,
+      "name": "Segment",
+      "type": "Segment",
+      "pos_x": 2275,
+      "pos_y": 2507,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 0,
+      "startTrackPoint_id": 6,
+      "endTrackPoint_id": 4,
+      "startLightState": 1,
+      "endLightState": 1
+    }
+  ]
+}
