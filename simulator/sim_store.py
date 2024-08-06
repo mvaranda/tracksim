@@ -8,6 +8,7 @@
 #                                                         #
 ###########################################################
 
+
 DOC_START = """{
 """
 
@@ -64,7 +65,7 @@ SEGMENTS = """    {
       "startTrackPoint_id": $START_TRACKPOINT_ID,
       "endTrackPoint_id": $END_TRACKPOINT_ID,
       "startLightState": $START_LIGHT_STATE,
-      "endLightState": $END_LIGHT_STATE,
+      "endLightState": $END_LIGHT_STATE
     }"""
 
 
@@ -145,7 +146,7 @@ SEGMENTS = """    {
         }
       ]
     }
-  ]
+  ],
   "segments": [
     {
       "sim_id:": "8",
@@ -159,7 +160,7 @@ SEGMENTS = """    {
       "startTrackPoint_id": 4,
       "endTrackPoint_id": 5,
       "startLightState": 1,
-      "endLightState": 1,
+      "endLightState": 1
     },
     {
       "sim_id:": "7",
@@ -173,13 +174,13 @@ SEGMENTS = """    {
       "startTrackPoint_id": 6,
       "endTrackPoint_id": 4,
       "startLightState": 1,
-      "endLightState": 1,
+      "endLightState": 1
     }
   ]
 }
 """
 
-def save(filename, items, segs):
+def store(filename, items, segs):
   try:
     f = open(filename, "w")
     f.write(DOC_START)
@@ -208,6 +209,8 @@ def save(filename, items, segs):
       f.write(ITEMS_END)
 
     if len(segs) > 0:
+      if len(items) > 0:
+        f.write(",\n")
       f.write(SEGMENTS_START)
       is_first = True
       for i in segs:
@@ -237,7 +240,9 @@ def save(filename, items, segs):
   #all good
   return 1
 
-if __name__ == "__main__":
+
+############### tests ###############
+def test_store():
   items = [{'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 6, 'pos_x': 2275, 'pos_y': 2507, 
             'color_r': 255, 'color_g': 0, 'color_b': 0, 'segment_id_0': 7, 'segment_id_1': 0, 
             'segment_id_2': 0, 'segment_id_3': 0}, {'name': 'TrackPoint', 'type': 'TrackPoint', 'sim_id': 5, 
@@ -252,7 +257,13 @@ if __name__ == "__main__":
            {'name': 'Segment', 'type': 'Segment', 'sim_id': 7, 'pos_x': 2275, 'pos_y': 2507, 
             'color_r': 0, 'color_g': 0, 'color_b': 0, 'startTrackPoint_id': 6, 'endTrackPoint_id': 4, 
             'startLightState': 1, 'endLightState': 1}]
-  if save("test.rlw", items, segs) != 0:
+  if store("test.rlw", items, segs) != 0:
     print("All good")
   else:
     print("Error")
+
+
+if __name__ == "__main__":
+  test_store()
+
+

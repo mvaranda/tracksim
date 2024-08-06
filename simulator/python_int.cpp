@@ -29,8 +29,38 @@ static PyObject *pName = NULL, *pModule = NULL;
 
 static int numargs=0;
 
-static PyObject*
-sim_numargs(PyObject *self, PyObject *args)
+static PyObject* sim_create_item(PyObject *self, PyObject *args)
+{
+
+    char type_str;
+    item_t it;
+    memset(&it, 0, sizeof(it));
+    if (!PyArg_ParseTuple(args, "lsddlll", 
+        &it.sim_id,
+        &type_str, // laterit.type,
+        &it.pos_x,
+        &it.pos_y,
+        &it.color_r,
+        &it.color_g,
+        &it.color_b)) {
+        return NULL;
+    }
+    // PyObject * pValue;
+    // item_t it;
+    // it.sim_id =     PyLong_AsLong(sim_id);
+    // //it.type =       PyLong_AsLong(type);
+    // it.pos_x =      PyLong_AsDouble(pos_x);
+    // it.pos_y =      PyLong_AsDouble(pos_y);
+    // it.color_r =    PyLong_AsLong(color_r);
+    // it.color_g =    PyLong_AsLong(color_g);
+    // it.color_b =    PyLong_AsLong(color_b);
+
+    printf("sim_create_item for sim_id: %d\n", it.sim_id);
+
+    return NULL;
+}
+
+static PyObject* sim_numargs(PyObject *self, PyObject *args)
 {
     if(!PyArg_ParseTuple(args, ":numargs"))
         return NULL;
@@ -40,6 +70,8 @@ sim_numargs(PyObject *self, PyObject *args)
 static PyMethodDef SimMethods[] = {
     {"numargs", sim_numargs, METH_VARARGS,
      "Return the number of arguments received by the process."},
+    {"create_item", sim_create_item, METH_VARARGS,
+     "Create a item in the UI domain."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -48,8 +80,7 @@ static PyModuleDef EmbModule = {
     NULL, NULL, NULL, NULL
 };
 
-static PyObject*
-PyInit_sim(void)
+static PyObject* PyInit_sim(void)
 {
     return PyModule_Create(&EmbModule);
 }
@@ -386,7 +417,37 @@ bool simInt_save(const char * file)
 bool simInt_load(const char * file)
 {
 
-    return true;
+    PyObject *pFunc, *pValue, *filename, *pArgs;
+    bool result = false;
+
+    const char * func_name = "load";
+
+    filename = PyUnicode_FromString(file);
+    pArgs = PyTuple_New(1);
+    if (!pArgs) {
+        LOG_E("simInt_load: could not create args\n");
+        Py_DECREF(filename);
+        return false;
+    }
+
+    PyTuple_SetItem(pArgs, 0, filename);
+
+    // call python function passing the dic as argument
+    pFunc = PyObject_GetAttrString(pModule, func_name);
+    if (pFunc && PyCallable_Check(pFunc)) {
+        pValue = PyObject_CallObject(pFunc, pArgs);
+        if (pValue != NULL) {
+            int r = PyLong_AsLong(pValue);
+            LOG("simInt_load: returned: %d\n", r);
+            Py_DECREF(pValue);
+            result = r;
+        }
+    }
+    Py_DECREF(pFunc);
+    Py_DECREF(pArgs);   
+    Py_DECREF(filename); 
+
+    return result;
 }
 
 #ifdef __cplusplus

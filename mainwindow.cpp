@@ -111,8 +111,9 @@ void MainWindow::saveItems()
 void MainWindow::loadItems()
 {
     auto fileName = QFileDialog::getOpenFileName(this,
-    tr("Load Railway"), "./", tr("Railway Files (*.rlw)"));
-    scene->loadItems(fileName); //.toStdString());
+    tr("Load Railway"), "./", tr("Railway Files (*.rlw)"), 0, QFileDialog::DontUseNativeDialog);
+    //scene->loadItems(fileName); //.toStdString());
+    simInt_load(fileName.toStdString().c_str());
 }
 
 //! [3]
