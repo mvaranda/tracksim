@@ -39,6 +39,7 @@ bool MainWindow::SimCreateItem(item_t * it)
                             p,
                             color,
                             it->sim_id);
+    return true;
 }
 
 //! [0]
