@@ -398,10 +398,10 @@ void MainWindow::createToolBox()
     connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
             this, &MainWindow::buttonGroupClicked);
     QGridLayout *layout = new QGridLayout;
-    layout->addWidget(createCellWidget(tr("Conditional"), DiagramItem::Conditional), 0, 0);
-    layout->addWidget(createCellWidget(tr("Process"), DiagramItem::Step),0, 1);
-    layout->addWidget(createCellWidget(tr("Input/Output"), DiagramItem::Io), 1, 0);
-    layout->addWidget(createCellWidget(tr("Track Point"), DiagramItem::TrackPoint), 2, 0);
+//    layout->addWidget(createCellWidget(tr("Conditional"), DiagramItem::Conditional), 0, 0);
+//    layout->addWidget(createCellWidget(tr("Process"), DiagramItem::Step),0, 1);
+ //   layout->addWidget(createCellWidget(tr("Input/Output"), DiagramItem::Io), 1, 0);
+    layout->addWidget(createCellWidget(tr("Track Point"), DiagramItem::TrackPoint), 0, 1);
 //! [21]
 
     QToolButton *textButton = new QToolButton;

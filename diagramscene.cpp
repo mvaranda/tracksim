@@ -140,6 +140,23 @@ void DiagramScene::AddItem( DiagramItem::DiagramType itemType,
     emit itemInserted(item);
 }
 
+// void DiagramScene::AddSegment( DiagramItem::DiagramType itemType,
+//                             QMenu * itemMenu,
+//                             QPointF pos,
+//                             QColor color,
+//                             int sim_id)
+// {
+//             DiagramItem *startItem = qgraphicsitem_cast<DiagramItem *>(startItems.first());
+//             DiagramItem *endItem = qgraphicsitem_cast<DiagramItem *>(endItems.first());
+//             Arrow *arrow = new Arrow(startItem, endItem, 0);
+//             arrow->setColor(m_LineColor);
+//             startItem->addArrow(arrow);
+//             endItem->addArrow(arrow);
+//             arrow->setZValue(-1000.0);
+//             addItem(arrow);
+//             arrow->updatePosition();
+// }
+
 void DiagramScene::saveItems(QString & name)
 {
     // Store s;
