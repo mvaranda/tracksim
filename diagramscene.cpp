@@ -127,7 +127,8 @@ void DiagramScene::loadScene(QString data)
 void DiagramScene::AddItem( DiagramItem::DiagramType itemType,
                             QMenu * itemMenu,
                             QPointF pos,
-                            QColor color)
+                            QColor color,
+                            int sim_id)
 {
     DiagramItem *item;
     item = new DiagramItem(itemType, itemMenu);
@@ -238,7 +239,8 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             AddItem(m_ItemType,
                     m_ItemMenu,
                     mouseEvent->scenePos(),
-                    m_ItemColor);
+                    m_ItemColor,
+                    0);
             break;
 //! [6] //! [7]
         case InsertLine:
@@ -249,7 +251,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             break;
 //! [7] //! [8]
         case InsertText:
-            textItem = new DiagramTextItem();
+            textItem = new DiagramTextItem(0);
             textItem->setFont(m_Font);
             textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
             textItem->setZValue(1000.0);
@@ -302,7 +304,7 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
             startItems.first() != endItems.first()) {
             DiagramItem *startItem = qgraphicsitem_cast<DiagramItem *>(startItems.first());
             DiagramItem *endItem = qgraphicsitem_cast<DiagramItem *>(endItems.first());
-            Arrow *arrow = new Arrow(startItem, endItem);
+            Arrow *arrow = new Arrow(startItem, endItem, 0);
             arrow->setColor(m_LineColor);
             startItem->addArrow(arrow);
             endItem->addArrow(arrow);

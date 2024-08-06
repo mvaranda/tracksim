@@ -24,7 +24,7 @@ public:
     enum { Type = UserType + 15 };
     enum DiagramType { Step, Conditional, StartEnd, Io, TrackPoint };
 
-    DiagramItem(DiagramType diagramType, QMenu *contextMenu, QGraphicsItem *parent = nullptr);
+    DiagramItem(DiagramType diagramType, QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);
 
     void removeArrow(Arrow *arrow);
     void removeArrows();

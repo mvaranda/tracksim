@@ -41,7 +41,8 @@ public:
     void AddItem(   DiagramItem::DiagramType itemType,
                     QMenu * itemMenu,
                     QPointF pos,
-                    QColor color);
+                    QColor color,
+                    int sim_id = 0);
     void loadScene(QString data);
     void saveItems(QString &  name);
     void loadItems(QString &  name);

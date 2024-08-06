@@ -19,7 +19,7 @@ class DiagramTextItem : public QGraphicsTextItem, public SimItemID
 public:
     enum { Type = UserType + 3 };
 
-    DiagramTextItem(QGraphicsItem *parent = nullptr);
+    DiagramTextItem(QGraphicsItem *parent = nullptr, int sim_id = 0);
 
     int type() const override { return Type; }
 

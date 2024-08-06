@@ -13,9 +13,11 @@
 #define TRACK_POINT_CIRCLE_SIZE 20.0
 
 //! [0]
-DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
+DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu, int sim_id,
                          QGraphicsItem *parent)
-    : QGraphicsPolygonItem(parent), diagramItemType(diagramType)
+    : QGraphicsPolygonItem(parent), 
+    SimItemID(sim_id),
+    diagramItemType(diagramType)
     , m_ContextMenu(contextMenu)
 {
     QPainterPath path;

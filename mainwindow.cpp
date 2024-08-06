@@ -71,7 +71,8 @@ MainWindow::MainWindow()
     sim->AddSegment( 111 );
 
     // load scene
-    scene->loadScene("Test");
+    //scene->loadScene("Test");
+//    simInt_load("test.rlw");
 
     // Initializa embedded Python
 

@@ -12,8 +12,9 @@
 #define SELECTED_COLOR Qt::cyan
 
 //! [0]
-Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, QGraphicsItem *parent)
+Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphicsItem *parent)
     : QGraphicsLineItem(parent), 
+        SimItemID(sim_id),
         m_StartItem(startItem), 
         m_EndItem(endItem), 
         trafficLightEnd(TrafficLight::GreenLight),

@@ -15,6 +15,7 @@ class SimItemID
 {
 public:
     SimItemID();
+    SimItemID(int sim_id);
     int GetSimItemID();
 protected:
     int id;

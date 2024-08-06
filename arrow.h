@@ -16,7 +16,7 @@ public:
     enum { Type = UserType + 4 };
     enum TrafficLight { noLight, GreenLight, RedLight};
 
-    Arrow(DiagramItem *startItem, DiagramItem *endItem,
+    Arrow(DiagramItem *startItem, DiagramItem *endItem,  int sim_id = 0,
           QGraphicsItem *parent = nullptr);
 
     int type() const override { return Type; }
