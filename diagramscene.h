@@ -62,11 +62,14 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
+public:
+    QMenu *m_ItemMenu;
+
 private:
     bool isItemChange(int type) const;
 
     DiagramItem::DiagramType m_ItemType;
-    QMenu *m_ItemMenu;
+
     Mode m_Mode;
     bool leftButtonDown;
     QPointF startPoint;

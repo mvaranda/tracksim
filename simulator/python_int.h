@@ -17,8 +17,8 @@ typedef struct item_st {
   char      name[32];
   char      type[16];
   int       sim_id;
-  float     pos_x; 
-  float     pos_y;
+  int /*float*/     pos_x; 
+  int /*float*/     pos_y;
   int       color_r;
   int       color_g;
   int       color_b;
@@ -30,8 +30,8 @@ typedef struct segment_st {
   char      name[32];
   char      type[16];
   int       sim_id;
-  float     pos_x;
-  float     pos_y;
+  int /*float*/     pos_x;
+  int /*float*/     pos_y;
   int       color_r;
   int       color_g;
   int       color_b;

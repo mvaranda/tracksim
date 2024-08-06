@@ -42,7 +42,7 @@ printf("<<<<<<<<<<< sim_create_item >>>>>>>>>>>>>>\n");
     char type_str;
     item_t it;
     memset(&it, 0, sizeof(it));
-    if (!PyArg_ParseTuple(args, "lsddlll", 
+    if (!PyArg_ParseTuple(args, "lslllll", //"lsddlll", 
         &it.sim_id,
         &type_str, // laterit.type,
         &it.pos_x,

@@ -111,7 +111,8 @@ void DiagramScene::loadScene(QString data)
     AddItem( DiagramItem::TrackPoint,
                             m_ItemMenu,
                             p1,
-                            Qt::blue);
+                            Qt::blue,
+                            5);
 
     AddItem( DiagramItem::TrackPoint,
                             m_ItemMenu,
