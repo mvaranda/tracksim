@@ -22,14 +22,17 @@ bool cpp_sim_create_item(item_t * it)
     if (MainWindow_instance)
         return MainWindow_instance->SimCreateItem(it);
     return false;
-    // printf("+++++ cpp_sim_create_item +++++\n");
-    // return true;
+}
+
+bool cpp_sim_create_segment(segment_t * seg)
+{
+    if (MainWindow_instance)
+        return MainWindow_instance->SimCreateSegment(seg);
+    return false;
 }
 
 bool MainWindow::SimCreateItem(item_t * it)
 {
-    qDebug() << "============== SimCreateItem ===========n";
-
     QPoint p(it->pos_x , it->pos_y);
     QColor color;
     color.setRgb(it->color_r, it->color_g, it->color_b);
@@ -41,6 +44,23 @@ bool MainWindow::SimCreateItem(item_t * it)
                             it->sim_id);
     return true;
 }
+
+bool MainWindow::SimCreateSegment(segment_t * it)
+{
+    qDebug() << "============== SimCreateSegment ===========\n";
+
+    QPoint p(it->pos_x , it->pos_y);
+    QColor color;
+    color.setRgb(it->color_r, it->color_g, it->color_b);
+
+    // scene->AddItem( DiagramItem::TrackPoint,
+    //                         scene->m_ItemMenu,
+    //                         p,
+    //                         color,
+    //                         it->sim_id);
+    return true;
+}
+
 
 //! [0]
 MainWindow::MainWindow()

@@ -19,10 +19,8 @@
 
 
 extern bool cpp_sim_create_item(item_t * it);
-// {
-//     printf("+++++ cpp_sim_create_item +++++\n");
-//     return true;
-// }
+extern bool cpp_sim_create_segment(segment_t * it);
+
 
 #ifdef __cplusplus
   extern "C" {
@@ -38,7 +36,6 @@ static int numargs=0;
 
 static PyObject* sim_create_item(PyObject *self, PyObject *args)
 {
-printf("<<<<<<<<<<< sim_create_item >>>>>>>>>>>>>>\n");
     char type_str;
     item_t it;
     memset(&it, 0, sizeof(it));
@@ -55,8 +52,33 @@ printf("<<<<<<<<<<< sim_create_item >>>>>>>>>>>>>>\n");
             return NULL;
     }
 
-    printf("sim_create_item for sim_id: %d\n", it.sim_id);
+    //printf("sim_create_item for sim_id: %d\n", it.sim_id);
     cpp_sim_create_item(&it);
+
+    Py_RETURN_NONE;
+}
+
+static PyObject* sim_create_segment(PyObject *self, PyObject *args)
+{
+printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
+    char type_str;
+    segment_t seg;
+    memset(&seg, 0, sizeof(seg));
+    if (!PyArg_ParseTuple(args, "lslllll", 
+        &seg.sim_id,
+        &type_str, // laterit.type,
+        &seg.pos_x,
+        &seg.pos_y,
+        &seg.color_r,
+        &seg.color_g,
+        &seg.color_b)) {
+            printf("PyArg_ParseTuple fail\n");
+            PyErr_Print();
+            return NULL;
+    }
+
+    printf("sim_create_segment for sim_id: %d\n", seg.sim_id);
+    cpp_sim_create_segment(&seg);
 
     Py_RETURN_NONE;
 }
@@ -73,6 +95,8 @@ static PyMethodDef SimMethods[] = {
      "Return the number of arguments received by the process."},
     {"create_item", sim_create_item, METH_VARARGS,
      "Create a item in the UI domain."},
+    {"create_segment", sim_create_segment, METH_VARARGS,
+     "Create a segment in the UI domain."},
     {NULL, NULL, 0, NULL}
 };
 

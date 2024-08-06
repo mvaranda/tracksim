@@ -61,14 +61,15 @@ def load(filename):
     f = open(filename)
     data = f.read()
     dic = json.loads(data)
-    print("********** load dic: ************")
-    print(dic)
+    # print("********** load dic: ************")
+    # print(dic)
   except:
     print("could not load " + filename)
     return None
+  
   for i in dic["items"]:
-    print("********** calling sim.create_item for item: ************")
-    print(i)
+    # print("********** calling sim.create_item for item: ************")
+    # print(i)
     sim.create_item(i["sim_id"], 
                     i["type"],
                     i["pos_x"],
@@ -76,9 +77,18 @@ def load(filename):
                     i["color_r"],
                     i["color_g"],
                     i["color_b"] )
-    # _sim_create_item(i["sim_id"])
-#     print(">>>>>>>>>>>>>>> calling arguments", sim.numargs())
-#   print("********** load dic: is done ************")
+    
+  for seg in dic["segments"]:
+    print("********** calling sim.create_segments for seg: ************")
+    print(seg)
+    sim.create_segment(seg["sim_id"], 
+                    seg["type"],
+                    seg["pos_x"],
+                    seg["pos_y"],
+                    seg["color_r"],
+                    seg["color_g"],
+                    seg["color_b"] )
+
   return 1
 
 ## random tests

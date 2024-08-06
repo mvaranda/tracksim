@@ -36,6 +36,8 @@ public:
    MainWindow();
 //    Simulator * sim;
    bool SimCreateItem(item_t * it);
+    bool SimCreateSegment(segment_t * seg);
+   
 
 private slots:
     void backgroundButtonGroupClicked(QAbstractButton *button);
