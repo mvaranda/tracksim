@@ -452,6 +452,10 @@ void MainWindow::createToolBox()
 }
 //! [22]
 
+void MainWindow::play() {}
+void MainWindow::pause() {}
+void MainWindow::stop() {}
+
 //! [23]
 void MainWindow::createActions()
 {
@@ -461,6 +465,22 @@ void MainWindow::createActions()
     toFrontAction->setStatusTip(tr("Bring item to front"));
     connect(toFrontAction, &QAction::triggered, this, &MainWindow::bringToFront);
 //! [23]
+
+    playAction = new QAction(QIcon(":/images/play.png"), tr("Start Simulation"), this);
+    playAction->setShortcut(tr("Ctrl+S"));
+    playAction->setStatusTip(tr("Start Simulation"));
+    connect(playAction, &QAction::triggered, this, &MainWindow::play);
+    playAction->setCheckable(true);
+
+    pauseAction = new QAction(QIcon(":/images/pause.png"), tr("Pause Simulation"), this);
+    pauseAction->setShortcut(tr("Ctrl+S"));
+    pauseAction->setStatusTip(tr("Pause Simulation"));
+    connect(pauseAction, &QAction::triggered, this, &MainWindow::pause);
+
+    stopAction = new QAction(QIcon(":/images/stop.png"), tr("Stop Simulation"), this);
+    stopAction->setShortcut(tr("Ctrl+S"));
+    stopAction->setStatusTip(tr("Stop Simulation"));
+    connect(stopAction, &QAction::triggered, this, &MainWindow::pause);
 
     sendBackAction = new QAction(QIcon(":/images/sendtoback.png"), tr("Send to &Back"), this);
     sendBackAction->setShortcut(tr("Ctrl+T"));
@@ -526,6 +546,11 @@ void MainWindow::createMenus()
     itemMenu->addAction(toFrontAction);
     itemMenu->addAction(sendBackAction);
 
+    itemMenu->addSeparator();
+    itemMenu->addAction(playAction);
+    itemMenu->addAction(pauseAction);
+    itemMenu->addAction(stopAction);
+
     aboutMenu = menuBar()->addMenu(tr("&Help"));
     aboutMenu->addAction(aboutAction);
 }
@@ -539,6 +564,10 @@ void MainWindow::createToolbars()
     editToolBar->addAction(deleteAction);
     editToolBar->addAction(toFrontAction);
     editToolBar->addAction(sendBackAction);
+
+    editToolBar->addAction(playAction);
+    editToolBar->addAction(pauseAction);
+    editToolBar->addAction(stopAction);
 
     fontCombo = new QFontComboBox();
     connect(fontCombo, &QFontComboBox::currentFontChanged,

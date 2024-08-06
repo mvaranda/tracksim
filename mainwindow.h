@@ -48,6 +48,9 @@ private slots:
     void pointerGroupClicked();
     void bringToFront();
     void sendToBack();
+    void play();
+    void stop();
+    void pause();
     void itemInserted(DiagramItem *item);
     void textInserted(QGraphicsTextItem *item);
     void currentFontChanged(const QFont &font);
@@ -91,6 +94,10 @@ private:
     QAction *toFrontAction;
     QAction *sendBackAction;
     QAction *aboutAction;
+
+    QAction *playAction;
+    QAction *stopAction;
+    QAction *pauseAction;
 
     QMenu *fileMenu;
     QMenu *itemMenu;
