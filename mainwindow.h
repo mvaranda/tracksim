@@ -8,6 +8,7 @@
 
 #include <QMainWindow>
 #include "simulator.h"
+#include "python_int.h"
 
 class DiagramScene;
 
@@ -34,6 +35,7 @@ class MainWindow : public QMainWindow
 public:
    MainWindow();
    Simulator * sim;
+   bool SimCreateItem(item_t * it);
 
 private slots:
     void backgroundButtonGroupClicked(QAbstractButton *button);

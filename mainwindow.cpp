@@ -10,13 +10,31 @@
 #include <QtWidgets>
 #include <QScreen> 
 #include <QCoreApplication>
-#include "python_int.h"
+
 
 const int InsertTextButton = 10;
+
+static MainWindow * MainWindow_instance = 0;
+
+
+bool cpp_sim_create_item(item_t * it)
+{
+    if (MainWindow_instance)
+        return MainWindow_instance->SimCreateItem(it);
+    return false;
+    // printf("+++++ cpp_sim_create_item +++++\n");
+    // return true;
+}
+
+bool MainWindow::SimCreateItem(item_t * it)
+{
+    qDebug() << "============== SimCreateItem ===========n";
+}
 
 //! [0]
 MainWindow::MainWindow()
 {
+    MainWindow_instance = this;
     QStringList args = QCoreApplication::arguments();
     qDebug() << args[0];
     simInt_init(args[0].toStdString().c_str());

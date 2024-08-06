@@ -17,6 +17,13 @@
 #define LOG printf
 #define LOG_E printf
 
+
+extern bool cpp_sim_create_item(item_t * it);
+// {
+//     printf("+++++ cpp_sim_create_item +++++\n");
+//     return true;
+// }
+
 #ifdef __cplusplus
   extern "C" {
 #endif
@@ -49,6 +56,7 @@ printf("<<<<<<<<<<< sim_create_item >>>>>>>>>>>>>>\n");
     }
 
     printf("sim_create_item for sim_id: %d\n", it.sim_id);
+    cpp_sim_create_item(&it);
 
     Py_RETURN_NONE;
 }
