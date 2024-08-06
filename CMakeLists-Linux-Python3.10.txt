@@ -27,12 +27,6 @@ qt_add_executable(tracksim
     mainwindow.cpp mainwindow.h
     store.cpp store.h
     simulator/python_int.cpp
-    simulator/segment.cpp
-    simulator/tracks.cpp
-    simulator/track.cpp
-    simulator/trackpoints.cpp
-    simulator/trackpoint.cpp
-    simulator/simulator.cpp
     simulator/simitemid.cpp
 )
 

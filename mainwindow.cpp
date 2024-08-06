@@ -78,8 +78,8 @@ MainWindow::MainWindow()
     //centerAndResize();
 
     // Get simulator
-    sim = Simulator::GetInstance();
-    sim->AddSegment( 111 );
+    // sim = Simulator::GetInstance();
+    // sim->AddSegment( 111 );
 
     // load scene
     //scene->loadScene("Test");

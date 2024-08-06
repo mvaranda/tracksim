@@ -7,7 +7,7 @@
 #include "diagramitem.h"
 
 #include <QMainWindow>
-#include "simulator.h"
+//#include "simulator.h"
 #include "python_int.h"
 
 class DiagramScene;
@@ -34,7 +34,7 @@ class MainWindow : public QMainWindow
 
 public:
    MainWindow();
-   Simulator * sim;
+//    Simulator * sim;
    bool SimCreateItem(item_t * it);
 
 private slots:
