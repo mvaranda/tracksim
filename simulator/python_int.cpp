@@ -178,6 +178,7 @@ static bool add_long_to_dic(PyObject * dic, const char * _key, int _val)
 }
 
 //PyLong_FromLong
+#if 0 // not in use right now
 static bool add_float_to_dic(PyObject * dic, const char * _key, float _val)
 {
     PyObject *key = PyUnicode_FromString(_key);
@@ -197,6 +198,7 @@ static bool add_float_to_dic(PyObject * dic, const char * _key, float _val)
     Py_DECREF(value);
     return true;
 }
+#endif
 
 bool simInt_addItem(item_t * item)
 {
@@ -224,11 +226,11 @@ bool simInt_addItem(item_t * item)
         Py_DECREF(dic);
         return false;
     }
-    if (!add_float_to_dic(dic, "pos_x", item->pos_x)) { // float
+    if (!add_long_to_dic(dic, "pos_x", item->pos_x)) {
         Py_DECREF(dic);
         return false;
     }
-    if (!add_float_to_dic(dic, "pos_y", item->pos_y)) { // float
+    if (!add_long_to_dic(dic, "pos_y", item->pos_y)) {
         Py_DECREF(dic);
         return false;
     }
@@ -314,11 +316,11 @@ bool simInt_addSegment(segment_t * seg)
         Py_DECREF(dic);
         return false;
     }
-    if (!add_float_to_dic(dic, "pos_x", seg->pos_x)) { // float
+    if (!add_long_to_dic(dic, "pos_x", seg->pos_x)) {
         Py_DECREF(dic);
         return false;
     }
-    if (!add_float_to_dic(dic, "pos_y", seg->pos_y)) { // float
+    if (!add_long_to_dic(dic, "pos_y", seg->pos_y)) {
         Py_DECREF(dic);
         return false;
     }
@@ -403,7 +405,7 @@ bool simInt_save(const char * file)
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
             int r = PyLong_AsLong(pValue);
-            LOG("simInt_save: Python Items size: %ld\n", r);
+            LOG("simInt_save: Python Items size: %d\n", r);
             Py_DECREF(pValue);
             result = r;
         }
