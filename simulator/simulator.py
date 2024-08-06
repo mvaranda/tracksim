@@ -44,7 +44,7 @@ def add_segment(seg_dic):
     return len(gSegments)
 
 def save(filename):
-    return sim_store.save(filename, gItems, gSegments)
+    return sim_store.store(filename, gItems, gSegments)
 
 # def load(filename):
 #     d = sim_store.load(filename)
@@ -53,16 +53,21 @@ def save(filename):
 #     print("dic:")
 #     print(d)
 
+# def _sim_create_item(p1): #,p2,p3,p4,p5,p6,p7):
+#    print("fake _sim_create_item, id: " + str(p1))
+
 def load(filename):
   try:
     f = open(filename)
     data = f.read()
     dic = json.loads(data)
-    print(j)
+    print("********** load dic: ************")
+    print(dic)
   except:
     print("could not load " + filename)
     return None
   for i in dic["items"]:
+    print("********** calling sim.create_item for item: ************")
     print(i)
     sim.create_item(i["sim_id"], 
                     i["type"],
@@ -71,7 +76,9 @@ def load(filename):
                     i["color_r"],
                     i["color_g"],
                     i["color_b"] )
-
+    # _sim_create_item(i["sim_id"])
+#     print(">>>>>>>>>>>>>>> calling arguments", sim.numargs())
+#   print("********** load dic: is done ************")
   return 1
 
 ## random tests

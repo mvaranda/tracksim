@@ -19,8 +19,8 @@ ITEMS_START = """  "items": [
 """
 
 ITEM = """    {
-      "sim_id:": "$SIM_ID",
-      "name:": "$NAME",
+      "sim_id": $SIM_ID,
+      "name": "$NAME",
       "type": "$TYPE",
       "pos_x": $POS_X,
       "pos_y": $POS_Y,
@@ -29,16 +29,16 @@ ITEM = """    {
       "color_b": $COLOR_B,
       "segments": [
         {
-          "sim_id:": $SEG_SIM_ID_0
+          "sim_id": $SEG_SIM_ID_0
         },
         {
-          "sim_id:": $SEG_SIM_ID_1
+          "sim_id": $SEG_SIM_ID_1
         },
         {
-          "sim_id:": $SEG_SIM_ID_2
+          "sim_id": $SEG_SIM_ID_2
         },
         {
-          "sim_id:": $SEG_SIM_ID_3
+          "sim_id": $SEG_SIM_ID_3
         }
       ]
     }"""
@@ -54,8 +54,8 @@ SEGMENTS_END = """
 """
 
 SEGMENTS = """    {
-      "sim_id:": "$SIM_ID",
-      "name:": "$NAME",
+      "sim_id": $SIM_ID,
+      "name": "$NAME",
       "type": "$TYPE",
       "pos_x": $POS_X,
       "pos_y": $POS_Y,
@@ -75,8 +75,8 @@ SEGMENTS = """    {
 {
   "items": [
     {
-      "sim_id:": "6",
-      "name:": "TrackPoint",
+      "sim_id": "6",
+      "name": "TrackPoint",
       "type": "TrackPoint",
       "pos_x": 2275,
       "pos_y": 2507,
@@ -85,22 +85,22 @@ SEGMENTS = """    {
       "color_b": 0,
       "segments": [
         {
-          "sim_id:": 7
+          "sim_id": 7
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         }
       ]
     },
     {
-      "sim_id:": "5",
-      "name:": "TrackPoint",
+      "sim_id": "5",
+      "name": "TrackPoint",
       "type": "TrackPoint",
       "pos_x": 2539,
       "pos_y": 2513,
@@ -109,22 +109,22 @@ SEGMENTS = """    {
       "color_b": 0,
       "segments": [
         {
-          "sim_id:": 8
+          "sim_id": 8
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         }
       ]
     },
     {
-      "sim_id:": "4",
-      "name:": "TrackPoint",
+      "sim_id": "4",
+      "name": "TrackPoint",
       "type": "TrackPoint",
       "pos_x": 2418,
       "pos_y": 2346,
@@ -133,24 +133,24 @@ SEGMENTS = """    {
       "color_b": 255,
       "segments": [
         {
-          "sim_id:": 7
+          "sim_id": 7
         },
         {
-          "sim_id:": 8
+          "sim_id": 8
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         },
         {
-          "sim_id:": 0
+          "sim_id": 0
         }
       ]
     }
   ],
   "segments": [
     {
-      "sim_id:": "8",
-      "name:": "Segment",
+      "sim_id": "8",
+      "name": "Segment",
       "type": "Segment",
       "pos_x": 2418,
       "pos_y": 2346,
@@ -163,8 +163,8 @@ SEGMENTS = """    {
       "endLightState": 1
     },
     {
-      "sim_id:": "7",
-      "name:": "Segment",
+      "sim_id": "7",
+      "name": "Segment",
       "type": "Segment",
       "pos_x": 2275,
       "pos_y": 2507,

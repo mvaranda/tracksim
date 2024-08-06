@@ -31,7 +31,7 @@ static int numargs=0;
 
 static PyObject* sim_create_item(PyObject *self, PyObject *args)
 {
-
+printf("<<<<<<<<<<< sim_create_item >>>>>>>>>>>>>>\n");
     char type_str;
     item_t it;
     memset(&it, 0, sizeof(it));
@@ -43,21 +43,14 @@ static PyObject* sim_create_item(PyObject *self, PyObject *args)
         &it.color_r,
         &it.color_g,
         &it.color_b)) {
-        return NULL;
+            printf("PyArg_ParseTuple fail\n");
+            PyErr_Print();
+            return NULL;
     }
-    // PyObject * pValue;
-    // item_t it;
-    // it.sim_id =     PyLong_AsLong(sim_id);
-    // //it.type =       PyLong_AsLong(type);
-    // it.pos_x =      PyLong_AsDouble(pos_x);
-    // it.pos_y =      PyLong_AsDouble(pos_y);
-    // it.color_r =    PyLong_AsLong(color_r);
-    // it.color_g =    PyLong_AsLong(color_g);
-    // it.color_b =    PyLong_AsLong(color_b);
 
     printf("sim_create_item for sim_id: %d\n", it.sim_id);
 
-    return NULL;
+    Py_RETURN_NONE;
 }
 
 static PyObject* sim_numargs(PyObject *self, PyObject *args)
