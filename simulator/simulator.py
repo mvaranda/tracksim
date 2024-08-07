@@ -82,7 +82,7 @@ def load(filename):
     print("********** calling sim.create_segments for seg: ************")
     print(seg)
     sim.create_segment(seg["sim_id"], 
-                    "Hello", #seg["type"],
+                    seg["type"],
                     seg["pos_x"],
                     seg["pos_y"],
                     seg["color_r"],
@@ -90,8 +90,11 @@ def load(filename):
                     seg["color_b"],
                     seg["startTrackPoint_id"],
                     seg["endTrackPoint_id"],
-                    #seg["startLightState"],
+                    seg["startLightState"],
                     seg["endLightState"])
+
+    #sim.create_segment(1,"nice",3,4,5,6,7,8,9,10,11)
+    #sim.create_segment(1,3,4,5,6,7,8,9,10,11)
 
   return 1
 """

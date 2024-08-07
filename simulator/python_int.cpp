@@ -62,12 +62,12 @@ static PyObject* sim_create_item(PyObject *self, PyObject *args)
 
 static PyObject* sim_create_segment(PyObject *self, PyObject *args)
 {
+    static segment_t seg; // it sems that python has a limited stack ?
 printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
-    char * str_ptr;
-    segment_t seg;
+    char * str_ptr = "Hello";
+
     memset(&seg, 0, sizeof(seg));
-    // if (!PyArg_ParseTuple(args, "lslllllllll", 
-     if (!PyArg_ParseTuple(args, "lsllllllll", 
+    if (!PyArg_ParseTuple(args, "lslllllllll", 
         &seg.sim_id,
         &str_ptr,
         &seg.pos_x,
@@ -77,8 +77,8 @@ printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
         &seg.color_b,
         &seg.startTrackPoint_id,
         &seg.endTrackPoint_id,
-        &seg.startLightState/*,
-        &seg.endLightState */)) {
+        &seg.startLightState,
+        &seg.endLightState)) {
             printf("PyArg_ParseTuple fail\n");
             PyErr_Print();
             return NULL;
