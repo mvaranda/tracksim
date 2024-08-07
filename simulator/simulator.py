@@ -82,14 +82,24 @@ def load(filename):
     print("********** calling sim.create_segments for seg: ************")
     print(seg)
     sim.create_segment(seg["sim_id"], 
-                    seg["type"],
+                    "Hello", #seg["type"],
                     seg["pos_x"],
                     seg["pos_y"],
                     seg["color_r"],
                     seg["color_g"],
-                    seg["color_b"] )
+                    seg["color_b"],
+                    seg["startTrackPoint_id"],
+                    seg["endTrackPoint_id"],
+                    #seg["startLightState"],
+                    seg["endLightState"])
 
   return 1
+"""
+{'sim_id': 7, 'name': 'Segment', 'type': 'Segment', 'pos_x': 2275, 'pos_y': 2507,
+ 'color_r': 0, 'color_g': 0, 'color_b': 0, 
+ 'startTrackPoint_id': 6, 'endTrackPoint_id': 4, 'startLightState': 1, 'endLightState': 1}
+
+"""
 
 ## random tests
 if __name__ == "__main__":

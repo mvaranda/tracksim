@@ -36,12 +36,12 @@ static int numargs=0;
 
 static PyObject* sim_create_item(PyObject *self, PyObject *args)
 {
-    char type_str;
+    char *str_ptr;
     item_t it;
     memset(&it, 0, sizeof(it));
     if (!PyArg_ParseTuple(args, "lslllll", //"lsddlll", 
         &it.sim_id,
-        &type_str, // laterit.type,
+        &str_ptr, // later it.type,
         &it.pos_x,
         &it.pos_y,
         &it.color_r,
@@ -51,8 +51,10 @@ static PyObject* sim_create_item(PyObject *self, PyObject *args)
             PyErr_Print();
             return NULL;
     }
+    strncpy(it.type, str_ptr, sizeof(it.type) - 1);
 
     //printf("sim_create_item for sim_id: %d\n", it.sim_id);
+    printf("sim_create_item for sim_id: %d\ntype: %s\n", it.sim_id, it.type);
     cpp_sim_create_item(&it);
 
     Py_RETURN_NONE;
@@ -61,23 +63,29 @@ static PyObject* sim_create_item(PyObject *self, PyObject *args)
 static PyObject* sim_create_segment(PyObject *self, PyObject *args)
 {
 printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
-    char type_str;
+    char * str_ptr;
     segment_t seg;
     memset(&seg, 0, sizeof(seg));
-    if (!PyArg_ParseTuple(args, "lslllll", 
+    // if (!PyArg_ParseTuple(args, "lslllllllll", 
+     if (!PyArg_ParseTuple(args, "lsllllllll", 
         &seg.sim_id,
-        &type_str, // laterit.type,
+        &str_ptr,
         &seg.pos_x,
         &seg.pos_y,
         &seg.color_r,
         &seg.color_g,
-        &seg.color_b)) {
+        &seg.color_b,
+        &seg.startTrackPoint_id,
+        &seg.endTrackPoint_id,
+        &seg.startLightState/*,
+        &seg.endLightState */)) {
             printf("PyArg_ParseTuple fail\n");
             PyErr_Print();
             return NULL;
     }
 
-    printf("sim_create_segment for sim_id: %d\n", seg.sim_id);
+    strncpy(seg.type, str_ptr, sizeof(seg.type) - 1);
+    printf("sim_create_segment for sim_id: %d\ntype: %s\n", seg.sim_id, seg.type);
     cpp_sim_create_segment(&seg);
 
     Py_RETURN_NONE;
