@@ -398,9 +398,9 @@ void MainWindow::createToolBox()
     connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
             this, &MainWindow::buttonGroupClicked);
     QGridLayout *layout = new QGridLayout;
-   layout->addWidget(createCellWidget(tr("Conditional"), DiagramItem::Conditional), 1, 1);
-   layout->addWidget(createCellWidget(tr("Process"), DiagramItem::Step),2, 0);
-   layout->addWidget(createCellWidget(tr("Input/Output"), DiagramItem::Io), 1, 0);
+//    layout->addWidget(createCellWidget(tr("Conditional"), DiagramItem::Conditional), 1, 1);
+//    layout->addWidget(createCellWidget(tr("Process"), DiagramItem::Step),2, 0);
+//    layout->addWidget(createCellWidget(tr("Input/Output"), DiagramItem::Io), 1, 0);
     layout->addWidget(createCellWidget(tr("Track Point"), DiagramItem::TrackPoint), 0, 1);
 //! [21]
 
@@ -415,6 +415,45 @@ void MainWindow::createToolBox()
     QWidget *textWidget = new QWidget;
     textWidget->setLayout(textLayout);
     layout->addWidget(textWidget, 0, 0);
+
+    //------------ Segment Widget -------------
+    QToolButton *segmentButton = new QToolButton;
+    segmentButton->setCheckable(true);
+    buttonGroup->addButton(segmentButton, InsertTextButton);
+    segmentButton->setIcon(QIcon(QPixmap(":/images/segment.png")));
+    segmentButton->setIconSize(QSize(50, 50));
+    QGridLayout *segmentLayout = new QGridLayout;
+    segmentLayout->addWidget(segmentButton, 0, 0, Qt::AlignHCenter);
+    segmentLayout->addWidget(new QLabel(tr("Segment")), 1, 0, Qt::AlignCenter);
+    QWidget *segmentWiget = new QWidget;
+    segmentWiget->setLayout(segmentLayout);
+    layout->addWidget(segmentWiget, 1, 0);
+
+    //------------ Train Widget -------------
+    QToolButton *trainButton = new QToolButton;
+    trainButton->setCheckable(true);
+    buttonGroup->addButton(trainButton, InsertTextButton);
+    trainButton->setIcon(QIcon(QPixmap(":/images/train.png")));
+    trainButton->setIconSize(QSize(50, 50));
+    QGridLayout *trainLayout = new QGridLayout;
+    trainLayout->addWidget(trainButton, 0, 0, Qt::AlignHCenter);
+    trainLayout->addWidget(new QLabel(tr("Train")), 1, 0, Qt::AlignCenter);
+    QWidget *trainWiget = new QWidget;
+    trainWiget->setLayout(trainLayout);
+    layout->addWidget(trainWiget, 1, 1);
+
+    //------------ Route Widget -------------
+    QToolButton *routeButton = new QToolButton;
+    routeButton->setCheckable(true);
+    buttonGroup->addButton(routeButton, InsertTextButton);
+    routeButton->setIcon(QIcon(QPixmap(":/images/route.png")));
+    routeButton->setIconSize(QSize(50, 50));
+    QGridLayout *routeLayout = new QGridLayout;
+    routeLayout->addWidget(routeButton, 0, 0, Qt::AlignHCenter);
+    routeLayout->addWidget(new QLabel(tr("Route")), 1, 0, Qt::AlignCenter);
+    QWidget *routeWiget = new QWidget;
+    routeWiget->setLayout(routeLayout);
+    layout->addWidget(routeWiget, 2, 0);
 
     layout->setRowStretch(3, 10);
     layout->setColumnStretch(2, 10);
