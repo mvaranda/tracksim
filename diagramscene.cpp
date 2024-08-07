@@ -132,7 +132,7 @@ void DiagramScene::AddItem( DiagramItem::DiagramType itemType,
                             int sim_id)
 {
     DiagramItem *item;
-    item = new DiagramItem(itemType, itemMenu);
+    item = new DiagramItem(itemType, itemMenu, sim_id);
     item->setBrush(color);
     item->setColor(color);
     addItem(item);
@@ -142,32 +142,12 @@ void DiagramScene::AddItem( DiagramItem::DiagramType itemType,
 
 void DiagramScene::AddSegment(segment_t * seg)
 {
-    //         DiagramItem *startItem = qgraphicsitem_cast<DiagramItem *>(startItems.first());
-    //         DiagramItem *endItem = qgraphicsitem_cast<DiagramItem *>(endItems.first());
-    //         Arrow *arrow = new Arrow(startItem, endItem, 0);
-    //         arrow->setColor(m_LineColor);
-    //         startItem->addArrow(arrow);
-    //         endItem->addArrow(arrow);
-    //         arrow->setZValue(-1000.0);
-    //         addItem(arrow);
-    //         arrow->updatePosition();
-
-
-    // // need: find startItems endItems
-    // QList<QGraphicsItem *> startItems
-
-    // if (startItems.count() > 0 && endItems.count() > 0 &&
-    //     startItems.first()->type() == DiagramItem::Type &&
-    //     endItems.first()->type() == DiagramItem::Type &&
-    //     startItems.first() != endItems.first()) {
-    //     DiagramItem *startItem = qgraphicsitem_cast<DiagramItem *>(startItems.first());
-    //     DiagramItem *endItem = qgraphicsitem_cast<DiagramItem *>(endItems.first());
-    QPoint p(seg->pos_x , seg->pos_y);
+    // QPoint p(seg->pos_x , seg->pos_y);
     QColor color;
     color.setRgb(seg->color_r, seg->color_g, seg->color_b);
 
-    DiagramItem *startItem = NULL; // = qgraphicsitem_cast<DiagramItem *>(startItems.first());
-    DiagramItem *endItem = NULL; // = qgraphicsitem_cast<DiagramItem *>(endItems.first());
+    DiagramItem *startItem = NULL;
+    DiagramItem *endItem = NULL;
 
     foreach( QGraphicsItem *item, items() ) {
         if (item->type() == DiagramItem::Type) {
@@ -193,13 +173,12 @@ void DiagramScene::AddSegment(segment_t * seg)
     }
 
     Arrow *arrow = new Arrow(startItem, endItem, 0);
-    arrow->setColor(m_LineColor);
+    arrow->setColor(color);
     startItem->addArrow(arrow);
     endItem->addArrow(arrow);
     arrow->setZValue(-1000.0);
     addItem(arrow);
     arrow->updatePosition();
-
 }
 
 void DiagramScene::saveItems(QString & name)
