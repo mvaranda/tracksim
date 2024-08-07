@@ -13,6 +13,9 @@
 
 
 const int InsertTextButton = 10;
+const int InsertSegmentButton = 11;
+const int InsertTrainButton = 12;
+const int InsertRouteButton = 13;
 
 static MainWindow * MainWindow_instance = 0;
 
@@ -142,13 +145,31 @@ void MainWindow::buttonGroupClicked(QAbstractButton *button)
             button->setChecked(false);
     }
     const int id = buttonGroup->id(button);
-    if (id == InsertTextButton) {
-        scene->setMode(DiagramScene::InsertText);
-    } else {
-        scene->setItemType(DiagramItem::DiagramType(id));
-        scene->setMode(DiagramScene::InsertItem);
+    switch(id) {
+        case InsertTextButton:
+            scene->setMode(DiagramScene::InsertText);
+            break;
+        case InsertSegmentButton:
+        case InsertTrainButton:
+        case InsertRouteButton:
+        default:
+            scene->setItemType(DiagramItem::DiagramType(id));
+            scene->setMode(DiagramScene::InsertItem);
+            break;
     }
+    // if (id == InsertTextButton) {
+    //     scene->setMode(DiagramScene::InsertText);
+    // } else {
+    //     scene->setItemType(DiagramItem::DiagramType(id));
+    //     scene->setMode(DiagramScene::InsertItem);
+    // }
 }
+/*
+const int InsertTextButton = 10;
+const int InsertSegmentButton = 11;
+const int InsertTrainButton = 12;
+const int InsertRouteButton = 13;
+*/
 //! [2]
 
 void MainWindow::saveItems()
