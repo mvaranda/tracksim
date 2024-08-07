@@ -20,6 +20,7 @@ GLOBAL_VAR = "*********** This is my global var **************"
 
 gItems = []
 gSegments = []
+gTexts = []
 
 def sim_init():
     print("\n******* Hello from simulator.py ********\n")
@@ -42,6 +43,13 @@ def add_segment(seg_dic):
     gSegments.append(seg_dic)
     print(gSegments)
     return len(gSegments)
+
+def add_text(txt_dic):
+    global gTexts
+    print("receive an segment dic, gTexts now is like:")
+    gTexts.append(txt_dic)
+    print(gTexts)
+    return len(gTexts)
 
 def save(filename):
     return sim_store.store(filename, gItems, gSegments)

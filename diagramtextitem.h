@@ -11,13 +11,15 @@ QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
+#define TEXT_ITEM_TYPE (QGraphicsTextItem::UserType + 3)
+
 //! [0]
 class DiagramTextItem : public QGraphicsTextItem, public SimItemID
 {
     Q_OBJECT
 
 public:
-    enum { Type = UserType + 3 };
+    enum { Type = TEXT_ITEM_TYPE };
 
     DiagramTextItem(QGraphicsItem *parent = nullptr, int sim_id = 0);
 

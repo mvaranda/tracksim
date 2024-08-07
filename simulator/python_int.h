@@ -17,8 +17,8 @@ typedef struct item_st {
   char      name[32];
   char      type[16];
   int       sim_id;
-  int /*float*/     pos_x; 
-  int /*float*/     pos_y;
+  int       pos_x; 
+  int       pos_y;
   int       color_r;
   int       color_g;
   int       color_b;
@@ -30,8 +30,8 @@ typedef struct segment_st {
   char      name[32];
   char      type[16];
   int       sim_id;
-  int /*float*/     pos_x;
-  int /*float*/     pos_y;
+  int       pos_x;
+  int       pos_y;
   int       color_r;
   int       color_g;
   int       color_b;
@@ -41,6 +41,17 @@ typedef struct segment_st {
   int       endLightState;
 } segment_t;
 
+typedef struct text_st {
+  char      text[64];
+  char      font_name[64];
+  int       size;
+  int       pos_x; 
+  int       pos_y;
+  int       color_r;
+  int       color_g;
+  int       color_b;
+} text_t;
+
 #ifdef __cplusplus
   extern "C" {
 #endif
@@ -48,6 +59,7 @@ typedef struct segment_st {
 void simInt_init(const char * _program);
 void simInt_clearAll();
 bool simInt_addItem(item_t * item);
+bool simInt_addText(text_t * txt);
 bool simInt_addSegment(segment_t * seg);
 
 void simInt_add(int x, int y);

@@ -183,15 +183,9 @@ void DiagramScene::AddSegment(segment_t * seg)
 
 void DiagramScene::saveItems(QString & name)
 {
-    // Store s;
-    // if ( ! s.SaveStart(name.toStdString()))
-    // {
-    //     qDebug() << "could not open " << name;
-    //     return;
-    // }
-
 
     foreach( QGraphicsItem *item, items() ) {
+        qDebug() << "type: " << item->type();
         if (item->type() == Arrow::Type) {
             // ******************************
             // *                            *
@@ -250,8 +244,26 @@ void DiagramScene::saveItems(QString & name)
                 simInt_addItem(&it);
             }
         }
-        else if (item->type() == 65539) {
+        else if (item->type() == TEXT_ITEM_TYPE) {
             qDebug() << "Item is Text";
+            DiagramTextItem * txt_obj = qgraphicsitem_cast<DiagramTextItem *>(item);
+            text_t t;
+            memset(&t, 0, sizeof(t));
+            QString q_txt = txt_obj->toPlainText();
+            if (q_txt.isEmpty())
+                continue;
+            strncpy(t.text, q_txt.toStdString().c_str(), sizeof(t.text) - 1);
+            qDebug() << "Text: " << t.text;
+            t.pos_x = txt_obj->pos().x(); 
+            t.pos_y = txt_obj->pos().y();
+            QColor color = txt_obj->defaultTextColor();
+            color.getRgb(&t.color_r, &t.color_g, &t.color_b);
+            QFont f = font();
+            qDebug() << "Font size: " << f.pointSize() ;
+            QString family = f.family();
+            qDebug() << "Family: " << family;
+            strncpy(t.font_name, family.toStdString().c_str(), sizeof(t.font_name) - 1);
+            simInt_addText(&t);
         }
         else {
             qDebug() << "Item is unknown: " << item->type();

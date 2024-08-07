@@ -414,6 +414,82 @@ bool simInt_addSegment(segment_t * seg)
     return true;
 }
 
+//------------------ text ---------------------
+
+bool simInt_addText(text_t * txt)
+{
+    PyObject *pFunc, *pValue, *dic, *pArgs;
+
+    const char * func_name = "add_text";
+
+    // create a dictionary for the txt
+    dic = PyDict_New();
+    if (!dic) {
+        LOG_E("could not create a dic for segment\n");
+        return false;
+    }
+
+    // populate all fields
+    if (!add_string_to_dic(dic, "text", txt->text)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_string_to_dic(dic, "font_name", txt->font_name)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "size", txt->size)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "pos_x", txt->pos_x)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "pos_y", txt->pos_y)) {
+        Py_DECREF(dic);
+        return false;
+    }
+
+    if (!add_long_to_dic(dic, "color_r", txt->color_r)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "color_g", txt->color_g)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "color_b", txt->color_b)) {
+        Py_DECREF(dic);
+        return false;
+    }
+
+    pArgs = PyTuple_New(1);
+    if (!pArgs) {
+        LOG_E("could not create args tuple\n");
+        Py_DECREF(dic);
+        return false;
+    }
+
+    PyTuple_SetItem(pArgs, 0, dic);
+
+    // call python function passing the dic as argument
+    pFunc = PyObject_GetAttrString(pModule, func_name);
+    if (pFunc && PyCallable_Check(pFunc)) {
+        pValue = PyObject_CallObject(pFunc, pArgs);
+        if (pValue != NULL) {
+            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
+            LOG("Python text size: %ld\n", PyLong_AsLong(pValue));
+            Py_DECREF(pValue);
+        }
+    }
+    Py_DECREF(pFunc);
+    Py_DECREF(pArgs);    
+    // Note: no need to Py_DECREF(dic) as PyTuple_SetItem seals reference
+
+    return true;
+}
+
 bool simInt_save(const char * file)
 {
     PyObject *pFunc, *pValue, *filename, *pArgs;
