@@ -8,6 +8,7 @@
 #include "diagramtextitem.h"
 
 #include <QGraphicsScene>
+#include "python_int.h"
 
 #define DEFAULT_ITEM_COLOR Qt::yellow
 
@@ -43,6 +44,7 @@ public:
                     QPointF pos,
                     QColor color,
                     int sim_id = 0);
+    void AddSegment(segment_t * seg);
     void loadScene(QString data);
     void saveItems(QString &  name);
     void loadItems(QString &  name);

@@ -48,19 +48,20 @@ bool MainWindow::SimCreateItem(item_t * it)
     return true;
 }
 
-bool MainWindow::SimCreateSegment(segment_t * it)
+bool MainWindow::SimCreateSegment(segment_t * seg)
 {
     qDebug() << "============== SimCreateSegment ===========\n";
 
-    QPoint p(it->pos_x , it->pos_y);
-    QColor color;
-    color.setRgb(it->color_r, it->color_g, it->color_b);
+    // QPoint p(it->pos_x , it->pos_y);
+    // QColor color;
+    // color.setRgb(it->color_r, it->color_g, it->color_b);
 
     // scene->AddItem( DiagramItem::TrackPoint,
     //                         scene->m_ItemMenu,
     //                         p,
     //                         color,
     //                         it->sim_id);
+    scene->AddSegment(seg);
     return true;
 }
 
