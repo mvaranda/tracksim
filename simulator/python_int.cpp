@@ -575,7 +575,7 @@ bool simInt_save(const char * file)
     }
     Py_DECREF(pFunc);
 //    Py_DECREF(pArgs);   
-    Py_DECREF(filename); 
+//    Py_DECREF(filename); 
 
     return result;
 }
@@ -610,7 +610,7 @@ bool simInt_load(const char * file)
     }
     Py_DECREF(pFunc);
 //    Py_DECREF(pArgs);   
-    Py_DECREF(filename); 
+//    Py_DECREF(filename); 
 
     return result;
 }
