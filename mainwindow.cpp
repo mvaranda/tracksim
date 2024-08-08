@@ -416,29 +416,45 @@ void MainWindow::about()
                        tr("The <b>Tracks Simulator</b><br>\n"
                           "\nBy: Marcelo Varanda."));
 
-    QList<QGraphicsItem *> items = scene->items();
-    foreach( QGraphicsItem *item, items ) {
-        if (item->type() == Arrow::Type) {
-            Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
-            QPointF startPos = arrow->getStartPos();
-            QPointF endPos = arrow->getEndPos();
-            qDebug() << "Item is an Arrow, sim ID = " << arrow->GetSimItemID();
-            qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
-            qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
-        }
-        else if (item->type() == DiagramItem::Type) {
-             DiagramItem * dia = qgraphicsitem_cast<DiagramItem *>(item);
-             qDebug() << "Item is a DiagramItem type: " << dia->diagramItemType << ", sim ID = " << dia->GetSimItemID();
+    // QList<QGraphicsItem *> items = scene->items();
+    // foreach( QGraphicsItem *item, items ) {
+    //     if (item->type() == Arrow::Type) {
+    //         Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
+    //         QPointF startPos = arrow->getStartPos();
+    //         QPointF endPos = arrow->getEndPos();
+    //         qDebug() << "Item is an Arrow, sim ID = " << arrow->GetSimItemID();
+    //         qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
+    //         qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
+    //     }
+    //     else if (item->type() == DiagramItem::Type) {
+    //          DiagramItem * dia = qgraphicsitem_cast<DiagramItem *>(item);
+    //          qDebug() << "Item is a DiagramItem type: " << dia->diagramItemType << ", sim ID = " << dia->GetSimItemID();
 
-        }
-        else if (item->type() == 65539) {
-            qDebug() << "Item is Text";
-        }
-        else {
-            qDebug() << "Item is unknown: " << item->type();
-        }
+    //     }
+    //     else if (item->type() == 65539) {
+    //         qDebug() << "Item is Text";
+    //     }
+    //     else {
+    //         qDebug() << "Item is unknown: " << item->type();
+    //     }
 
-    }
+    // }
+
+    // test text
+    startPython();
+    text_t txt;
+    memset(&txt, 0, sizeof(txt));
+    strncpy(txt.text, "Test Text !!!", sizeof(txt.text) - 1);
+    strncpy(txt.font_name, "Sans", sizeof(txt.font_name) - 1);
+    txt.size =  9;
+    txt.pos_x =  2356;
+    txt.pos_y =  2544;
+    txt.color_r =  0;
+    txt.color_g =  0;
+    txt.color_b =  0;
+    simInt_addText(&txt);
+    stopPython();
+
 }
 //! [20]
 

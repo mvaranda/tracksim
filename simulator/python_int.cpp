@@ -177,7 +177,7 @@ bool simInt_init(const char * _program)
         return true; //false;
     }
 
-    wchar_t *program_name = Py_DecodeLocale(_program, NULL);
+    program_name = Py_DecodeLocale(_program, NULL);
     if (program_name == NULL) {
         fprintf(stderr, "simInt_init: Fatal error, cannot decode prog name\n");
         exit(1);
