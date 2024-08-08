@@ -104,4 +104,27 @@
       "endLightState": 1
     }
   ]
+  "texts": [
+    {
+      "text": "Test2",
+      "font_name": "Sans",
+      "size": 24,
+      "pos_x": 2253,
+      "pos_y": 2625,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 255
+    },
+    {
+      "text": "Test",
+      "font_name": "Sans",
+      "size": 24,
+      "pos_x": 2254,
+      "pos_y": 2325,
+      "color_r": 255,
+      "color_g": 0,
+      "color_b": 0
+    }
+  ]
+
 }
