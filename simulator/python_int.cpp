@@ -152,6 +152,7 @@ static PyObject* PyInit_sim(void)
 //****************************************************
 //*          calls C to Python (Embedded)            *
 //****************************************************
+static wchar_t *program_name;
 void simInt_destroy()
 {
     if (!pModule) {
@@ -162,6 +163,8 @@ void simInt_destroy()
 
     //Py_DECREF(pModule);
     //pModule = NULL;
+
+    // PyMem_RawFree(program);
 }
 
 bool simInt_init(const char * _program)
@@ -171,8 +174,15 @@ bool simInt_init(const char * _program)
 
     if (pModule) {
         printf("simInt_init: called but interpreter already running\n");
-        return false;
+        return true; //false;
     }
+
+    wchar_t *program_name = Py_DecodeLocale(_program, NULL);
+    if (program_name == NULL) {
+        fprintf(stderr, "simInt_init: Fatal error, cannot decode prog name\n");
+        exit(1);
+    }
+    Py_SetProgramName(program_name);  /* optional but recommended */
 
     PyImport_AppendInittab("sim", &PyInit_sim);
 

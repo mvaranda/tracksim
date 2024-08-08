@@ -196,7 +196,13 @@ void MainWindow::saveItems()
 {
     auto fileName = QFileDialog::getSaveFileName(this,
     tr("Save Railway"), "./", tr("Railway Files (*.rlw)"), 0, QFileDialog::DontUseNativeDialog);
-    scene->saveItems(fileName); //.toStdString());
+
+    if (!startPython()) {
+        qWarning() << "Could not start python";
+        return;
+    }
+    scene->saveItems(fileName);
+    stopPython();
 }
 
 void MainWindow::loadItems()
