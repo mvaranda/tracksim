@@ -29,7 +29,7 @@ RouteItem::RouteItem(QMenu *contextMenu, int sim_id,
     QString t = "Route ";
     t += QString::number(router_number);
     txtItem = new QGraphicsTextItem(t, this);
-    txtItem->setPos(0,50);
+    txtItem->setPos(0,56);
     QFont f = txtItem->font();
     f.setPointSize(10);
     txtItem->setFont(f);

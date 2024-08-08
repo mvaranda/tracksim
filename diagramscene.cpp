@@ -325,17 +325,10 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
         case InsertRoute:
             routeItem = new RouteItem(0);
-            // routeItem->setFont(m_Font);
-            // routeItem->setTextInteractionFlags(Qt::TextEditorInteraction);
             routeItem->setZValue(1000.0);
-            // connect(routeItem, &DiagramTextItem::lostFocus,
-            //         this, &DiagramScene::editorLostFocus);
-            // connect(textItem, &DiagramTextItem::selectedChange,
-            //         this, &DiagramScene::itemSelected);
             addItem(routeItem);
-            // textItem->setDefaultTextColor(m_TextColor);
             routeItem->setPos(mouseEvent->scenePos());
-            // emit textInserted(textItem);
+            m_Mode = MoveItem;
             break;
 
 //! [6] //! [7]
