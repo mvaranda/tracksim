@@ -67,14 +67,25 @@ bool MainWindow::SimCreateText(text_t * txt)
     return true;
 }
 
+bool MainWindow::startPython()
+{
+    QStringList args = QCoreApplication::arguments();
+    qDebug() << args[0];
+    return simInt_init(args[0].toStdString().c_str());
+}
+
+void MainWindow::stopPython()
+{
+    simInt_destroy();
+}
 
 //! [0]
 MainWindow::MainWindow()
 {
     MainWindow_instance = this;
-    QStringList args = QCoreApplication::arguments();
-    qDebug() << args[0];
-    simInt_init(args[0].toStdString().c_str());
+    // QStringList args = QCoreApplication::arguments();
+    // qDebug() << args[0];
+    // simInt_init(args[0].toStdString().c_str());
 
     createActions();
     createToolBox();
@@ -109,7 +120,13 @@ MainWindow::MainWindow()
 
     // load scene
     //scene->loadScene("Test");
-    //simInt_load("test.rlw");
+    //if (startPython()) {
+    //  simInt_load("test.rlw");
+    //  stopPython();
+    //}
+    //else {
+    //  qDebug() << "Could not start python";
+    //}
 
     // Initializa embedded Python
 
@@ -187,7 +204,12 @@ void MainWindow::loadItems()
     auto fileName = QFileDialog::getOpenFileName(this,
     tr("Load Railway"), "./", tr("Railway Files (*.rlw)"), 0, QFileDialog::DontUseNativeDialog);
     //scene->loadItems(fileName); //.toStdString());
+    if (!startPython()) {
+        qWarning() << "Could not start python";
+        return;
+    }
     simInt_load(fileName.toStdString().c_str());
+    stopPython();
 }
 
 //! [3]

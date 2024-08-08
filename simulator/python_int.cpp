@@ -27,7 +27,7 @@ extern bool cpp_sim_create_text(text_t * txt);
   extern "C" {
 #endif
 
-static PyObject *pName = NULL, *pModule = NULL;
+static PyObject *pModule = NULL;
 
 //****************************************************
 //*       calls from python to C (extension)         *
@@ -65,7 +65,7 @@ static PyObject* sim_create_segment(PyObject *self, PyObject *args)
 {
     static segment_t seg; // it sems that python has a limited stack ?
 printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
-    char * str_ptr = "Hello";
+    char * str_ptr; // = "Hello";
 
     memset(&seg, 0, sizeof(seg));
     if (!PyArg_ParseTuple(args, "lslllllllll", 
@@ -154,13 +154,25 @@ static PyObject* PyInit_sim(void)
 //****************************************************
 void simInt_destroy()
 {
-    Py_DECREF(pModule);
-    Py_FinalizeEx();
+    if (!pModule) {
+        printf("simInt_destroy: nothing to destroy\n");
+        return;
+    }
+    //Py_FinalizeEx();
+
+    //Py_DECREF(pModule);
+    //pModule = NULL;
 }
 
-void simInt_init(const char * _program)
+bool simInt_init(const char * _program)
 {
     const char * filename = "simulator";
+    PyObject *pName = NULL;
+
+    if (pModule) {
+        printf("simInt_init: called but interpreter already running\n");
+        return false;
+    }
 
     PyImport_AppendInittab("sim", &PyInit_sim);
 
@@ -173,8 +185,9 @@ void simInt_init(const char * _program)
     if (pModule == NULL) {
         PyErr_Print();
         LOG_E("Failed to load \"%s\"\n", filename);
-        return;
+        return false;
     }
+    return true;
 }
 
 

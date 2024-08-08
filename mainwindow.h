@@ -83,6 +83,9 @@ private:
     QIcon createColorToolButtonIcon(const QString &image, QColor color);
     QIcon createColorIcon(QColor color);
 
+    bool startPython();
+    void stopPython();
+
     DiagramScene *scene;
     QGraphicsView *view;
 

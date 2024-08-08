@@ -56,7 +56,7 @@ typedef struct text_st {
   extern "C" {
 #endif
 
-void simInt_init(const char * _program);
+bool simInt_init(const char * _program);
 void simInt_clearAll();
 bool simInt_addItem(item_t * item);
 bool simInt_addText(text_t * txt);
