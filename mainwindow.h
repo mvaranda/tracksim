@@ -33,10 +33,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-   MainWindow();
+    MainWindow();
 //    Simulator * sim;
-   bool SimCreateItem(item_t * it);
+    bool SimCreateItem(item_t * it);
     bool SimCreateSegment(segment_t * seg);
+    bool SimCreateText(text_t * txt);
    
 
 private slots:

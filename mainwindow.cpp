@@ -34,6 +34,13 @@ bool cpp_sim_create_segment(segment_t * seg)
     return false;
 }
 
+bool cpp_sim_create_text(text_t * txt)
+{
+    if (MainWindow_instance)
+        return MainWindow_instance->SimCreateText(txt);
+    return false;
+}
+
 bool MainWindow::SimCreateItem(item_t * it)
 {
     QPoint p(it->pos_x , it->pos_y);
@@ -51,6 +58,12 @@ bool MainWindow::SimCreateItem(item_t * it)
 bool MainWindow::SimCreateSegment(segment_t * seg)
 {
     scene->AddSegment(seg);
+    return true;
+}
+
+bool MainWindow::SimCreateText(text_t * txt)
+{
+    scene->addText(txt);
     return true;
 }
 

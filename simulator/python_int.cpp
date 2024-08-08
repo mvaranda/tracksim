@@ -19,7 +19,8 @@
 
 
 extern bool cpp_sim_create_item(item_t * it);
-extern bool cpp_sim_create_segment(segment_t * it);
+extern bool cpp_sim_create_segment(segment_t * seg);
+extern bool cpp_sim_create_text(text_t * txt);
 
 
 #ifdef __cplusplus
@@ -91,6 +92,34 @@ printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
     Py_RETURN_NONE;
 }
 
+static PyObject* sim_create_text(PyObject *self, PyObject *args)
+{
+    static text_t txt; // it sems that python has a limited stack ?
+printf("<<<<<<<<<<< sim_create_text >>>>>>>>>>>>>>\n");
+    char * text_ptr, * font_ptr;
+
+    memset(&txt, 0, sizeof(txt));
+    if (!PyArg_ParseTuple(args, "ssllllll", 
+        &text_ptr,
+        &font_ptr,
+        &txt.size,
+        &txt.pos_x,
+        &txt.pos_y,
+        &txt.color_r,
+        &txt.color_g,
+        &txt.color_b)) {
+            printf("PyArg_ParseTuple fail\n");
+            PyErr_Print();
+            return NULL;
+    }
+
+    strncpy(txt.text, text_ptr, sizeof(txt.text) - 1);
+    printf("sim_create_text for text: %s\n", txt.text);
+    cpp_sim_create_text(&txt);
+
+    Py_RETURN_NONE;
+}
+
 static PyObject* sim_numargs(PyObject *self, PyObject *args)
 {
     if(!PyArg_ParseTuple(args, ":numargs"))
@@ -100,11 +129,13 @@ static PyObject* sim_numargs(PyObject *self, PyObject *args)
 
 static PyMethodDef SimMethods[] = {
     {"numargs", sim_numargs, METH_VARARGS,
-     "Return the number of arguments received by the process."},
+        "Return the number of arguments received by the process."},
     {"create_item", sim_create_item, METH_VARARGS,
-     "Create a item in the UI domain."},
+        "Create a item in the UI domain."},
     {"create_segment", sim_create_segment, METH_VARARGS,
-     "Create a segment in the UI domain."},
+        "Create a segment in the UI domain."},
+    {"create_text", sim_create_text, METH_VARARGS,
+        "Create a text in the UI domain."},
     {NULL, NULL, 0, NULL}
 };
 

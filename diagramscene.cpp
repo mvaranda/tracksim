@@ -280,6 +280,34 @@ void DiagramScene::loadItems(QString &  name)
     qDebug() << "loadItems: " << name;
 }
 
+void DiagramScene::addText(text_t * txt)
+{
+    QPoint p(txt->pos_x , txt->pos_y);
+    QColor color;
+    QFont font;
+
+    font.setPointSize(txt->size);
+    font.setFamily(QString(txt->font_name));
+
+    color.setRgb(txt->color_r, txt->color_g, txt->color_b);
+
+    DiagramTextItem * textItem = new DiagramTextItem(0);
+    //textItem->setFont(m_Font);
+    textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    textItem->setZValue(1000.0);
+    connect(textItem, &DiagramTextItem::lostFocus,
+            this, &DiagramScene::editorLostFocus);
+    connect(textItem, &DiagramTextItem::selectedChange,
+            this, &DiagramScene::itemSelected);
+    addItem(textItem);
+    textItem->setDefaultTextColor(color);
+    textItem->setPlainText(QString(txt->text));
+
+    textItem->setPos(p);
+    textItem->setFont(font);
+    emit textInserted(textItem);
+}
+
 //! [6]
 // scenePos xp=2156 yp=2396
 // m_ItemType = TrackPoint

@@ -8,6 +8,8 @@
 #                                                         #
 ###########################################################
 
+import traceback
+
 if __name__ != "__main__":
     import sim
     print(">>>>>>>>>>>>>>> Number of arguments", sim.numargs())
@@ -71,46 +73,51 @@ def load(filename):
     dic = json.loads(data)
     # print("********** load dic: ************")
     # print(dic)
-  except:
-    print("could not load " + filename)
-    return None
   
-  for i in dic["items"]:
-    # print("********** calling sim.create_item for item: ************")
-    # print(i)
-    sim.create_item(i["sim_id"], 
-                    i["type"],
-                    i["pos_x"],
-                    i["pos_y"],
-                    i["color_r"],
-                    i["color_g"],
-                    i["color_b"] )
-    
-  for seg in dic["segments"]:
-    print("********** calling sim.create_segments for seg: ************")
-    print(seg)
-    sim.create_segment(seg["sim_id"], 
-                    seg["type"],
-                    seg["pos_x"],
-                    seg["pos_y"],
-                    seg["color_r"],
-                    seg["color_g"],
-                    seg["color_b"],
-                    seg["startTrackPoint_id"],
-                    seg["endTrackPoint_id"],
-                    seg["startLightState"],
-                    seg["endLightState"])
+    for i in dic["items"]:
+      # print("********** calling sim.create_item for item: ************")
+      # print(i)
+      sim.create_item(i["sim_id"], 
+                      i["type"],
+                      i["pos_x"],
+                      i["pos_y"],
+                      i["color_r"],
+                      i["color_g"],
+                      i["color_b"] )
+      
+    for seg in dic["segments"]:
+      print("********** calling sim.create_segments for seg: ************")
+      print(seg)
+      sim.create_segment(seg["sim_id"], 
+                      seg["type"],
+                      seg["pos_x"],
+                      seg["pos_y"],
+                      seg["color_r"],
+                      seg["color_g"],
+                      seg["color_b"],
+                      seg["startTrackPoint_id"],
+                      seg["endTrackPoint_id"],
+                      seg["startLightState"],
+                      seg["endLightState"])
 
-    #sim.create_segment(1,"nice",3,4,5,6,7,8,9,10,11)
-    #sim.create_segment(1,3,4,5,6,7,8,9,10,11)
+    for seg in dic["texts"]:
+      print("********** calling sim.create_texts for seg: ************")
+      print(seg)
+      sim.create_text(seg["text"],
+                      seg["font_name"],
+                      seg["size"],
+                      seg["pos_x"],
+                      seg["pos_y"],
+                      seg["color_r"],
+                      seg["color_g"],
+                      seg["color_b"])
+  except:
+    print("Could not load " + filename)
+    print(traceback.format_exc())
+    return None
 
   return 1
-"""
-{'sim_id': 7, 'name': 'Segment', 'type': 'Segment', 'pos_x': 2275, 'pos_y': 2507,
- 'color_r': 0, 'color_g': 0, 'color_b': 0, 
- 'startTrackPoint_id': 6, 'endTrackPoint_id': 4, 'startLightState': 1, 'endLightState': 1}
 
-"""
 
 ## random tests
 if __name__ == "__main__":
