@@ -5,6 +5,7 @@
 #define DIAGRAMSCENE_H
 
 #include "diagramitem.h"
+#include "routeitem.h"
 #include "diagramtextitem.h"
 
 #include <QGraphicsScene>
@@ -28,7 +29,7 @@ class DiagramScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    enum Mode { InsertItem, InsertLine, InsertText, MoveItem, Simulating };
+    enum Mode { InsertItem, InsertLine, InsertText, MoveItem, InsertRoute, Simulating };
 
     explicit DiagramScene(QMenu *itemMenu, QObject *parent = nullptr);
     QFont font() const { return m_Font; }
@@ -79,6 +80,7 @@ private:
     QGraphicsLineItem *line;
     QFont m_Font;
     DiagramTextItem *textItem;
+    RouteItem *routeItem;
     QColor m_TextColor;
     QColor m_ItemColor;
     QColor m_LineColor;

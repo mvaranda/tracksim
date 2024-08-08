@@ -112,7 +112,7 @@ MainWindow::MainWindow()
     setCentralWidget(widget);
     setWindowTitle(tr("TrackSim - Ecobee Case-Study"));
     setUnifiedTitleAndToolBarOnMac(true);
-    //centerAndResize();
+    centerAndResize();
 
     // Get simulator
     // sim = Simulator::GetInstance();
@@ -172,6 +172,8 @@ void MainWindow::buttonGroupClicked(QAbstractButton *button)
         case InsertSegmentButton:
         case InsertTrainButton:
         case InsertRouteButton:
+            scene->setMode(DiagramScene::InsertRoute);
+            break;
         default:
             scene->setItemType(DiagramItem::DiagramType(id));
             scene->setMode(DiagramScene::InsertItem);
@@ -485,17 +487,17 @@ void MainWindow::createToolBox()
     layout->addWidget(textWidget, 0, 0);
 
     //------------ Segment Widget -------------
-    QToolButton *segmentButton = new QToolButton;
-    segmentButton->setCheckable(true);
-    buttonGroup->addButton(segmentButton, InsertTextButton);
-    segmentButton->setIcon(QIcon(QPixmap(":/images/segment.png")));
-    segmentButton->setIconSize(QSize(50, 50));
-    QGridLayout *segmentLayout = new QGridLayout;
-    segmentLayout->addWidget(segmentButton, 0, 0, Qt::AlignHCenter);
-    segmentLayout->addWidget(new QLabel(tr("Segment")), 1, 0, Qt::AlignCenter);
-    QWidget *segmentWiget = new QWidget;
-    segmentWiget->setLayout(segmentLayout);
-    layout->addWidget(segmentWiget, 1, 0);
+    // QToolButton *segmentButton = new QToolButton;
+    // segmentButton->setCheckable(true);
+    // buttonGroup->addButton(segmentButton, InsertTextButton);
+    // segmentButton->setIcon(QIcon(QPixmap(":/images/segment.png")));
+    // segmentButton->setIconSize(QSize(50, 50));
+    // QGridLayout *segmentLayout = new QGridLayout;
+    // segmentLayout->addWidget(segmentButton, 0, 0, Qt::AlignHCenter);
+    // segmentLayout->addWidget(new QLabel(tr("Segment")), 1, 0, Qt::AlignCenter);
+    // QWidget *segmentWiget = new QWidget;
+    // segmentWiget->setLayout(segmentLayout);
+    // layout->addWidget(segmentWiget, 1, 0);
 
     //------------ Train Widget -------------
     QToolButton *trainButton = new QToolButton;
@@ -513,7 +515,7 @@ void MainWindow::createToolBox()
     //------------ Route Widget -------------
     QToolButton *routeButton = new QToolButton;
     routeButton->setCheckable(true);
-    buttonGroup->addButton(routeButton, InsertTextButton);
+    buttonGroup->addButton(routeButton, InsertRouteButton);
     routeButton->setIcon(QIcon(QPixmap(":/images/route.png")));
     routeButton->setIconSize(QSize(50, 50));
     QGridLayout *routeLayout = new QGridLayout;
@@ -521,7 +523,7 @@ void MainWindow::createToolBox()
     routeLayout->addWidget(new QLabel(tr("Route")), 1, 0, Qt::AlignCenter);
     QWidget *routeWiget = new QWidget;
     routeWiget->setLayout(routeLayout);
-    layout->addWidget(routeWiget, 2, 0);
+    layout->addWidget(routeWiget, 1, 0);
 
     layout->setRowStretch(3, 10);
     layout->setColumnStretch(2, 10);
@@ -571,7 +573,6 @@ void MainWindow::createActions()
     toFrontAction->setShortcut(tr("Ctrl+F"));
     toFrontAction->setStatusTip(tr("Bring item to front"));
     connect(toFrontAction, &QAction::triggered, this, &MainWindow::bringToFront);
-//! [23]
 
     playAction = new QAction(QIcon(":/images/play.png"), tr("Start Simulation"), this);
     playAction->setShortcut(tr("Ctrl+S"));
@@ -638,7 +639,6 @@ void MainWindow::createActions()
     connect(aboutAction, &QAction::triggered, this, &MainWindow::about);
 }
 
-//! [24]
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
@@ -736,7 +736,8 @@ void MainWindow::createToolbars()
     pointerButton->setIcon(QIcon(":/images/pointer.png"));
     QToolButton *linePointerButton = new QToolButton;
     linePointerButton->setCheckable(true);
-    linePointerButton->setIcon(QIcon(":/images/linepointer.png"));
+    linePointerButton->setIcon(QIcon(":/images/segment.png"));
+    linePointerButton->setToolTip("Segment");
 
     pointerTypeGroup = new QButtonGroup(this);
     pointerTypeGroup->addButton(pointerButton, int(DiagramScene::MoveItem));
@@ -865,8 +866,8 @@ void MainWindow::centerAndResize() {
     int width = availableSize.width();
     int height = availableSize.height();
     qDebug() << "Available dimensions " << width << "x" << height;
-    width *= 0.9; // 90% of the screen size
-    height *= 0.9; // 90% of the screen size
+    width *= 0.75; // 75% of the screen size
+    height *= 0.7; // 70% of the screen size
     qDebug() << "Computed dimensions " << width << "x" << height;
     setMinimumSize(width,height);
 }

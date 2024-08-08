@@ -308,9 +308,6 @@ void DiagramScene::addText(text_t * txt)
     emit textInserted(textItem);
 }
 
-//! [6]
-// scenePos xp=2156 yp=2396
-// m_ItemType = TrackPoint
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (mouseEvent->button() != Qt::LeftButton)
@@ -325,6 +322,22 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                     m_ItemColor,
                     0);
             break;
+
+        case InsertRoute:
+            routeItem = new RouteItem(0);
+            // routeItem->setFont(m_Font);
+            // routeItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+            routeItem->setZValue(1000.0);
+            // connect(routeItem, &DiagramTextItem::lostFocus,
+            //         this, &DiagramScene::editorLostFocus);
+            // connect(textItem, &DiagramTextItem::selectedChange,
+            //         this, &DiagramScene::itemSelected);
+            addItem(routeItem);
+            // textItem->setDefaultTextColor(m_TextColor);
+            routeItem->setPos(mouseEvent->scenePos());
+            // emit textInserted(textItem);
+            break;
+
 //! [6] //! [7]
         case InsertLine:
             line = new QGraphicsLineItem(QLineF(mouseEvent->scenePos(),

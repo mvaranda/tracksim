@@ -23,6 +23,7 @@ qt_add_executable(tracksim
     diagramitem.cpp diagramitem.h
     diagramscene.cpp diagramscene.h
     diagramtextitem.cpp diagramtextitem.h
+    routeitem.cpp routeitem.h
     main.cpp
     mainwindow.cpp mainwindow.h
     store.cpp store.h
