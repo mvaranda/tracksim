@@ -260,6 +260,7 @@ void DiagramScene::saveItems(QString & name)
             color.getRgb(&t.color_r, &t.color_g, &t.color_b);
             QFont f = font();
             qDebug() << "Font size: " << f.pointSize() ;
+            t.size = f.pointSize();
             QString family = f.family();
             qDebug() << "Family: " << family;
             strncpy(t.font_name, family.toStdString().c_str(), sizeof(t.font_name) - 1);

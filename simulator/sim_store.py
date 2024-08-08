@@ -7,7 +7,7 @@
 #  License: GPL3                                          #
 #                                                         #
 ###########################################################
-
+import traceback
 
 DOC_START = """{
 """
@@ -67,6 +67,25 @@ SEGMENTS = """    {
       "startLightState": $START_LIGHT_STATE,
       "endLightState": $END_LIGHT_STATE
     }"""
+
+###
+TEXT_START = """  "texts": [
+"""
+TEXT_END = """
+  ]
+"""
+
+TEXTS = """    {
+      "text": "$TEXT",
+      "font_name": "$FONT_NAME",
+      "size": $SIZE,
+      "pos_x": $POS_X,
+      "pos_y": $POS_Y,
+      "color_r": $COLOR_R,
+      "color_g": $COLOR_G,
+      "color_b": $COLOR_B
+    }"""
+
 
 
 # stored format example:
@@ -180,7 +199,7 @@ SEGMENTS = """    {
 }
 """
 
-def store(filename, items, segs):
+def store(filename, items, segs, texts):
   try:
     f = open(filename, "w")
     f.write(DOC_START)
@@ -232,10 +251,38 @@ def store(filename, items, segs):
         t = t.replace("$END_LIGHT_STATE", str(i["endLightState"]))
         f.write(t)
       f.write(SEGMENTS_END)
+
+    print("texts:")
+    print(texts)
+
+    if len(texts) > 0:
+      if len(items) > 0 or len(segs) > 0:
+        f.write(",\n")
+      f.write(TEXT_START)
+      is_first = True
+      for i in texts:
+        if is_first == False:
+          f.write(",\n")
+        is_first = False
+        t = TEXTS
+        t = t.replace("$TEXT", i["text"])
+        t = t.replace("$FONT_NAME", i["font_name"])
+        t = t.replace("$SIZE", str(i["size"]))
+        t = t.replace("$POS_X", str(i["pos_x"]))
+        t = t.replace("$POS_Y", str(i["pos_y"]))
+        t = t.replace("$COLOR_R", str(i["color_r"]))
+        t = t.replace("$COLOR_G", str(i["color_g"]))
+        t = t.replace("$COLOR_B", str(i["color_b"]))
+        f.write(t)
+      f.write(TEXT_END)
+    else:
+      print("no texts")
+      f.write("no text")
     f.write(DOC_END)
     f.close()
   except:
     print("Could not save " + filename)
+    print(traceback.format_exc())
     return 0
   #all good
   return 1

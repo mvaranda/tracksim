@@ -52,7 +52,7 @@ def add_text(txt_dic):
     return len(gTexts)
 
 def save(filename):
-    return sim_store.store(filename, gItems, gSegments)
+    return sim_store.store(filename, gItems, gSegments, gTexts)
 
 # def load(filename):
 #     d = sim_store.load(filename)
