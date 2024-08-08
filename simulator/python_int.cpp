@@ -161,10 +161,11 @@ void simInt_destroy()
     }
     //Py_FinalizeEx();
 
-    //Py_DECREF(pModule);
-    //pModule = NULL;
+    Py_DECREF(pModule);
+    pModule = NULL;
+    Py_FinalizeEx();
 
-    // PyMem_RawFree(program);
+    //PyMem_RawFree(program_name);
 }
 
 bool simInt_init(const char * _program)
@@ -573,7 +574,7 @@ bool simInt_save(const char * file)
         }
     }
     Py_DECREF(pFunc);
-    Py_DECREF(pArgs);   
+//    Py_DECREF(pArgs);   
     Py_DECREF(filename); 
 
     return result;
@@ -581,7 +582,6 @@ bool simInt_save(const char * file)
 
 bool simInt_load(const char * file)
 {
-
     PyObject *pFunc, *pValue, *filename, *pArgs;
     bool result = false;
 
@@ -609,7 +609,7 @@ bool simInt_load(const char * file)
         }
     }
     Py_DECREF(pFunc);
-    Py_DECREF(pArgs);   
+//    Py_DECREF(pArgs);   
     Py_DECREF(filename); 
 
     return result;

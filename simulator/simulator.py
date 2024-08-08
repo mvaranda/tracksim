@@ -75,8 +75,8 @@ def load(filename):
     # print(dic)
   
     for i in dic["items"]:
-      # print("********** calling sim.create_item for item: ************")
-      # print(i)
+      print("********** calling sim.create_item for item: ************")
+      print(i)
       sim.create_item(i["sim_id"], 
                       i["type"],
                       i["pos_x"],
