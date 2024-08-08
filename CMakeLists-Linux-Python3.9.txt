@@ -16,7 +16,7 @@ add_compile_options(
     -I/usr/include/python3.9 -I/usr/include/python3.9  -Wno-unused-result -Wsign-compare
     -g -ffile-prefix-map=/build/python3.9-RNBry6/python3.9-3.9.2=.
     -specs=/usr/share/dpkg/no-pie-compile.specs -fstack-protector
-    -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall -fPIE)
+    -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O0 -Wall -fPIE)
 
 qt_add_executable(tracksim
     arrow.cpp arrow.h

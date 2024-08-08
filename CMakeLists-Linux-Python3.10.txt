@@ -61,6 +61,12 @@ set(tracksim_resource_files
     "images/sendtoback.png"
     "images/textpointer.png"
     "images/underline.png"
+    "images/play.png"
+    "images/stop.png"
+    "images/pause.png"
+    "images/train.png"
+    "images/segment.png"
+    "images/route.png"
 )
 
 target_include_directories(tracksim PRIVATE ./simulator
