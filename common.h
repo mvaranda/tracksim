@@ -6,6 +6,7 @@
 #define DIAG_ITEM_TYPE (QGraphicsPolygonItem::UserType + 15)
 #define TRAIN_ITEM_TYPE (QGraphicsPixmapItem::UserType + 16)
 
+
 typedef enum {  InsertItem, 
                 InsertLine, 
                 InsertText, 

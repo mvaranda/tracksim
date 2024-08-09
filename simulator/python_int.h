@@ -11,7 +11,12 @@
 
 #pragma once
 
+#define SIMULATOR_TIME_TICK  10  // 10 ticks per second
+#define TRAIN_DEFAULT_SPEED  5   // ticks per segment
+#define TRAIN_DEFAULT_START_TIME  5 // ticks
+
 #define MAX_NUM_SEGS_PER_TRACKPOINT 4
+#define NUM_MAX_SEGMENTS_PER_ROUTE  64
 
 typedef struct item_st {
   char      name[32];
@@ -52,6 +57,15 @@ typedef struct text_st {
   int       color_b;
 } text_t;
 
+typedef struct train_st {
+  int       sim_id;
+  int       pos_x;
+  int       pos_y;
+  int       speed;      // ticks/second
+  int       startTime;  // ticks
+  int       route_seg_ids[NUM_MAX_SEGMENTS_PER_ROUTE];
+} train_t;
+
 #ifdef __cplusplus
   extern "C" {
 #endif
@@ -61,6 +75,7 @@ void simInt_clearAll();
 bool simInt_addItem(item_t * item);
 bool simInt_addText(text_t * txt);
 bool simInt_addSegment(segment_t * seg);
+bool simInt_addTrain(train_t * train);
 
 void simInt_add(int x, int y);
 

@@ -376,6 +376,104 @@ bool simInt_addItem(item_t * item)
     return true;
 }
 
+//---------------- Train -------------------
+bool simInt_addTrain(train_t * train)
+{
+    int ret;
+    PyObject *pFunc, *pValue, *dic, *pArgs;
+
+    const char * func_name = "add_train";
+
+    // create a dictionary for the train
+    dic = PyDict_New();
+    if (!dic) {
+        LOG_E("could not create a dic for train\n");
+        return false;
+    }
+
+    // populate all fields
+    if (!add_long_to_dic(dic, "sim_id", train->sim_id)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "pos_x", train->pos_x)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "pos_y", train->pos_y)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "speed", train->pos_y)) {
+        Py_DECREF(dic);
+        return false;
+    }
+
+    PyObject * list = PyList_New(0);
+    int i = 0;
+    for (i = 0; i < NUM_MAX_SEGMENTS_PER_ROUTE; i++) {
+        if (train->route_seg_ids[i] == 0) 
+            break;
+
+        PyObject *value = PyLong_FromLong(train->route_seg_ids[i]);
+        if (!value) {
+            LOG_E("could not create a value %d\n", train->route_seg_ids[i]);
+            Py_DECREF(list);
+            Py_DECREF(dic);
+            return false;
+        }
+
+        ret = PyList_Insert(list, i, value);
+        if (ret) {
+            LOG_E("could not add id=%d to the route list", i);
+            Py_DECREF(list);
+            Py_DECREF(dic);
+            return false;
+        }
+        Py_DECREF(value);
+    }
+
+    if (i > 0) {
+        PyObject *key = PyUnicode_FromString("route");
+        if (!key) {
+            LOG_E("could not create a key for route");
+            Py_DECREF(list);
+            Py_DECREF(dic);
+            return false;
+        }
+        PyDict_SetItem(dic, key, list);
+        Py_DECREF(key);
+
+    }
+    Py_DECREF(list);
+
+
+    pArgs = PyTuple_New(1);
+    if (!pArgs) {
+        LOG_E("could not create args tuple\n");
+        Py_DECREF(dic);
+        return false;
+    }
+
+    PyTuple_SetItem(pArgs, 0, dic);
+
+    // call python function passing the dic as argument
+    pFunc = PyObject_GetAttrString(pModule, func_name);
+    if (pFunc && PyCallable_Check(pFunc)) {
+        pValue = PyObject_CallObject(pFunc, pArgs);
+        if (pValue != NULL) {
+            // LOG("Result of add_train call: %s\n", PyUnicode_AsUTF8(pValue)); //
+            LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
+            Py_DECREF(pValue);
+        }
+    }
+    Py_DECREF(pFunc);
+    Py_DECREF(pArgs);
+
+    return true;
+}
+
+//--------------- Segment ------------------
 
 bool simInt_addSegment(segment_t * seg)
 {

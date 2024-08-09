@@ -305,9 +305,26 @@ void DiagramScene::saveItems(QString & name)
             // *                            *
             // ******************************
             TrainItem * train_obj = qgraphicsitem_cast<TrainItem *>(item);
+            train_t train;
+            memset(&train, 0, sizeof(train));
+            train.sim_id = train_obj->GetSimItemID();
+            train.pos_x = train_obj->pos().x(); 
+            train.pos_y = train_obj->pos().y();
+            train.speed = TRAIN_DEFAULT_SPEED;
+            train.startTime = TRAIN_DEFAULT_START_TIME;
+            int i = 0;
+            foreach( Arrow *arrow, train_obj->arrows ) {
+                if (i >= NUM_MAX_SEGMENTS_PER_ROUTE) {
+                    qWarning() << "Train route has too many segments, max: " << NUM_MAX_SEGMENTS_PER_ROUTE;
+                    break;
+                }
+                train.route_seg_ids[i++] = arrow->GetSimItemID();
+            }
+            simInt_addTrain(&train);
         }
         else {
             qDebug() << "Item is unknown: " << item->type();
+
         }
 
     }

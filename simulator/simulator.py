@@ -53,6 +53,11 @@ def add_text(txt_dic):
     print(gTexts)
     return len(gTexts)
 
+def add_train(trains):
+   print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Train>>>>>>>>>>>>>>>>>>>>>>>>>:")
+   print(trains)
+   print(trains["route"])
+
 def save(filename):
     return sim_store.store(filename, gItems, gSegments, gTexts)
 
