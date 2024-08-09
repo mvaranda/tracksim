@@ -17,7 +17,7 @@ DiagramScene::DiagramScene(QMenu *itemMenu, QObject *parent)
     : QGraphicsScene(parent)
 {
     m_ItemMenu = itemMenu;
-    m_Mode = MoveItem;
+    setMode(MoveItem);
     m_ItemType = DiagramItem::Step;
     line = nullptr;
     textItem = nullptr;
@@ -80,6 +80,7 @@ void DiagramScene::setFont(const QFont &font)
 void DiagramScene::setMode(Mode mode)
 {
     m_Mode = mode;
+    setGMode(mode);
 }
 
 void DiagramScene::setItemType(DiagramItem::DiagramType type)
@@ -328,7 +329,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             routeItem->setZValue(1000.0);
             addItem(routeItem);
             routeItem->setPos(mouseEvent->scenePos());
-            m_Mode = EditingRoute; //MoveItem;
+            setMode(EditingRoute); //MoveItem;
             break;
 
         case EditingRoute:

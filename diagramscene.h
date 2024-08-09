@@ -7,6 +7,7 @@
 #include "diagramitem.h"
 #include "routeitem.h"
 #include "diagramtextitem.h"
+#include "common.h"
 
 #include <QGraphicsScene>
 #include "python_int.h"

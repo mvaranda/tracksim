@@ -4,6 +4,7 @@
 
 #include "arrow.h"
 #include "diagramitem.h"
+#include "common.h"
 
 #include <QPainter>
 #include <QPen>
@@ -218,4 +219,7 @@ QPointF Arrow::getEndPos() {
 void Arrow::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "Arrow mousePressEvent";
+    if (gMode == EditingRoute) {
+        showRoute = ! showRoute;
+    }
 }
