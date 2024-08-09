@@ -11,10 +11,11 @@
 #include <QDebug>
 #include "python_int.h"
 
-DiagramScene::DiagramScene(QMenu *itemMenu, QObject *parent)
+DiagramScene::DiagramScene(QMenu *itemMenu, QMenu *trainMenu, QObject *parent)
     : QGraphicsScene(parent)
 {
     m_ItemMenu = itemMenu;
+    m_TrainMenu = trainMenu;
     setMode(MoveItem);
     m_ItemType = DiagramItem::Step;
     line = nullptr;
@@ -297,6 +298,14 @@ void DiagramScene::saveItems(QString & name)
             strncpy(t.font_name, family.toStdString().c_str(), sizeof(t.font_name) - 1);
             simInt_addText(&t);
         }
+        else if (item->type() == TRAIN_ITEM_TYPE) {
+            // ******************************
+            // *                            *
+            // *          Train             *
+            // *                            *
+            // ******************************
+            TrainItem * train_obj = qgraphicsitem_cast<TrainItem *>(item);
+        }
         else {
             qDebug() << "Item is unknown: " << item->type();
         }
@@ -355,7 +364,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             break;
 
         case InsertTrain:
-            trainItem = new TrainItem(m_ItemMenu);
+            trainItem = new TrainItem(m_TrainMenu);
             trainItem->setZValue(1000.0);
             addItem(trainItem);
             trainItem->setPos(mouseEvent->scenePos());

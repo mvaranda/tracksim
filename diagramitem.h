@@ -7,6 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QList>
 #include "simitemid.h"
+#include "common.h"
 
 QT_BEGIN_NAMESPACE
 class QPixmap;
@@ -21,7 +22,7 @@ class Arrow;
 class DiagramItem : public QGraphicsPolygonItem, public SimItemID
 {
 public:
-    enum { Type = UserType + 15 };
+    enum { Type = DIAG_ITEM_TYPE };
     enum DiagramType { Step, Conditional, StartEnd, Io, TrackPoint };
 
     DiagramItem(DiagramType diagramType, QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);

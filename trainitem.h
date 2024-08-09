@@ -26,7 +26,7 @@ class TrainItem : public QObject, public QGraphicsPixmapItem, public SimItemID
     Q_OBJECT
 
 public:
-    enum { Type = UserType + 16 };
+    enum { Type = TRAIN_ITEM_TYPE };
     enum TrainType { Step, Conditional, StartEnd, Io, TrackPoint };
 
     TrainItem(QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);

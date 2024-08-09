@@ -6,12 +6,13 @@
 
 #include <QGraphicsTextItem>
 #include "simitemid.h"
+#include "common.h"
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
-#define TEXT_ITEM_TYPE (QGraphicsTextItem::UserType + 3)
+// #define TEXT_ITEM_TYPE (QGraphicsTextItem::UserType + 3)
 
 //! [0]
 class DiagramTextItem : public QGraphicsTextItem, public SimItemID

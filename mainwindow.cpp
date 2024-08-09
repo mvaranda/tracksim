@@ -91,7 +91,7 @@ MainWindow::MainWindow()
     createToolBox();
     createMenus();
 
-    scene = new DiagramScene(itemMenu, this);
+    scene = new DiagramScene(itemMenu, trainMenu, this);
     scene->setSceneRect(QRectF(0, 0, 5000, 5000));
     connect(scene, &DiagramScene::itemInserted,
             this, &MainWindow::itemInserted);
@@ -658,6 +658,10 @@ void MainWindow::createMenus()
 
     aboutMenu = menuBar()->addMenu(tr("&Help"));
     aboutMenu->addAction(aboutAction);
+
+
+    trainMenu = menuBar()->addMenu(tr("Train")); //myMenu.addAction("Menu Item 1");
+    trainMenu->addAction(deleteAction);
 }
 //! [24]
 

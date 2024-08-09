@@ -39,7 +39,7 @@ public:
                 EditingTrain,
                 Simulating };
 
-    explicit DiagramScene(QMenu *itemMenu, QObject *parent = nullptr);
+    explicit DiagramScene(QMenu *itemMenu, QMenu *trainMenu, QObject *parent = nullptr);
     QFont font() const { return m_Font; }
     QColor textColor() const { return m_TextColor; }
     QColor itemColor() const { return m_ItemColor; }
@@ -78,6 +78,7 @@ protected:
 
 public:
     QMenu *m_ItemMenu;
+    QMenu *m_TrainMenu;
 
 private:
     bool isItemChange(int type) const;

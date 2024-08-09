@@ -10,9 +10,10 @@
 #include <QPen>
 #include <QtMath>
 
+// Colors demo: https://doc.qt.io/qt-6/qml-color.html
 #define SELECTED_COLOR Qt::cyan
-#define ROUTE_COLOR Qt::blue
-#define HAS_TRAIN_COLOR Qt::red
+#define ROUTE_COLOR Qt::green //QColorConstants::Svg::blueviolet //Qt::blue
+#define HAS_TRAIN_COLOR Qt::blue
 
 Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphicsItem *parent)
     : QGraphicsLineItem(parent), 

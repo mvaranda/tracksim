@@ -6,6 +6,7 @@
 
 #include <QGraphicsLineItem>
 #include "simitemid.h"
+#include "common.h"
 
 class DiagramItem;
 
@@ -13,7 +14,7 @@ class DiagramItem;
 class Arrow : public QGraphicsLineItem, public SimItemID
 {
 public:
-    enum { Type = UserType + 4 };
+    enum { Type = ARROW_ITEM_TYPE };
     enum TrafficLight { noLight, GreenLight, RedLight};
 
     Arrow(DiagramItem *startItem, DiagramItem *endItem,  int sim_id = 0,
