@@ -19,9 +19,9 @@ Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphics
         SimItemID(sim_id),
         m_StartItem(startItem), 
         m_EndItem(endItem), 
-        trafficLightEnd(TrafficLight::GreenLight),
-        trafficLightStart(TrafficLight::GreenLight),
-        showRoute(false),
+        trafficLightEnd(TrafficLight::noLight), // GreenLight),
+        trafficLightStart(TrafficLight::noLight), //GreenLight),
+        showTrain(false),
         hasTrain(false)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -77,6 +77,8 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
         p1 = p2;
     }
 
+    setLine(QLineF(intersectPoint, m_StartItem->pos()));
+    painter->drawLine(line());
 
     if (trafficLightEnd == TrafficLight::RedLight) {
         painter->setPen(Qt::red);
@@ -101,18 +103,20 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
         painter->drawPolygon(arrowHead);
     }
 
-    if (showRoute || hasTrain) {
-        painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 8, Qt::SolidLine));
-        QLineF m_Line = line();
-        m_Line.translate(0, 4.0);
-        painter->drawLine(m_Line);
-        m_Line.translate(0,-8.0);
-        painter->drawLine(m_Line);
-        return;        
-    }
+    // if (showTrain || hasTrain) {
+    //     painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 8, Qt::SolidLine));
+    //     QLineF m_Line = line();
+    //     m_Line.translate(0, 4.0);
+    //     painter->drawLine(m_Line);
+    //     m_Line.translate(0,-8.0);
+    //     painter->drawLine(m_Line);
+    //     return;        
+    // }
 
-        setLine(QLineF(intersectPoint, m_StartItem->pos()));
-        painter->drawLine(line());
+    // setLine(QLineF(intersectPoint, m_StartItem->pos()));
+    // painter->drawLine(line());
+
+
 
     if (isSelected()) {
         painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
@@ -127,6 +131,16 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
 
     // draw reverse track
     paint_reverse(painter, _style, _widget);
+
+    if (showTrain || hasTrain) {
+        painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 8, Qt::SolidLine));
+        QLineF m_Line = line();
+        m_Line.translate(0, 4.0);
+        painter->drawLine(m_Line);
+        m_Line.translate(0,-8.0);
+        painter->drawLine(m_Line);
+        return;        
+    }
                   
 }
 
@@ -160,7 +174,7 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
     setLine(QLineF(intersectPoint, m_EndItem->pos()));
         painter->drawLine(line());
 
-    if (trafficLightEnd == TrafficLight::RedLight) {
+    if (trafficLightStart == TrafficLight::RedLight) {
         painter->setPen(Qt::red);
         painter->setBrush(Qt::red);
     }
@@ -169,7 +183,7 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
         painter->setBrush(Qt::green);
     }
 
-    if (trafficLightEnd != TrafficLight::noLight) {
+    if (trafficLightStart != TrafficLight::noLight) {
         arrowHead.clear();
         arrowHead << line().p1();
         int i;
@@ -205,7 +219,7 @@ QPointF Arrow::getEndPos() {
 void Arrow::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "Arrow mousePressEvent";
-    if (gMode == EditingRoute) {
-        showRoute = ! showRoute;
+    if (gMode == EditingTrain) {
+        showTrain = ! showTrain;
     }
 }

@@ -5,8 +5,8 @@ typedef enum {  InsertItem,
                 InsertLine, 
                 InsertText, 
                 MoveItem, 
-                InsertRoute,
-                EditingRoute,
+                InsertTrain,
+                EditingTrain,
                 Simulating } gMode_t;
 
 extern gMode_t gMode;

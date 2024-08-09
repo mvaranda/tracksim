@@ -14,8 +14,8 @@ void setGMode(int m)
     case DiagramScene::Mode::InsertLine: gMode = InsertLine; break;
     case DiagramScene::Mode::InsertText: gMode = InsertText; break;
     case DiagramScene::Mode::MoveItem: gMode = MoveItem; break;
-    case DiagramScene::Mode::InsertRoute: gMode = InsertRoute; break;
-    case DiagramScene::Mode::EditingRoute: gMode = EditingRoute; break;
+    case DiagramScene::Mode::InsertTrain: gMode = InsertTrain; break;
+    case DiagramScene::Mode::EditingTrain: gMode = EditingTrain; break;
     case DiagramScene::Mode::Simulating: gMode = Simulating; break;
     default:
       qWarning() << "setGMode: Bad DiagramScene::Mode";

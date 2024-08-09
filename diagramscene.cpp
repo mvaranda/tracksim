@@ -101,30 +101,30 @@ void DiagramScene::editorLostFocus(DiagramTextItem *item)
 void DiagramScene::routingHasStarted(QGraphicsItem *_item)
 {
     qDebug("got routingHasStarted Signal");
-    // RouteItem *routeitem = qgraphicsitem_cast<RouteItem *>(_item);
+    // TrainItem *trainitem = qgraphicsitem_cast<TrainItem *>(_item);
     // foreach( QGraphicsItem *it, items() ) {
     //     if (it->type() == Arrow::Type) {
     //         Arrow *arrow = qgraphicsitem_cast<Arrow *>(it);
-    //         if (arrow->showRoute) {
-    //             routeitem->addArrow(arrow);
-    //             arrow->showRoute = false;
+    //         if (arrow->showTrain) {
+    //             trainitem->addArrow(arrow);
+    //             arrow->showTrain = false;
     //         }
     //     }
     // }
-    setMode(EditingRoute);
+    setMode(EditingTrain);
     invalidate();
 }
 
 void DiagramScene::routingHasEnded(QGraphicsItem *_item)
 {
     qDebug("got routingHasEnded Signal");
-    RouteItem *routeitem = qgraphicsitem_cast<RouteItem *>(_item);
+    TrainItem *trainitem = qgraphicsitem_cast<TrainItem *>(_item);
     foreach( QGraphicsItem *it, items() ) {
         if (it->type() == Arrow::Type) {
             Arrow *arrow = qgraphicsitem_cast<Arrow *>(it);
-            if (arrow->showRoute) {
-                routeitem->addArrow(arrow);
-                arrow->showRoute = false;
+            if (arrow->showTrain) {
+                trainitem->addArrow(arrow);
+                arrow->showTrain = false;
             }
         }
     }
@@ -354,23 +354,23 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                     0);
             break;
 
-        case InsertRoute:
-            routeItem = new RouteItem(m_ItemMenu);
-            routeItem->setZValue(1000.0);
-            addItem(routeItem);
-            routeItem->setPos(mouseEvent->scenePos());
-            setMode(EditingRoute); //MoveItem;
+        case InsertTrain:
+            trainItem = new TrainItem(m_ItemMenu);
+            trainItem->setZValue(1000.0);
+            addItem(trainItem);
+            trainItem->setPos(mouseEvent->scenePos());
+            setMode(EditingTrain); //MoveItem;
 
-            connect(routeItem, &RouteItem::routingEnded,
+            connect(trainItem, &TrainItem::routingEnded,
                     this, &DiagramScene::routingHasEnded);
-            connect(routeItem, &RouteItem::routingStarted,
+            connect(trainItem, &TrainItem::routingStarted,
                     this, &DiagramScene::routingHasStarted);
-            routes.append(routeItem);
+            trains.append(trainItem);
 
             break;
 
-        case EditingRoute:
-            qDebug() << "Editing route";
+        case EditingTrain:
+            qDebug() << "Editing train";
             // {
             //     QList s = selectedItems();
             //     if (s.count() > 0) {
@@ -378,7 +378,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
             //         if (s[0]->type() == Arrow::Type) {
             //             Arrow *arrow = qgraphicsitem_cast<Arrow *>(s[0]);
-            //             arrow->showRoute = !arrow->showRoute;
+            //             arrow->showTrain = !arrow->showTrain;
             //         }
 
             //     }

@@ -37,7 +37,7 @@ public:
     QPointF getStartPos();
     QPointF getEndPos();
 
-    bool showRoute;
+    bool showTrain;
     bool hasTrain;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

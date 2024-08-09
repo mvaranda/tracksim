@@ -1,7 +1,7 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#include "routeitem.h"
+#include "trainitem.h"
 //#include "arrow.h"
 
 #include <QGraphicsScene>
@@ -12,23 +12,23 @@
 
 #define TRACK_POINT_CIRCLE_SIZE 20.0
 
-int RouteItem::route_cnt = 0;
+int TrainItem::train_cnt = 0;
 
-RouteItem::RouteItem(QMenu *contextMenu, int sim_id,
+TrainItem::TrainItem(QMenu *contextMenu, int sim_id,
                          QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent), 
     SimItemID(sim_id),
     m_ContextMenu(contextMenu)
 {
-    router_number = ++route_cnt;
+    trainr_number = ++train_cnt;
     setEditing(true);
-    //QPixmap img(":/images/route.png");
-    // QPixmap img(":/images/route_editing.png");
+    //QPixmap img(":/images/train.png");
+    // QPixmap img(":/images/train_editing.png");
     // QPixmap _img = img.scaled(QSize(60,60));
     // setPixmap(_img);
 
-    QString t = "Route ";
-    t += QString::number(router_number);
+    QString t = "Train ";
+    t += QString::number(trainr_number);
     txtItem = new QGraphicsTextItem(t, this);
     txtItem->setPos(0,56);
     QFont f = txtItem->font();
@@ -40,14 +40,14 @@ RouteItem::RouteItem(QMenu *contextMenu, int sim_id,
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
-void RouteItem::setEditing(bool ed)
+void TrainItem::setEditing(bool ed)
 {
     QPixmap img;
     if (ed) {
-        img = QPixmap(":/images/route_editing.png");
+        img = QPixmap(":/images/train_editing.png");
     }
     else {
-        img = QPixmap(":/images/route.png");
+        img = QPixmap(":/images/train.png");
     }
 
     QPixmap _img = img.scaled(QSize(60,60));
@@ -55,24 +55,24 @@ void RouteItem::setEditing(bool ed)
     editing = ed;
 }
 
-void RouteItem::removeArrows()
+void TrainItem::removeArrows()
 {
     arrows.clear();
 }
 
-void RouteItem::addArrow(Arrow *arrow)
+void TrainItem::addArrow(Arrow *arrow)
 {
     arrows.append(arrow);
 }
 
-void RouteItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void TrainItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     scene()->clearSelection();
     setSelected(true);
     m_ContextMenu->popup(event->screenPos());
 }
 
-QVariant RouteItem::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant TrainItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemPositionChange) {
         // for (Arrow *arrow : std::as_const(arrows))
@@ -82,7 +82,7 @@ QVariant RouteItem::itemChange(GraphicsItemChange change, const QVariant &value)
     return value;
 }
 
-void RouteItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void TrainItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (editing) {
         setEditing(false);
@@ -90,10 +90,10 @@ void RouteItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void RouteItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void TrainItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "Double click";
-    if (editing || gMode == ::EditingRoute) {
+    if (editing || gMode == ::EditingTrain) {
         // already editing
         qDebug("Already editing");
         return;
@@ -101,7 +101,7 @@ void RouteItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     
     setEditing(true);
     foreach( Arrow *arrow, arrows ) {
-        arrow->showRoute = true;
+        arrow->showTrain = true;
     }
     arrows.clear();
     emit routingStarted(this);

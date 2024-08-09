@@ -15,7 +15,7 @@
 const int InsertTextButton = 10;
 const int InsertSegmentButton = 11;
 const int InsertTrainButton = 12;
-const int InsertRouteButton = 13;
+const int InsertLightButton = 13;
 
 static MainWindow * MainWindow_instance = 0;
 
@@ -159,8 +159,8 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 //! [2]
 void MainWindow::buttonGroupClicked(QAbstractButton *button)
 {
-    if (gMode == EditingRoute) {
-        qDebug() << "ignore button (in route edit mode)";
+    if (gMode == EditingTrain) {
+        qDebug() << "ignore button (in train edit mode)";
         return;
     }
     if (gMode == Simulating) {
@@ -181,8 +181,8 @@ void MainWindow::buttonGroupClicked(QAbstractButton *button)
             break;
         case InsertSegmentButton:
         case InsertTrainButton:
-        case InsertRouteButton:
-            scene->setMode(DiagramScene::InsertRoute);
+        case InsertLightButton:
+            scene->setMode(DiagramScene::InsertTrain);
             break;
         default:
             scene->setItemType(DiagramItem::DiagramType(id));
@@ -497,10 +497,23 @@ void MainWindow::createToolBox()
     // segmentWiget->setLayout(segmentLayout);
     // layout->addWidget(segmentWiget, 1, 0);
 
+    //------------ Light Widget -------------
+    QToolButton *lightButton = new QToolButton;
+    lightButton->setCheckable(true);
+    buttonGroup->addButton(lightButton, InsertLightButton);
+    lightButton->setIcon(QIcon(QPixmap(":/images/light.png")));
+    lightButton->setIconSize(QSize(50, 50));
+    QGridLayout *lightLayout = new QGridLayout;
+    lightLayout->addWidget(lightButton, 0, 0, Qt::AlignHCenter);
+    lightLayout->addWidget(new QLabel(tr("Light")), 1, 0, Qt::AlignCenter);
+    QWidget *lightWiget = new QWidget;
+    lightWiget->setLayout(lightLayout);
+    layout->addWidget(lightWiget, 1, 0);
+
     //------------ Train Widget -------------
     QToolButton *trainButton = new QToolButton;
     trainButton->setCheckable(true);
-    buttonGroup->addButton(trainButton, InsertTextButton);
+    buttonGroup->addButton(trainButton, InsertTrainButton);
     trainButton->setIcon(QIcon(QPixmap(":/images/train.png")));
     trainButton->setIconSize(QSize(50, 50));
     QGridLayout *trainLayout = new QGridLayout;
@@ -509,19 +522,6 @@ void MainWindow::createToolBox()
     QWidget *trainWiget = new QWidget;
     trainWiget->setLayout(trainLayout);
     layout->addWidget(trainWiget, 1, 1);
-
-    //------------ Route Widget -------------
-    QToolButton *routeButton = new QToolButton;
-    routeButton->setCheckable(true);
-    buttonGroup->addButton(routeButton, InsertRouteButton);
-    routeButton->setIcon(QIcon(QPixmap(":/images/route.png")));
-    routeButton->setIconSize(QSize(50, 50));
-    QGridLayout *routeLayout = new QGridLayout;
-    routeLayout->addWidget(routeButton, 0, 0, Qt::AlignHCenter);
-    routeLayout->addWidget(new QLabel(tr("Route")), 1, 0, Qt::AlignCenter);
-    QWidget *routeWiget = new QWidget;
-    routeWiget->setLayout(routeLayout);
-    layout->addWidget(routeWiget, 1, 0);
 
     layout->setRowStretch(3, 10);
     layout->setColumnStretch(2, 10);

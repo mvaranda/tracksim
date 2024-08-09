@@ -6,7 +6,7 @@
 
 #include "common.h"
 #include "diagramitem.h"
-#include "routeitem.h"
+#include "trainitem.h"
 #include "diagramtextitem.h"
 
 
@@ -35,8 +35,8 @@ public:
                 InsertLine, 
                 InsertText, 
                 MoveItem, 
-                InsertRoute,
-                EditingRoute,
+                InsertTrain,
+                EditingTrain,
                 Simulating };
 
     explicit DiagramScene(QMenu *itemMenu, QObject *parent = nullptr);
@@ -90,11 +90,11 @@ private:
     QGraphicsLineItem *line;
     QFont m_Font;
     DiagramTextItem *textItem;
-    RouteItem *routeItem;
+    TrainItem *trainItem;
     QColor m_TextColor;
     QColor m_ItemColor;
     QColor m_LineColor;
-    QList <RouteItem *> routes;
+    QList <TrainItem *> trains;
 };
 //! [0]
 

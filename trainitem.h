@@ -21,19 +21,19 @@ QT_END_NAMESPACE
 //class Arrow;
 
 //! [0]
-class RouteItem : public QObject, public QGraphicsPixmapItem, public SimItemID
+class TrainItem : public QObject, public QGraphicsPixmapItem, public SimItemID
 {
     Q_OBJECT
 
 public:
     enum { Type = UserType + 16 };
-    enum RouteType { Step, Conditional, StartEnd, Io, TrackPoint };
+    enum TrainType { Step, Conditional, StartEnd, Io, TrackPoint };
 
-    RouteItem(QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);
+    TrainItem(QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);
 
     // void removeArrow(Arrow *arrow);
     void removeArrows();
-    // RouteType diagramType() const { return RouteItemType; }
+    // TrainType diagramType() const { return TrainItemType; }
     // QPolygonF polygon() const { return m_Polygon; }
     void addArrow(Arrow *arrow);
     // QPixmap image() const;
@@ -46,7 +46,7 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-    RouteType RouteItemType;
+    TrainType TrainItemType;
     bool editing;
     QList<Arrow *> arrows;
 
@@ -60,8 +60,8 @@ private:
     QColor m_Color;
     QString text;
     QGraphicsTextItem * txtItem;
-    int router_number;
-    static int route_cnt;
+    int trainr_number;
+    static int train_cnt;
 
 signals:
     void routingStarted(QGraphicsItem *item);
