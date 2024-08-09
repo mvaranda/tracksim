@@ -328,7 +328,26 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             routeItem->setZValue(1000.0);
             addItem(routeItem);
             routeItem->setPos(mouseEvent->scenePos());
-            m_Mode = MoveItem;
+            m_Mode = EditingRoute; //MoveItem;
+            break;
+
+        case EditingRoute:
+            qDebug() << "Editing route";
+            // {
+            //     QList s = selectedItems();
+            //     if (s.count() > 0) {
+            //         qDebug() << "type: " << s[0]->type();
+
+            //         if (s[0]->type() == Arrow::Type) {
+            //             Arrow *arrow = qgraphicsitem_cast<Arrow *>(s[0]);
+            //             arrow->showRoute = !arrow->showRoute;
+            //         }
+
+            //     }
+            //     else {
+            //         qDebug() << "no selection";
+            //     }
+            // }
             break;
 
 //! [6] //! [7]

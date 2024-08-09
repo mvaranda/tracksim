@@ -10,6 +10,8 @@
 #include <QtMath>
 
 #define SELECTED_COLOR Qt::cyan
+#define ROUTE_COLOR Qt::blue
+#define HAS_TRAIN_COLOR Qt::red
 
 //! [0]
 Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphicsItem *parent)
@@ -18,7 +20,9 @@ Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphics
         m_StartItem(startItem), 
         m_EndItem(endItem), 
         trafficLightEnd(TrafficLight::GreenLight),
-        trafficLightStart(TrafficLight::GreenLight)
+        trafficLightStart(TrafficLight::GreenLight),
+        showRoute(false),
+        hasTrain(false)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(m_Color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
@@ -82,8 +86,8 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
         p1 = p2;
     }
 
-    setLine(QLineF(intersectPoint, m_StartItem->pos()));
-        painter->drawLine(line());
+    // setLine(QLineF(intersectPoint, m_StartItem->pos()));
+    //     painter->drawLine(line());
 
     if (trafficLightEnd == TrafficLight::RedLight) {
         painter->setPen(Qt::red);
@@ -107,6 +111,19 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
         }
         painter->drawPolygon(arrowHead);
     }
+
+    if (showRoute || hasTrain) {
+        painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 8, Qt::SolidLine));
+        QLineF m_Line = line();
+        m_Line.translate(0, 4.0);
+        painter->drawLine(m_Line);
+        m_Line.translate(0,-8.0);
+        painter->drawLine(m_Line);
+        return;        
+    }
+
+        setLine(QLineF(intersectPoint, m_StartItem->pos()));
+        painter->drawLine(line());
 
     if (isSelected()) {
         painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
@@ -191,9 +208,14 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
     }
 }
 
-    QPointF Arrow::getStartPos() {
-        return m_StartItem->pos();
-    }
-    QPointF Arrow::getEndPos() {
-        return m_EndItem->pos();
-    }
+QPointF Arrow::getStartPos() {
+    return m_StartItem->pos();
+}
+QPointF Arrow::getEndPos() {
+    return m_EndItem->pos();
+}
+
+void Arrow::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << "Arrow mousePressEvent";
+}

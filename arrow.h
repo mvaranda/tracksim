@@ -37,6 +37,11 @@ public:
     QPointF getStartPos();
     QPointF getEndPos();
 
+    bool showRoute;
+    bool hasTrain;
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
@@ -47,6 +52,7 @@ private:
     QPolygonF arrowHead;
     QColor m_Color = Qt::black;
     void paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+
 };
 //! [0]
 
