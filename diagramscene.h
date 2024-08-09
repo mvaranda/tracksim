@@ -94,6 +94,7 @@ private:
     QColor m_TextColor;
     QColor m_ItemColor;
     QColor m_LineColor;
+    QList <RouteItem *> routes;
 };
 //! [0]
 

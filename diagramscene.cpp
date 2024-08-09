@@ -11,8 +11,6 @@
 #include <QDebug>
 #include "python_int.h"
 
-
-//! [0]
 DiagramScene::DiagramScene(QMenu *itemMenu, QObject *parent)
     : QGraphicsScene(parent)
 {
@@ -25,9 +23,7 @@ DiagramScene::DiagramScene(QMenu *itemMenu, QObject *parent)
     m_TextColor = Qt::black;
     m_LineColor = Qt::black;
 }
-//! [0]
 
-//! [1]
 void DiagramScene::setLineColor(const QColor &color)
 {
     m_LineColor = color;
@@ -359,7 +355,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             break;
 
         case InsertRoute:
-            routeItem = new RouteItem(0);
+            routeItem = new RouteItem(m_ItemMenu);
             routeItem->setZValue(1000.0);
             addItem(routeItem);
             routeItem->setPos(mouseEvent->scenePos());
@@ -369,6 +365,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                     this, &DiagramScene::routingHasEnded);
             connect(routeItem, &RouteItem::routingStarted,
                     this, &DiagramScene::routingHasStarted);
+            routes.append(routeItem);
 
             break;
 

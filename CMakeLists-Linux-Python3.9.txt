@@ -26,6 +26,7 @@ qt_add_executable(tracksim
     routeitem.cpp routeitem.h
     main.cpp
     mainwindow.cpp mainwindow.h
+    common.cpp common.h
     store.cpp store.h
     simulator/python_int.cpp
     simulator/simitemid.cpp
@@ -68,6 +69,7 @@ set(tracksim_resource_files
     "images/train.png"
     "images/segment.png"
     "images/route.png"
+    "images/route_editing.png"
 )
 
 target_include_directories(tracksim PRIVATE ./simulator
