@@ -7,6 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QList>
 #include "simitemid.h"
+#include "arrow.h"
 
 QT_BEGIN_NAMESPACE
 class QPixmap;
@@ -29,10 +30,10 @@ public:
     RouteItem(QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);
 
     // void removeArrow(Arrow *arrow);
-    // void removeArrows();
+    void removeArrows();
     // RouteType diagramType() const { return RouteItemType; }
     // QPolygonF polygon() const { return m_Polygon; }
-    // void addArrow(Arrow *arrow);
+    void addArrow(Arrow *arrow);
     // QPixmap image() const;
     int type() const override { return Type; }
     void setColor(const QColor &color) { m_Color = color; }
@@ -45,7 +46,7 @@ public:
 
     RouteType RouteItemType;
     bool editing;
-//    QList<Arrow *> arrows;
+    QList<Arrow *> arrows;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;

@@ -63,24 +63,16 @@ void RouteItem::setEditing(bool ed)
 // }
 
 
-// void RouteItem::removeArrows()
-// {
-//     // need a copy here since removeArrow() will
-//     // modify the arrows container
-//     const auto arrowsCopy = arrows;
-//     for (Arrow *arrow : arrowsCopy) {
-//         arrow->startItem()->removeArrow(arrow);
-//         arrow->endItem()->removeArrow(arrow);
-//         scene()->removeItem(arrow);
-//         delete arrow;
-//     }
-// }
+void RouteItem::removeArrows()
+{
+    arrows.clear();
+}
 
 
-// void RouteItem::addArrow(Arrow *arrow)
-// {
-//     arrows.append(arrow);
-// }
+void RouteItem::addArrow(Arrow *arrow)
+{
+    arrows.append(arrow);
+}
 
 
 void RouteItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
