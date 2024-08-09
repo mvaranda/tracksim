@@ -4,10 +4,11 @@
 #ifndef DIAGRAMSCENE_H
 #define DIAGRAMSCENE_H
 
+#include "common.h"
 #include "diagramitem.h"
 #include "routeitem.h"
 #include "diagramtextitem.h"
-#include "common.h"
+
 
 #include <QGraphicsScene>
 #include "python_int.h"
@@ -62,6 +63,7 @@ public slots:
     void setMode(Mode mode);
     void setItemType(DiagramItem::DiagramType type);
     void editorLostFocus(DiagramTextItem *item);
+    void routingHasStarted(QGraphicsItem *item);
     void routingHasEnded(QGraphicsItem *item);
 
 signals:

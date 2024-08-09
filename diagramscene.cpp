@@ -102,6 +102,23 @@ void DiagramScene::editorLostFocus(DiagramTextItem *item)
 }
 //! [5]
 
+void DiagramScene::routingHasStarted(QGraphicsItem *_item)
+{
+    qDebug("got routingHasStarted Signal");
+    // RouteItem *routeitem = qgraphicsitem_cast<RouteItem *>(_item);
+    // foreach( QGraphicsItem *it, items() ) {
+    //     if (it->type() == Arrow::Type) {
+    //         Arrow *arrow = qgraphicsitem_cast<Arrow *>(it);
+    //         if (arrow->showRoute) {
+    //             routeitem->addArrow(arrow);
+    //             arrow->showRoute = false;
+    //         }
+    //     }
+    // }
+    setMode(EditingRoute);
+    invalidate();
+}
+
 void DiagramScene::routingHasEnded(QGraphicsItem *_item)
 {
     qDebug("got routingHasEnded Signal");
@@ -116,6 +133,7 @@ void DiagramScene::routingHasEnded(QGraphicsItem *_item)
         }
     }
     setMode(MoveItem);
+    invalidate();
 }
 
 void DiagramScene::loadScene(QString data)
@@ -348,7 +366,9 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             setMode(EditingRoute); //MoveItem;
 
             connect(routeItem, &RouteItem::routingEnded,
-            this, &DiagramScene::routingHasEnded);
+                    this, &DiagramScene::routingHasEnded);
+            connect(routeItem, &RouteItem::routingStarted,
+                    this, &DiagramScene::routingHasStarted);
 
             break;
 

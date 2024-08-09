@@ -8,6 +8,7 @@
 #include <QList>
 #include "simitemid.h"
 #include "arrow.h"
+#include "common.h"
 
 QT_BEGIN_NAMESPACE
 class QPixmap;
@@ -62,6 +63,7 @@ private:
     static int route_cnt;
 
 signals:
+    void routingStarted(QGraphicsItem *item);
     void routingEnded(QGraphicsItem *item);
 
 };

@@ -14,7 +14,6 @@
 
 int RouteItem::route_cnt = 0;
 
-//! [0]
 RouteItem::RouteItem(QMenu *contextMenu, int sim_id,
                          QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent), 
@@ -56,24 +55,15 @@ void RouteItem::setEditing(bool ed)
     editing = ed;
 }
 
-
-// void RouteItem::removeArrow(Arrow *arrow)
-// {
-//     arrows.removeAll(arrow);
-// }
-
-
 void RouteItem::removeArrows()
 {
     arrows.clear();
 }
 
-
 void RouteItem::addArrow(Arrow *arrow)
 {
     arrows.append(arrow);
 }
-
 
 void RouteItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
@@ -102,6 +92,18 @@ void RouteItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void RouteItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-
+    qDebug() << "Double click";
+    if (editing || gMode == ::EditingRoute) {
+        // already editing
+        qDebug("Already editing");
+        return;
+    }
+    
+    setEditing(true);
+    foreach( Arrow *arrow, arrows ) {
+        arrow->showRoute = true;
+    }
+    arrows.clear();
+    emit routingStarted(this);
 }
 

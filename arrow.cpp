@@ -14,7 +14,6 @@
 #define ROUTE_COLOR Qt::blue
 #define HAS_TRAIN_COLOR Qt::red
 
-//! [0]
 Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphicsItem *parent)
     : QGraphicsLineItem(parent), 
         SimItemID(sim_id),
@@ -28,9 +27,7 @@ Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphics
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(m_Color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 }
-//! [0]
 
-//! [1]
 QRectF Arrow::boundingRect() const
 {
     qreal extra = (pen().width() + 20) / 2.0;
@@ -40,26 +37,20 @@ QRectF Arrow::boundingRect() const
         .normalized()
         .adjusted(-extra, -extra, extra, extra);
 }
-//! [1]
 
-//! [2]
 QPainterPath Arrow::shape() const
 {
     QPainterPath path = QGraphicsLineItem::shape();
     path.addPolygon(arrowHead);
     return path;
 }
-//! [2]
 
-//! [3]
 void Arrow::updatePosition()
 {
     QLineF line(mapFromItem(m_StartItem, 0, 0), mapFromItem(m_EndItem, 0, 0));
     setLine(line);
 }
-//! [3]
 
-//! [4]
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QWidget * _widget)
 {
     if (m_StartItem->collidesWithItem(m_EndItem))
@@ -70,7 +61,6 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
     qreal arrowSize = 20;
     painter->setPen(m_Pen);
     painter->setBrush(m_Color);
-//! [4] //! [5]
 
 
     QLineF centerLine(m_StartItem->pos(), m_EndItem->pos());
@@ -87,8 +77,6 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
         p1 = p2;
     }
 
-    // setLine(QLineF(intersectPoint, m_StartItem->pos()));
-    //     painter->drawLine(line());
 
     if (trafficLightEnd == TrafficLight::RedLight) {
         painter->setPen(Qt::red);
@@ -98,7 +86,7 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
         painter->setPen(Qt::green);
         painter->setBrush(Qt::green);
     }
-//! [5] //! [6]
+
     if (trafficLightEnd != TrafficLight::noLight) {
         arrowHead.clear();
         arrowHead << line().p1();
@@ -141,7 +129,6 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
     paint_reverse(painter, _style, _widget);
                   
 }
-//! [7]
 
 void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
                   QWidget *)
@@ -154,7 +141,6 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
     qreal arrowSize = 20;
     painter->setPen(m_Pen);
     painter->setBrush(m_Color);
-//! [4] //! [5]
 
 
     QLineF centerLine(m_EndItem->pos(), m_StartItem->pos());
@@ -182,7 +168,7 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
         painter->setPen(Qt::green);
         painter->setBrush(Qt::green);
     }
-//! [5] //! [6]
+
     if (trafficLightEnd != TrafficLight::noLight) {
         arrowHead.clear();
         arrowHead << line().p1();

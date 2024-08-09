@@ -1,8 +1,5 @@
 
 #pragma once 
-#include "diagramscene.h"
-
-// mirror of DiagramScene::Mode
 
 typedef enum {  InsertItem, 
                 InsertLine, 

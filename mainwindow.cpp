@@ -159,12 +159,22 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 //! [2]
 void MainWindow::buttonGroupClicked(QAbstractButton *button)
 {
+    if (gMode == EditingRoute) {
+        qDebug() << "ignore button (in route edit mode)";
+        return;
+    }
+    if (gMode == Simulating) {
+        qDebug() << "ignore button (Simulating mode)";
+        return;
+    }
+
     const QList<QAbstractButton *> buttons = buttonGroup->buttons();
     for (QAbstractButton *bt : buttons) {
         if (bt != button)
             button->setChecked(false);
     }
     const int id = buttonGroup->id(button);
+
     switch(id) {
         case InsertTextButton:
             scene->setMode(DiagramScene::InsertText);
@@ -179,20 +189,8 @@ void MainWindow::buttonGroupClicked(QAbstractButton *button)
             scene->setMode(DiagramScene::InsertItem);
             break;
     }
-    // if (id == InsertTextButton) {
-    //     scene->setMode(DiagramScene::InsertText);
-    // } else {
-    //     scene->setItemType(DiagramItem::DiagramType(id));
-    //     scene->setMode(DiagramScene::InsertItem);
-    // }
+
 }
-/*
-const int InsertTextButton = 10;
-const int InsertSegmentButton = 11;
-const int InsertTrainButton = 12;
-const int InsertRouteButton = 13;
-*/
-//! [2]
 
 void MainWindow::saveItems()
 {
