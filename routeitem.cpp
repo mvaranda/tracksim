@@ -104,7 +104,7 @@ void RouteItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (editing) {
         setEditing(false);
-        // emit routingEnded(this);
+        emit routingEnded(this);
     }
 }
 

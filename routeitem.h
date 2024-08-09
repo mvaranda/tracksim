@@ -18,9 +18,9 @@ QT_END_NAMESPACE
 //class Arrow;
 
 //! [0]
-class RouteItem : public QGraphicsPixmapItem, public SimItemID
+class RouteItem : public QObject, public QGraphicsPixmapItem, public SimItemID
 {
-//    Q_OBJECT
+    Q_OBJECT
 
 public:
     enum { Type = UserType + 16 };
@@ -60,8 +60,8 @@ private:
     int router_number;
     static int route_cnt;
 
-// signals:
-//     void routingEnded(QGraphicsItem *item);
+signals:
+    void routingEnded(QGraphicsItem *item);
 
 };
 //! [0]

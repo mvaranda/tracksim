@@ -62,7 +62,7 @@ public slots:
     void setMode(Mode mode);
     void setItemType(DiagramItem::DiagramType type);
     void editorLostFocus(DiagramTextItem *item);
-    // void routingHasEnded(DiagramTextItem *item);
+    void routingHasEnded(QGraphicsItem *item);
 
 signals:
     void itemInserted(DiagramItem *item);
