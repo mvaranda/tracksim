@@ -102,6 +102,11 @@ void DiagramScene::editorLostFocus(DiagramTextItem *item)
 }
 //! [5]
 
+// void DiagramScene::routingHasEnded(DiagramTextItem *item)
+// {
+//     qDebug("got routingHasEnded Signal");
+// }
+
 void DiagramScene::loadScene(QString data)
 {
     // 3 TrackPoints:
@@ -330,6 +335,10 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             addItem(routeItem);
             routeItem->setPos(mouseEvent->scenePos());
             setMode(EditingRoute); //MoveItem;
+
+            // connect(routeItem, &RouteItem::routingEnded,
+            // this, &DiagramScene::routingHasEnded);
+
             break;
 
         case EditingRoute:

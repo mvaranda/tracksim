@@ -22,9 +22,11 @@ RouteItem::RouteItem(QMenu *contextMenu, int sim_id,
     m_ContextMenu(contextMenu)
 {
     router_number = ++route_cnt;
-    QPixmap img(":/images/route.png");
-    QPixmap _img = img.scaled(QSize(60,60));
-    setPixmap(_img);
+    setEditing(true);
+    //QPixmap img(":/images/route.png");
+    // QPixmap img(":/images/route_editing.png");
+    // QPixmap _img = img.scaled(QSize(60,60));
+    // setPixmap(_img);
 
     QString t = "Route ";
     t += QString::number(router_number);
@@ -37,6 +39,21 @@ RouteItem::RouteItem(QMenu *contextMenu, int sim_id,
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+}
+
+void RouteItem::setEditing(bool ed)
+{
+    QPixmap img;
+    if (ed) {
+        img = QPixmap(":/images/route_editing.png");
+    }
+    else {
+        img = QPixmap(":/images/route.png");
+    }
+
+    QPixmap _img = img.scaled(QSize(60,60));
+    setPixmap(_img);
+    editing = ed;
 }
 
 
@@ -81,5 +98,18 @@ QVariant RouteItem::itemChange(GraphicsItemChange change, const QVariant &value)
     }
 
     return value;
+}
+
+void RouteItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (editing) {
+        setEditing(false);
+        // emit routingEnded(this);
+    }
+}
+
+void RouteItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+
 }
 

@@ -20,6 +20,8 @@ QT_END_NAMESPACE
 //! [0]
 class RouteItem : public QGraphicsPixmapItem, public SimItemID
 {
+//    Q_OBJECT
+
 public:
     enum { Type = UserType + 16 };
     enum RouteType { Step, Conditional, StartEnd, Io, TrackPoint };
@@ -37,9 +39,12 @@ public:
     void getColor(int *r, int * g, int * b) { 
         m_Color.getRgb(r, g, b);
      }
-
+    void setEditing(bool ed);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
     RouteType RouteItemType;
+    bool editing;
 //    QList<Arrow *> arrows;
 
 protected:
@@ -55,6 +60,8 @@ private:
     int router_number;
     static int route_cnt;
 
+// signals:
+//     void routingEnded(QGraphicsItem *item);
 
 };
 //! [0]
