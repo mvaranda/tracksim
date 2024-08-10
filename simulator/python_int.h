@@ -58,6 +58,7 @@ typedef struct text_st {
 } text_t;
 
 typedef struct train_st {
+  int       train_number;
   int       sim_id;
   int       pos_x;
   int       pos_y;

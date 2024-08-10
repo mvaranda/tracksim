@@ -23,6 +23,7 @@ GLOBAL_VAR = "*********** This is my global var **************"
 gItems = []
 gSegments = []
 gTexts = []
+gTrains = []
 
 def sim_init():
     print("\n******* Hello from simulator.py ********\n")
@@ -53,13 +54,15 @@ def add_text(txt_dic):
     print(gTexts)
     return len(gTexts)
 
-def add_train(trains):
-   print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Train>>>>>>>>>>>>>>>>>>>>>>>>>:")
-   print(trains)
-   print(trains["route"])
+def add_train(train):
+    global gTrains
+    print("receive an segment dic, gTrains now is like:")
+    gTrains.append(train)
+    print(gTrains)
+    return len(gTrains)
 
 def save(filename):
-    return sim_store.store(filename, gItems, gSegments, gTexts)
+    return sim_store.store(filename, gItems, gSegments, gTexts, gTrains)
 
 # def load(filename):
 #     d = sim_store.load(filename)

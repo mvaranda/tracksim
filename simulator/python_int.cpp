@@ -392,6 +392,10 @@ bool simInt_addTrain(train_t * train)
     }
 
     // populate all fields
+    if (!add_long_to_dic(dic, "train_number", train->train_number)) {
+        Py_DECREF(dic);
+        return false;
+    }
     if (!add_long_to_dic(dic, "sim_id", train->sim_id)) {
         Py_DECREF(dic);
         return false;

@@ -314,6 +314,7 @@ void DiagramScene::saveItems(QString & name)
             train.startTime = TRAIN_DEFAULT_START_TIME;
             train.reverse = train_obj->reverse;
             train.enabled = train_obj->enabled;
+            train.train_number = train_obj->train_number;
 
             int i = 0;
             foreach( Segment *segment, train_obj->segments ) {

@@ -29,7 +29,8 @@ public:
     enum { Type = TRAIN_ITEM_TYPE };
     enum TrainType { Step, Conditional, StartEnd, Io, TrackPoint };
 
-    TrainItem(  QMenu *contextMenu, 
+    TrainItem(  QMenu *contextMenu,
+                int train_number = 0,
                 int sim_id = 0,
                 int reverse = 0,
                 bool enabled = true,
@@ -55,6 +56,7 @@ public:
     QList<Segment *> segments;
     bool enabled;
     bool reverse;
+    int train_number;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
@@ -66,7 +68,6 @@ private:
     QColor m_Color;
     QString text;
     QGraphicsTextItem * txtItem;
-    int trainr_number;
     static int train_cnt;
 
 signals:

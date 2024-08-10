@@ -15,6 +15,7 @@
 int TrainItem::train_cnt = 0;
 
 TrainItem::TrainItem(   QMenu *contextMenu,
+                        int _train_number,
                         int sim_id,
                         int _reverse,
                         bool _enabled,
@@ -22,11 +23,13 @@ TrainItem::TrainItem(   QMenu *contextMenu,
 
     : QGraphicsPixmapItem(parent), 
     SimItemID(sim_id),
-    m_ContextMenu(contextMenu),
+    m_ContextMenu(contextMenu), 
     reverse(_reverse),
-    enabled(_enabled)
+    enabled(_enabled),
+    train_number(_train_number)
 {
-    trainr_number = ++train_cnt;
+    if (! train_number)
+        train_number = ++train_cnt;
     setEditing(true);
     //QPixmap img(":/images/train.png");
     // QPixmap img(":/images/train_editing.png");
@@ -34,7 +37,7 @@ TrainItem::TrainItem(   QMenu *contextMenu,
     // setPixmap(_img);
 
     QString t = "Train ";
-    t += QString::number(trainr_number);
+    t += QString::number(train_number);
     txtItem = new QGraphicsTextItem(t, this);
     txtItem->setPos(0,56);
     QFont f = txtItem->font();
