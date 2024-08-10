@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 
-#include "arrow.h"
+#include "segment.h"
 #include "diagramitem.h"
 #include "common.h"
 
@@ -15,7 +15,7 @@
 #define ROUTE_COLOR Qt::green //QColorConstants::Svg::blueviolet //Qt::blue
 #define HAS_TRAIN_COLOR Qt::blue
 
-Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphicsItem *parent)
+Segment::Segment(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphicsItem *parent)
     : QGraphicsLineItem(parent), 
         SimItemID(sim_id),
         m_StartItem(startItem), 
@@ -29,7 +29,7 @@ Arrow::Arrow(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphics
     setPen(QPen(m_Color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 }
 
-QRectF Arrow::boundingRect() const
+QRectF Segment::boundingRect() const
 {
     qreal extra = (pen().width() + 20) / 2.0;
 
@@ -39,27 +39,27 @@ QRectF Arrow::boundingRect() const
         .adjusted(-extra, -extra, extra, extra);
 }
 
-QPainterPath Arrow::shape() const
+QPainterPath Segment::shape() const
 {
     QPainterPath path = QGraphicsLineItem::shape();
-    path.addPolygon(arrowHead);
+    path.addPolygon(segmentHead);
     return path;
 }
 
-void Arrow::updatePosition()
+void Segment::updatePosition()
 {
     QLineF line(mapFromItem(m_StartItem, 0, 0), mapFromItem(m_EndItem, 0, 0));
     setLine(line);
 }
 
-void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QWidget * _widget)
+void Segment::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QWidget * _widget)
 {
     if (m_StartItem->collidesWithItem(m_EndItem))
         return;
 
     QPen m_Pen = pen();
     m_Pen.setColor(m_Color);
-    qreal arrowSize = 20;
+    qreal segmentSize = 20;
     painter->setPen(m_Pen);
     painter->setBrush(m_Color);
 
@@ -91,17 +91,17 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
     }
 
     if (trafficLightEnd != TrafficLight::noLight) {
-        arrowHead.clear();
-        arrowHead << line().p1();
+        segmentHead.clear();
+        segmentHead << line().p1();
         int i;
         float x,y,a;
         for (i=0; i<360; i += 5) {
             a = (i * 3.1415926) / 180;
-            x = arrowSize/2 * sin(a);
-            y = arrowSize/2 * cos(a);
-            arrowHead << line().p1() + QPointF(x,y);
+            x = segmentSize/2 * sin(a);
+            y = segmentSize/2 * cos(a);
+            segmentHead << line().p1() + QPointF(x,y);
         }
-        painter->drawPolygon(arrowHead);
+        painter->drawPolygon(segmentHead);
     }
 
     // if (showTrain || hasTrain) {
@@ -145,7 +145,7 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, QW
                   
 }
 
-void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
+void Segment::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
                   QWidget *)
 {
     if (m_StartItem->collidesWithItem(m_EndItem))
@@ -153,7 +153,7 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
 
     QPen m_Pen = pen();
     m_Pen.setColor(m_Color);
-    qreal arrowSize = 20;
+    qreal segmentSize = 20;
     painter->setPen(m_Pen);
     painter->setBrush(m_Color);
 
@@ -185,17 +185,17 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
     }
 
     if (trafficLightStart != TrafficLight::noLight) {
-        arrowHead.clear();
-        arrowHead << line().p1();
+        segmentHead.clear();
+        segmentHead << line().p1();
         int i;
         float x,y,a;
         for (i=0; i<360; i += 5) {
             a = (i * 3.1415926) / 180;
-            x = arrowSize/2 * sin(a);
-            y = arrowSize/2 * cos(a);
-            arrowHead << line().p1() + QPointF(x,y);
+            x = segmentSize/2 * sin(a);
+            y = segmentSize/2 * cos(a);
+            segmentHead << line().p1() + QPointF(x,y);
         }
-        painter->drawPolygon(arrowHead);
+        painter->drawPolygon(segmentHead);
     }
 
     if (isSelected()) {
@@ -210,16 +210,16 @@ void Arrow::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,
     }
 }
 
-QPointF Arrow::getStartPos() {
+QPointF Segment::getStartPos() {
     return m_StartItem->pos();
 }
-QPointF Arrow::getEndPos() {
+QPointF Segment::getEndPos() {
     return m_EndItem->pos();
 }
 
-void Arrow::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void Segment::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "Arrow mousePressEvent";
+    qDebug() << "Segment mousePressEvent";
     if (gMode == EditingTrain) {
         showTrain = ! showTrain;
     }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "trainitem.h"
-//#include "arrow.h"
+//#include "segment.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -16,14 +16,14 @@ int TrainItem::train_cnt = 0;
 
 TrainItem::TrainItem(   QMenu *contextMenu,
                         int sim_id,
-                        int _firstArrow,
+                        int _firstSegment,
                         bool _enabled,
                         QGraphicsItem *parent)
 
     : QGraphicsPixmapItem(parent), 
     SimItemID(sim_id),
     m_ContextMenu(contextMenu),
-    firstArrow(_firstArrow),
+    firstSegment(_firstSegment),
     enabled(_enabled)
 {
     trainr_number = ++train_cnt;
@@ -61,17 +61,17 @@ void TrainItem::setEditing(bool ed)
     editing = ed;
 }
 
-void TrainItem::removeArrows()
+void TrainItem::removeSegments()
 {
-    arrows.clear();
+    segments.clear();
 }
 
-void TrainItem::addArrow(Arrow *arrow)
+void TrainItem::addSegment(Segment *segment)
 {
-    if (arrows.size() == 0) {
-        firstArrow = arrow->GetSimItemID();
+    if (segments.size() == 0) {
+        firstSegment = segment->GetSimItemID();
     }
-    arrows.append(arrow);
+    segments.append(segment);
 }
 
 void TrainItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -84,8 +84,8 @@ void TrainItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 QVariant TrainItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemPositionChange) {
-        // for (Arrow *arrow : std::as_const(arrows))
-        //     arrow->updatePosition();
+        // for (Segment *segment : std::as_const(segments))
+        //     segment->updatePosition();
     }
 
     return value;
@@ -109,10 +109,10 @@ void TrainItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     }
     
     setEditing(true);
-    foreach( Arrow *arrow, arrows ) {
-        arrow->showTrain = true;
+    foreach( Segment *segment, segments ) {
+        segment->showTrain = true;
     }
-    arrows.clear();
+    segments.clear();
     emit routingStarted(this);
 }
 

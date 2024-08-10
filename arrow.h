@@ -11,13 +11,13 @@
 class DiagramItem;
 
 //! [0]
-class Arrow : public QGraphicsLineItem, public SimItemID
+class Segment : public QGraphicsLineItem, public SimItemID
 {
 public:
     enum { Type = ARROW_ITEM_TYPE };
     enum TrafficLight { noLight, GreenLight, RedLight};
 
-    Arrow(DiagramItem *startItem, DiagramItem *endItem,  int sim_id = 0,
+    Segment(DiagramItem *startItem, DiagramItem *endItem,  int sim_id = 0,
           QGraphicsItem *parent = nullptr);
 
     int type() const override { return Type; }
@@ -50,7 +50,7 @@ protected:
 private:
     DiagramItem *m_StartItem;
     DiagramItem *m_EndItem;
-    QPolygonF arrowHead;
+    QPolygonF segmentHead;
     QColor m_Color = Qt::black;
     void paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 

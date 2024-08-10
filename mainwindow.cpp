@@ -1,7 +1,7 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#include "arrow.h"
+#include "segment.h"
 #include "diagramitem.h"
 #include "diagramscene.h"
 #include "diagramtextitem.h"
@@ -223,11 +223,11 @@ void MainWindow::deleteItem()
 {
     QList<QGraphicsItem *> selectedItems = scene->selectedItems();
     for (QGraphicsItem *item : std::as_const(selectedItems)) {
-        if (item->type() == Arrow::Type) {
+        if (item->type() == Segment::Type) {
             scene->removeItem(item);
-            Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
-            arrow->startItem()->removeArrow(arrow);
-            arrow->endItem()->removeArrow(arrow);
+            Segment *segment = qgraphicsitem_cast<Segment *>(item);
+            segment->startItem()->removeSegment(segment);
+            segment->endItem()->removeSegment(segment);
             delete item;
         }
     }
@@ -235,7 +235,7 @@ void MainWindow::deleteItem()
     selectedItems = scene->selectedItems();
     for (QGraphicsItem *item : std::as_const(selectedItems)) {
          if (item->type() == DiagramItem::Type)
-             qgraphicsitem_cast<DiagramItem *>(item)->removeArrows();
+             qgraphicsitem_cast<DiagramItem *>(item)->removeSegments();
          scene->removeItem(item);
          delete item;
      }
@@ -418,11 +418,11 @@ void MainWindow::about()
 
     // QList<QGraphicsItem *> items = scene->items();
     // foreach( QGraphicsItem *item, items ) {
-    //     if (item->type() == Arrow::Type) {
-    //         Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
-    //         QPointF startPos = arrow->getStartPos();
-    //         QPointF endPos = arrow->getEndPos();
-    //         qDebug() << "Item is an Arrow, sim ID = " << arrow->GetSimItemID();
+    //     if (item->type() == Segment::Type) {
+    //         Segment *segment = qgraphicsitem_cast<Segment *>(item);
+    //         QPointF startPos = segment->getStartPos();
+    //         QPointF endPos = segment->getEndPos();
+    //         qDebug() << "Item is an Segment, sim ID = " << segment->GetSimItemID();
     //         qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
     //         qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
     //     }

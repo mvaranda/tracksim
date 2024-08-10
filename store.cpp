@@ -47,7 +47,7 @@
   "segments": [
     {
       "sim_id:": 12,
-      "type": "arrow",
+      "type": "segment",
       "pos_x": 1234.5,
       "pos_y": 3456.8,
       "startTrackPoint_id": 1,
@@ -57,7 +57,7 @@
     },
     {
       "sim_id:": 13,
-      "type": "arrow",
+      "type": "segment",
       "pos_x": 1234.5,
       "pos_y": 3456.8,
       "startTrackPoint_id": 1,

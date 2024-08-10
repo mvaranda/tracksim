@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "diagramitem.h"
-#include "arrow.h"
+#include "segment.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -66,31 +66,31 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu, int sim_id
 //! [0]
 
 //! [1]
-void DiagramItem::removeArrow(Arrow *arrow)
+void DiagramItem::removeSegment(Segment *segment)
 {
-    arrows.removeAll(arrow);
+    segments.removeAll(segment);
 }
 //! [1]
 
 //! [2]
-void DiagramItem::removeArrows()
+void DiagramItem::removeSegments()
 {
-    // need a copy here since removeArrow() will
-    // modify the arrows container
-    const auto arrowsCopy = arrows;
-    for (Arrow *arrow : arrowsCopy) {
-        arrow->startItem()->removeArrow(arrow);
-        arrow->endItem()->removeArrow(arrow);
-        scene()->removeItem(arrow);
-        delete arrow;
+    // need a copy here since removeSegment() will
+    // modify the segments container
+    const auto segmentsCopy = segments;
+    for (Segment *segment : segmentsCopy) {
+        segment->startItem()->removeSegment(segment);
+        segment->endItem()->removeSegment(segment);
+        scene()->removeItem(segment);
+        delete segment;
     }
 }
 //! [2]
 
 //! [3]
-void DiagramItem::addArrow(Arrow *arrow)
+void DiagramItem::addSegment(Segment *segment)
 {
-    arrows.append(arrow);
+    segments.append(segment);
 }
 //! [3]
 
@@ -123,8 +123,8 @@ void DiagramItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemPositionChange) {
-        for (Arrow *arrow : std::as_const(arrows))
-            arrow->updatePosition();
+        for (Segment *segment : std::as_const(segments))
+            segment->updatePosition();
     }
 
     return value;

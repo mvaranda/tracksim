@@ -4,12 +4,12 @@ requires(qtConfig(fontcombobox))
 HEADERS	    =   mainwindow.h \
 		diagramitem.h \
 		diagramscene.h \
-		arrow.h \
+		segment.h \
 		diagramtextitem.h
 SOURCES	    =   mainwindow.cpp \
 		diagramitem.cpp \
 		main.cpp \
-		arrow.cpp \
+		segment.cpp \
 		diagramtextitem.cpp \
                 diagramscene.cpp \
                 simulator/segment.cpp \

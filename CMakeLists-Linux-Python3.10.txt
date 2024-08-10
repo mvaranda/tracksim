@@ -19,7 +19,7 @@ add_compile_options(
     -DNDEBUG -g -fwrapv -O0 -Wall -fPIE)
 
 qt_add_executable(tracksim
-    arrow.cpp arrow.h
+    segment.cpp segment.h
     diagramitem.cpp diagramitem.h
     diagramscene.cpp diagramscene.h
     diagramtextitem.cpp diagramtextitem.h

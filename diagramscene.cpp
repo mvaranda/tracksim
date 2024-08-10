@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "diagramscene.h"
-#include "arrow.h"
+#include "segment.h"
 #include "store.h"
 
 #include <QGraphicsSceneMouseEvent>
@@ -28,8 +28,8 @@ DiagramScene::DiagramScene(QMenu *itemMenu, QMenu *trainMenu, QObject *parent)
 void DiagramScene::setLineColor(const QColor &color)
 {
     m_LineColor = color;
-    if (isItemChange(Arrow::Type)) {
-        Arrow *item = qgraphicsitem_cast<Arrow *>(selectedItems().first());
+    if (isItemChange(Segment::Type)) {
+        Segment *item = qgraphicsitem_cast<Segment *>(selectedItems().first());
         item->setColor(m_LineColor);
         update();
     }
@@ -104,11 +104,11 @@ void DiagramScene::routingHasStarted(QGraphicsItem *_item)
     qDebug("got routingHasStarted Signal");
     // TrainItem *trainitem = qgraphicsitem_cast<TrainItem *>(_item);
     // foreach( QGraphicsItem *it, items() ) {
-    //     if (it->type() == Arrow::Type) {
-    //         Arrow *arrow = qgraphicsitem_cast<Arrow *>(it);
-    //         if (arrow->showTrain) {
-    //             trainitem->addArrow(arrow);
-    //             arrow->showTrain = false;
+    //     if (it->type() == Segment::Type) {
+    //         Segment *segment = qgraphicsitem_cast<Segment *>(it);
+    //         if (segment->showTrain) {
+    //             trainitem->addSegment(segment);
+    //             segment->showTrain = false;
     //         }
     //     }
     // }
@@ -121,11 +121,11 @@ void DiagramScene::routingHasEnded(QGraphicsItem *_item)
     qDebug("got routingHasEnded Signal");
     TrainItem *trainitem = qgraphicsitem_cast<TrainItem *>(_item);
     foreach( QGraphicsItem *it, items() ) {
-        if (it->type() == Arrow::Type) {
-            Arrow *arrow = qgraphicsitem_cast<Arrow *>(it);
-            if (arrow->showTrain) {
-                trainitem->addArrow(arrow);
-                arrow->showTrain = false;
+        if (it->type() == Segment::Type) {
+            Segment *segment = qgraphicsitem_cast<Segment *>(it);
+            if (segment->showTrain) {
+                trainitem->addSegment(segment);
+                segment->showTrain = false;
             }
         }
     }
@@ -204,13 +204,13 @@ void DiagramScene::AddSegment(segment_t * seg)
         return;
     }
 
-    Arrow *arrow = new Arrow(startItem, endItem, 0);
-    arrow->setColor(color);
-    startItem->addArrow(arrow);
-    endItem->addArrow(arrow);
-    arrow->setZValue(-1000.0);
-    addItem(arrow);
-    arrow->updatePosition();
+    Segment *segment = new Segment(startItem, endItem, 0);
+    segment->setColor(color);
+    startItem->addSegment(segment);
+    endItem->addSegment(segment);
+    segment->setZValue(-1000.0);
+    addItem(segment);
+    segment->updatePosition();
 }
 
 void DiagramScene::saveItems(QString & name)
@@ -218,28 +218,28 @@ void DiagramScene::saveItems(QString & name)
 
     foreach( QGraphicsItem *item, items() ) {
         qDebug() << "type: " << item->type();
-        if (item->type() == Arrow::Type) {
+        if (item->type() == Segment::Type) {
             // ******************************
             // *                            *
-            // *     Segment (Arrow)        *
+            // *     Segment (Segment)        *
             // *                            *
             // ******************************
-            Arrow *arrow = qgraphicsitem_cast<Arrow *>(item);
-            QPointF startPos = arrow->getStartPos();
-            //QPointF endPos = arrow->getEndPos();
+            Segment *segment = qgraphicsitem_cast<Segment *>(item);
+            QPointF startPos = segment->getStartPos();
+            //QPointF endPos = segment->getEndPos();
 
             segment_t seg;
             memset(&seg, 0, sizeof(seg));
             strncpy(seg.name, "Segment", sizeof(seg.name) - 1);
             strncpy(seg.type, "Segment", sizeof(seg.type) - 1);            
-            seg.sim_id = arrow->GetSimItemID();
+            seg.sim_id = segment->GetSimItemID();
             seg.pos_x = startPos.x();
             seg.pos_y = startPos.y();
-            arrow->getColor(&seg.color_r, &seg.color_g, &seg.color_b);
-            seg.startTrackPoint_id = arrow->startItem()->GetSimItemID();
-            seg.endTrackPoint_id = arrow->endItem()->GetSimItemID();
-            seg.startLightState = arrow->trafficLightStart;
-            seg.endLightState = arrow->trafficLightStart;
+            segment->getColor(&seg.color_r, &seg.color_g, &seg.color_b);
+            seg.startTrackPoint_id = segment->startItem()->GetSimItemID();
+            seg.endTrackPoint_id = segment->endItem()->GetSimItemID();
+            seg.startLightState = segment->trafficLightStart;
+            seg.endLightState = segment->trafficLightStart;
             simInt_addSegment(&seg);
 
 
@@ -265,7 +265,7 @@ void DiagramScene::saveItems(QString & name)
                 dia_obj->getColor(&it.color_r, &it.color_g, &it.color_b);
                 int i = 0;
 
-                foreach(auto a, dia_obj->arrows) {
+                foreach(auto a, dia_obj->segments) {
                     if (i >= MAX_NUM_SEGS_PER_TRACKPOINT) {
                         qWarning() << "TrackPoint with too many segments, sim_id: " << it.sim_id;
                         break;
@@ -312,15 +312,15 @@ void DiagramScene::saveItems(QString & name)
             train.pos_y = train_obj->pos().y();
             train.speed = TRAIN_DEFAULT_SPEED;
             train.startTime = TRAIN_DEFAULT_START_TIME;
-            train.first_arrow = train_obj->firstArrow;
+            train.first_segment = train_obj->firstSegment;
             train.enabled = train_obj->enabled;
             int i = 0;
-            foreach( Arrow *arrow, train_obj->arrows ) {
+            foreach( Segment *segment, train_obj->segments ) {
                 if (i >= NUM_MAX_SEGMENTS_PER_ROUTE) {
                     qWarning() << "Train route has too many segments, max: " << NUM_MAX_SEGMENTS_PER_ROUTE;
                     break;
                 }
-                train.route_seg_ids[i++] = arrow->GetSimItemID();
+                train.route_seg_ids[i++] = segment->GetSimItemID();
             }
             simInt_addTrain(&train);
         }
@@ -404,9 +404,9 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             //     if (s.count() > 0) {
             //         qDebug() << "type: " << s[0]->type();
 
-            //         if (s[0]->type() == Arrow::Type) {
-            //             Arrow *arrow = qgraphicsitem_cast<Arrow *>(s[0]);
-            //             arrow->showTrain = !arrow->showTrain;
+            //         if (s[0]->type() == Segment::Type) {
+            //             Segment *segment = qgraphicsitem_cast<Segment *>(s[0]);
+            //             segment->showTrain = !segment->showTrain;
             //         }
 
             //     }
@@ -478,13 +478,13 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
             startItems.first() != endItems.first()) {
             DiagramItem *startItem = qgraphicsitem_cast<DiagramItem *>(startItems.first());
             DiagramItem *endItem = qgraphicsitem_cast<DiagramItem *>(endItems.first());
-            Arrow *arrow = new Arrow(startItem, endItem, 0);
-            arrow->setColor(m_LineColor);
-            startItem->addArrow(arrow);
-            endItem->addArrow(arrow);
-            arrow->setZValue(-1000.0);
-            addItem(arrow);
-            arrow->updatePosition();
+            Segment *segment = new Segment(startItem, endItem, 0);
+            segment->setColor(m_LineColor);
+            startItem->addSegment(segment);
+            endItem->addSegment(segment);
+            segment->setZValue(-1000.0);
+            addItem(segment);
+            segment->updatePosition();
         }
     }
 //! [12] //! [13]

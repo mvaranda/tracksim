@@ -7,7 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QList>
 #include "simitemid.h"
-#include "arrow.h"
+#include "segment.h"
 #include "common.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,7 +18,7 @@ class QPolygonF;
 QT_END_NAMESPACE
 
 
-//class Arrow;
+//class Segment;
 
 //! [0]
 class TrainItem : public QObject, public QGraphicsPixmapItem, public SimItemID
@@ -31,15 +31,15 @@ public:
 
     TrainItem(  QMenu *contextMenu, 
                 int sim_id = 0,
-                int firstArrow = 0,
+                int firstSegment = 0,
                 bool enabled = true,
                 QGraphicsItem *parent = nullptr);
 
-    // void removeArrow(Arrow *arrow);
-    void removeArrows();
+    // void removeSegment(Segment *segment);
+    void removeSegments();
     // TrainType diagramType() const { return TrainItemType; }
     // QPolygonF polygon() const { return m_Polygon; }
-    void addArrow(Arrow *arrow);
+    void addSegment(Segment *segment);
     // QPixmap image() const;
     int type() const override { return Type; }
     void setColor(const QColor &color) { m_Color = color; }
@@ -52,9 +52,9 @@ public:
 
     TrainType TrainItemType;
     bool editing;
-    QList<Arrow *> arrows;
+    QList<Segment *> segments;
     bool enabled;
-    int firstArrow;
+    int firstSegment;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;

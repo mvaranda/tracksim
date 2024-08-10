@@ -16,7 +16,7 @@ class QMenu;
 class QPolygonF;
 QT_END_NAMESPACE
 
-class Arrow;
+class Segment;
 
 //! [0]
 class DiagramItem : public QGraphicsPolygonItem, public SimItemID
@@ -27,11 +27,11 @@ public:
 
     DiagramItem(DiagramType diagramType, QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);
 
-    void removeArrow(Arrow *arrow);
-    void removeArrows();
+    void removeSegment(Segment *segment);
+    void removeSegments();
     DiagramType diagramType() const { return diagramItemType; }
     QPolygonF polygon() const { return m_Polygon; }
-    void addArrow(Arrow *arrow);
+    void addSegment(Segment *segment);
     QPixmap image() const;
     int type() const override { return Type; }
     void setColor(const QColor &color) { m_Color = color; }
@@ -41,7 +41,7 @@ public:
 
 
     DiagramType diagramItemType;
-    QList<Arrow *> arrows;
+    QList<Segment *> segments;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;

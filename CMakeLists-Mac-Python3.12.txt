@@ -17,7 +17,7 @@ add_link_options(-L/opt/local/Library/Frameworks/Python.framework/Versions/3.12/
 #   -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall -fPIE)
 
 qt_add_executable(tracksim
-    arrow.cpp arrow.h
+    segment.cpp segment.h
     diagramitem.cpp diagramitem.h
     diagramscene.cpp diagramscene.h
     diagramtextitem.cpp diagramtextitem.h
