@@ -31,7 +31,7 @@ public:
 
     TrainItem(  QMenu *contextMenu, 
                 int sim_id = 0,
-                int firstSegment = 0,
+                int reverse = 0,
                 bool enabled = true,
                 QGraphicsItem *parent = nullptr);
 
@@ -54,7 +54,7 @@ public:
     bool editing;
     QList<Segment *> segments;
     bool enabled;
-    int firstSegment;
+    bool reverse;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;

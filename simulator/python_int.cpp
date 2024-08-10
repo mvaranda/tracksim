@@ -412,7 +412,7 @@ bool simInt_addTrain(train_t * train)
         Py_DECREF(dic);
         return false;
     }
-    if (!add_long_to_dic(dic, "first_segment", train->first_segment)) {
+    if (!add_long_to_dic(dic, "reverse", train->reverse)) {
         Py_DECREF(dic);
         return false;
     }

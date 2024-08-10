@@ -63,7 +63,7 @@ typedef struct train_st {
   int       pos_y;
   int       speed;      // ticks/second
   int       enabled;
-  int       first_segment;
+  int       reverse;
   int       startTime;  // ticks
   int       route_seg_ids[NUM_MAX_SEGMENTS_PER_ROUTE];
 } train_t;

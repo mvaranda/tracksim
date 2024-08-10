@@ -16,14 +16,14 @@ int TrainItem::train_cnt = 0;
 
 TrainItem::TrainItem(   QMenu *contextMenu,
                         int sim_id,
-                        int _firstSegment,
+                        int _reverse,
                         bool _enabled,
                         QGraphicsItem *parent)
 
     : QGraphicsPixmapItem(parent), 
     SimItemID(sim_id),
     m_ContextMenu(contextMenu),
-    firstSegment(_firstSegment),
+    reverse(_reverse),
     enabled(_enabled)
 {
     trainr_number = ++train_cnt;
@@ -68,9 +68,6 @@ void TrainItem::removeSegments()
 
 void TrainItem::addSegment(Segment *segment)
 {
-    if (segments.size() == 0) {
-        firstSegment = segment->GetSimItemID();
-    }
     segments.append(segment);
 }
 
