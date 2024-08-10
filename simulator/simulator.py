@@ -127,7 +127,7 @@ def load(filename):
       for train in dic["trains"]:
         print("********** calling sim.create_train for train: ************")
         print(train)
-        sim.create_text(train["train_number"],
+        sim.create_train(train["train_number"],
                         train["sim_id"],
                         train["pos_x"],
                         train["pos_y"],

@@ -129,9 +129,11 @@ printf("<<<<<<<<<<< sim_create_train >>>>>>>>>>>>>>\n");
     char * text_ptr, * font_ptr;
     PyObject * listObj;
     int type;
+    char * tok;         /* delimiter tokens for strtok */
+    int cols;           /* number of cols to parse, from the left */
 
     memset(&train, 0, sizeof(train));
-    if (!PyArg_ParseTuple(args, "llllllllO!",
+    if (!PyArg_ParseTuple(args, "llllllllO",
         &train.train_number,
         &train.sim_id,
         &train.pos_x,
@@ -140,25 +142,18 @@ printf("<<<<<<<<<<< sim_create_train >>>>>>>>>>>>>>\n");
         &train.enabled,
         &train.reverse,
         &train.start_time,  // ticks
-        &type,
-        listObj)) {
-
-        // &train.route_seg_ids[NUM_MAX_SEGMENTS_PER_ROUTE];
-
-
-
-        // &text_ptr,
-        // &font_ptr,
-        // &train.size,
-        // &train.pos_x,
-        // &train.pos_y,
-        // &train.color_r,
-        // &train.color_g,
-        // &train.color_b)) {
+        &listObj)) {
             printf("PyArg_ParseTuple fail\n");
             PyErr_Print();
             return NULL;
     }
+    int size = PyList_Size(listObj);
+    for (int i=0; i < size; i++) {
+        PyObject * intObj = PyList_GetItem(listObj, i);
+        train.route_seg_ids[i] = PyLong_AsLong( intObj );
+        LOG("train.route_seg_ids[%d] = %d\n", i, train.route_seg_ids[i] );
+    }
+
 
     //cpp_sim_create_text(&train);
 
