@@ -68,6 +68,9 @@ void TrainItem::removeArrows()
 
 void TrainItem::addArrow(Arrow *arrow)
 {
+    if (arrows.size() == 0) {
+        firstArrow = arrow->GetSimItemID();
+    }
     arrows.append(arrow);
 }
 

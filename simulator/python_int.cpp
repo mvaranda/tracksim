@@ -408,6 +408,14 @@ bool simInt_addTrain(train_t * train)
         Py_DECREF(dic);
         return false;
     }
+    if (!add_long_to_dic(dic, "enabled", train->enabled)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "first_arrow", train->first_arrow)) {
+        Py_DECREF(dic);
+        return false;
+    }
 
     PyObject * list = PyList_New(0);
     int i = 0;
