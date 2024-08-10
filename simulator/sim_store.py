@@ -1,4 +1,4 @@
-
+#!/usr/bin/python3
 ###########################################################
 #                                                         #
 #               Part of the Tracks Simulator              #
@@ -89,23 +89,33 @@ TEXTS = """    {
 ###
 TRAINS_START = """  "trains": [
 """
+TRAIN_END = """
+      ]
+    }"""
+
 TRAINS_END = """
-  ]
-"""
+  ]\n"""
 
 TRAIN = """    {
       "sim_id": $SIM_ID,
       "train_number": "$TRAIN_NUMBER",
       "pos_x": $POS_X,
       "pos_y": $POS_Y,
-
       "speed": $SPEED,
       "enabled": $ENABLED,
       "reverse": $REVERSE,
       "start_time": $START_TIME,
       "route_seg_ids": [
         """
-ROUTE_END = """       ]"""
+
+TRAIN_TEST = """    {
+      "start_time": $START_TIME,
+      "route_seg_ids": [
+        """
+
+ROUTE_END = """
+       ]
+    }"""
 
 
 # stored format example:
@@ -303,6 +313,8 @@ def store(filename, items, segs, texts, trains):
 
     ########### Add trains ##########
     if len(trains) > 0:
+      if len(items) > 0 or len(segs) > 0 or len(texts) > 0:
+        f.write(",\n")
       f.write(TRAINS_START)
       is_first = True
       for i in trains:
@@ -319,15 +331,31 @@ def store(filename, items, segs, texts, trains):
         t = t.replace("$ENABLED", str(i["enabled"]))
         t = t.replace("$REVERSE", str(i["reverse"]))
         t = t.replace("$START_TIME", str(i["start_time"]))
-        #route_seg_ids[NUM_MAX_SEGMENTS_PER_ROUTE];
-
 
         f.write(t)
-      f.write(TRAINS_END)
+
+        # array of route_seg_ids:
+        first_seg = True
+        for seg in i["route"]:
+          if first_seg == False:
+            f.write(", " )
+          f.write(str(seg))
+          first_seg = False
+
+
+        f.write(TRAIN_END)
+      f.write(TRAINS_END) # + "\n")
 
     ########### end document ##########
     f.write(DOC_END)
     f.close()
+
+    ## Test only:
+    print("JSON File:\n")
+    f = open(filename)
+    d = f.read()
+    f.close()
+    print(d)
 
   except:
     print("Could not save " + filename)
@@ -358,8 +386,19 @@ def test_store():
   else:
     print("Error")
 
+def test_store_train():
+  trains = [{'train_number': 2, 'sim_id': 14, 'pos_x': 2191, 'pos_y': 2651, 'speed': 5, 'start_time': 5, 'enabled': 1, 'reverse': 0, 'route': [12, 11, 10]},
+             {'train_number': 1, 'sim_id': 13, 'pos_x': 2170, 'pos_y': 2525, 'speed': 5, 'start_time': 5, 'enabled': 1, 'reverse': 0, 'route': [9, 8]}]
+
+  items = []
+  segs = [] 
+  texts = []
+  print("test_store_train")
+  store("t.json", items, segs, texts, trains)
+
 
 if __name__ == "__main__":
-  test_store()
+  #test_store()
+  test_store_train()
 
 
