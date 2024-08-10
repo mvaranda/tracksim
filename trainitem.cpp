@@ -24,8 +24,8 @@ TrainItem::TrainItem(   QMenu *contextMenu,
     : QGraphicsPixmapItem(parent), 
     SimItemID(sim_id),
     m_ContextMenu(contextMenu), 
-    reverse(_reverse),
     enabled(_enabled),
+    reverse(_reverse),
     train_number(_train_number)
 {
     if (! train_number)

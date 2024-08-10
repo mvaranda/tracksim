@@ -86,6 +86,26 @@ TEXTS = """    {
       "color_b": $COLOR_B
     }"""
 
+###
+TRAINS_START = """  "trains": [
+"""
+TRAINS_END = """
+  ]
+"""
+
+TRAIN = """    {
+      "sim_id": $SIM_ID,
+      "train_number": "$TRAIN_NUMBER",
+      "pos_x": $POS_X,
+      "pos_y": $POS_Y,
+
+      "speed": $SPEED,
+      "enabled": $ENABLED,
+      "reverse": $REVERSE,
+      "start_time": $START_TIME,
+      "route_seg_ids": [
+        """
+ROUTE_END = """       ]"""
 
 
 # stored format example:
@@ -199,11 +219,12 @@ TEXTS = """    {
 }
 """
 
-def store(filename, items, segs, texts):
+def store(filename, items, segs, texts, trains):
   try:
     f = open(filename, "w")
     f.write(DOC_START)
 
+    ########### Add TrackPoints ##########
     if len(items) > 0:
       f.write(ITEMS_START)
       is_first = True
@@ -227,6 +248,7 @@ def store(filename, items, segs, texts):
         f.write(t)
       f.write(ITEMS_END)
 
+    ########### Add Segments ##########
     if len(segs) > 0:
       if len(items) > 0:
         f.write(",\n")
@@ -252,9 +274,10 @@ def store(filename, items, segs, texts):
         f.write(t)
       f.write(SEGMENTS_END)
 
-    print("texts:")
-    print(texts)
+    # print("texts:")
+    # print(texts)
 
+    ########### Add texts ##########
     if len(texts) > 0:
       if len(items) > 0 or len(segs) > 0:
         f.write(",\n")
@@ -277,9 +300,35 @@ def store(filename, items, segs, texts):
       f.write(TEXT_END)
     else:
       print("no texts")
-      f.write("no text")
+
+    ########### Add trains ##########
+    if len(trains) > 0:
+      f.write(TRAINS_START)
+      is_first = True
+      for i in trains:
+        if is_first == False:
+          f.write(",\n")
+        is_first = False
+        t = TRAIN
+        t = t.replace("$TRAIN_NUMBER", str(i["train_number"]))
+        t = t.replace("$SIM_ID", str(i["sim_id"]))
+        t = t.replace("$POS_X", str(i["pos_x"]))
+        t = t.replace("$POS_Y", str(i["pos_y"]))
+
+        t = t.replace("$SPEED", str(i["speed"]))
+        t = t.replace("$ENABLED", str(i["enabled"]))
+        t = t.replace("$REVERSE", str(i["reverse"]))
+        t = t.replace("$START_TIME", str(i["start_time"]))
+        #route_seg_ids[NUM_MAX_SEGMENTS_PER_ROUTE];
+
+
+        f.write(t)
+      f.write(TRAINS_END)
+
+    ########### end document ##########
     f.write(DOC_END)
     f.close()
+
   except:
     print("Could not save " + filename)
     print(traceback.format_exc())

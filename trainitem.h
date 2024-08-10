@@ -54,6 +54,8 @@ public:
     TrainType TrainItemType;
     bool editing;
     QList<Segment *> segments;
+
+    QMenu *m_ContextMenu;
     bool enabled;
     bool reverse;
     int train_number;
@@ -64,7 +66,6 @@ protected:
 
 private:
     QPolygonF m_Polygon;
-    QMenu *m_ContextMenu;
     QColor m_Color;
     QString text;
     QGraphicsTextItem * txtItem;

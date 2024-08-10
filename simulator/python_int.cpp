@@ -408,7 +408,11 @@ bool simInt_addTrain(train_t * train)
         Py_DECREF(dic);
         return false;
     }
-    if (!add_long_to_dic(dic, "speed", train->pos_y)) {
+    if (!add_long_to_dic(dic, "speed", train->speed)) {
+        Py_DECREF(dic);
+        return false;
+    }
+    if (!add_long_to_dic(dic, "start_time", train->start_time)) {
         Py_DECREF(dic);
         return false;
     }

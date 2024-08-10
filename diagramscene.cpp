@@ -311,7 +311,7 @@ void DiagramScene::saveItems(QString & name)
             train.pos_x = train_obj->pos().x(); 
             train.pos_y = train_obj->pos().y();
             train.speed = TRAIN_DEFAULT_SPEED;
-            train.startTime = TRAIN_DEFAULT_START_TIME;
+            train.start_time = TRAIN_DEFAULT_START_TIME;
             train.reverse = train_obj->reverse;
             train.enabled = train_obj->enabled;
             train.train_number = train_obj->train_number;
