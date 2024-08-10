@@ -41,6 +41,13 @@ bool cpp_sim_create_text(text_t * txt)
     return false;
 }
 
+bool cpp_sim_create_train(train_t * train)
+{
+    if (MainWindow_instance)
+        return MainWindow_instance->SimCreateTrain(train);
+    return false;
+}
+
 bool MainWindow::SimCreateItem(item_t * it)
 {
     QPoint p(it->pos_x , it->pos_y);
@@ -64,6 +71,12 @@ bool MainWindow::SimCreateSegment(segment_t * seg)
 bool MainWindow::SimCreateText(text_t * txt)
 {
     scene->addText(txt);
+    return true;
+}
+
+bool MainWindow::SimCreateTrain(train_t * train)
+{
+    scene->addTrain(train);
     return true;
 }
 

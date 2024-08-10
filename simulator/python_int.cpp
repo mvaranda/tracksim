@@ -21,6 +21,7 @@
 extern bool cpp_sim_create_item(item_t * it);
 extern bool cpp_sim_create_segment(segment_t * seg);
 extern bool cpp_sim_create_text(text_t * txt);
+extern bool cpp_sim_create_train(train_t * train);
 
 
 #ifdef __cplusplus
@@ -155,7 +156,7 @@ printf("<<<<<<<<<<< sim_create_train >>>>>>>>>>>>>>\n");
     }
 
 
-    //cpp_sim_create_text(&train);
+    cpp_sim_create_train(&train);
 
     Py_RETURN_NONE;
 }

@@ -55,6 +55,7 @@ public:
                     int sim_id = 0);
     void AddSegment(segment_t * seg);
     void addText(text_t * txt);
+    void addTrain(train_t * train);
     void loadScene(QString data);
     void saveItems(QString &  name);
     void loadItems(QString &  name);

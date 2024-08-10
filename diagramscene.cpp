@@ -221,7 +221,7 @@ void DiagramScene::saveItems(QString & name)
         if (item->type() == Segment::Type) {
             // ******************************
             // *                            *
-            // *     Segment (Segment)        *
+            // *     Segment (Segment)      *
             // *                            *
             // ******************************
             Segment *segment = qgraphicsitem_cast<Segment *>(item);
@@ -367,6 +367,41 @@ void DiagramScene::addText(text_t * txt)
     textItem->setPos(p);
     textItem->setFont(font);
     emit textInserted(textItem);
+}
+
+void DiagramScene::addTrain(train_t * train)
+{
+    QPoint p(train->pos_x , train->pos_y);
+
+    TrainItem * trainItem = new TrainItem(
+        m_TrainMenu,
+        train->train_number,
+        train->sim_id,
+        train->reverse,
+        train->enabled );
+
+        int i = 0;
+        while (i < NUM_MAX_SEGMENTS_PER_ROUTE) {
+            int seg_id = train->route_seg_ids[i];
+            if (seg_id == 0) 
+                break;
+            foreach( QGraphicsItem *item, items() ) {
+                qDebug() << "type: " << item->type();
+                if (item->type() == Segment::Type) {
+                    Segment *segment = qgraphicsitem_cast<Segment *>(item);
+                    if (segment->GetSimItemID() == seg_id) {
+                        trainItem->addSegment(segment);
+                    }
+                }
+            }
+            i++;
+        }
+
+    addItem(trainItem);
+
+    trainItem->setPos(p);
+
+//    emit textInserted(textItem);
 }
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
