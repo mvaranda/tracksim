@@ -81,44 +81,63 @@ def load(filename):
     dic = json.loads(data)
     # print("********** load dic: ************")
     # print(dic)
-  
-    for i in dic["items"]:
-      print("********** calling sim.create_item for item: ************")
-      print(i)
-      sim.create_item(i["sim_id"], 
-                      i["type"],
-                      i["pos_x"],
-                      i["pos_y"],
-                      i["color_r"],
-                      i["color_g"],
-                      i["color_b"] )
-      
-    for seg in dic["segments"]:
-      print("********** calling sim.create_segments for seg: ************")
-      print(seg)
-      sim.create_segment(seg["sim_id"], 
-                      seg["type"],
-                      seg["pos_x"],
-                      seg["pos_y"],
-                      seg["color_r"],
-                      seg["color_g"],
-                      seg["color_b"],
-                      seg["startTrackPoint_id"],
-                      seg["endTrackPoint_id"],
-                      seg["startLightState"],
-                      seg["endLightState"])
 
-    for seg in dic["texts"]:
-      print("********** calling sim.create_texts for seg: ************")
-      print(seg)
-      sim.create_text(seg["text"],
-                      seg["font_name"],
-                      seg["size"],
-                      seg["pos_x"],
-                      seg["pos_y"],
-                      seg["color_r"],
-                      seg["color_g"],
-                      seg["color_b"])
+    if "items" in dic:
+      for i in dic["items"]:
+        print("********** calling sim.create_item for item: ************")
+        print(i)
+        sim.create_item(i["sim_id"], 
+                        i["type"],
+                        i["pos_x"],
+                        i["pos_y"],
+                        i["color_r"],
+                        i["color_g"],
+                        i["color_b"] )
+      
+    if "segments" in dic:
+      for seg in dic["segments"]:
+        print("********** calling sim.create_segments for seg: ************")
+        print(seg)
+        sim.create_segment(seg["sim_id"], 
+                        seg["type"],
+                        seg["pos_x"],
+                        seg["pos_y"],
+                        seg["color_r"],
+                        seg["color_g"],
+                        seg["color_b"],
+                        seg["startTrackPoint_id"],
+                        seg["endTrackPoint_id"],
+                        seg["startLightState"],
+                        seg["endLightState"])
+
+    if "texts" in dic:
+      for seg in dic["texts"]:
+        print("********** calling sim.create_texts for seg: ************")
+        print(seg)
+        sim.create_text(seg["text"],
+                        seg["font_name"],
+                        seg["size"],
+                        seg["pos_x"],
+                        seg["pos_y"],
+                        seg["color_r"],
+                        seg["color_g"],
+                        seg["color_b"])
+
+    if "trains" in dic:
+      for train in dic["trains"]:
+        print("********** calling sim.create_train for train: ************")
+        print(train)
+        sim.create_text(train["train_number"],
+                        train["sim_id"],
+                        train["pos_x"],
+                        train["pos_y"],
+                        train["speed"],
+                        train["enabled"],
+                        train["reverse"],
+                        train["start_time"],
+                        train["route_seg_ids"])
+        
+        
   except:
     print("Could not load " + filename)
     print(traceback.format_exc())

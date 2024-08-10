@@ -98,7 +98,7 @@ TRAINS_END = """
 
 TRAIN = """    {
       "sim_id": $SIM_ID,
-      "train_number": "$TRAIN_NUMBER",
+      "train_number": $TRAIN_NUMBER,
       "pos_x": $POS_X,
       "pos_y": $POS_Y,
       "speed": $SPEED,

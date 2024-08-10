@@ -120,6 +120,52 @@ printf("<<<<<<<<<<< sim_create_text >>>>>>>>>>>>>>\n");
     Py_RETURN_NONE;
 }
 
+
+
+static PyObject* sim_create_train(PyObject *self, PyObject *args)
+{
+    static train_t train; // it sems that python has a limited stack ?
+printf("<<<<<<<<<<< sim_create_train >>>>>>>>>>>>>>\n");
+    char * text_ptr, * font_ptr;
+    PyObject * listObj;
+    int type;
+
+    memset(&train, 0, sizeof(train));
+    if (!PyArg_ParseTuple(args, "llllllllO!",
+        &train.train_number,
+        &train.sim_id,
+        &train.pos_x,
+        &train.pos_y,
+        &train.speed,      // ticks/second
+        &train.enabled,
+        &train.reverse,
+        &train.start_time,  // ticks
+        &type,
+        listObj)) {
+
+        // &train.route_seg_ids[NUM_MAX_SEGMENTS_PER_ROUTE];
+
+
+
+        // &text_ptr,
+        // &font_ptr,
+        // &train.size,
+        // &train.pos_x,
+        // &train.pos_y,
+        // &train.color_r,
+        // &train.color_g,
+        // &train.color_b)) {
+            printf("PyArg_ParseTuple fail\n");
+            PyErr_Print();
+            return NULL;
+    }
+
+    //cpp_sim_create_text(&train);
+
+    Py_RETURN_NONE;
+}
+
+
 static PyObject* sim_numargs(PyObject *self, PyObject *args)
 {
     if(!PyArg_ParseTuple(args, ":numargs"))
@@ -136,6 +182,8 @@ static PyMethodDef SimMethods[] = {
         "Create a segment in the UI domain."},
     {"create_text", sim_create_text, METH_VARARGS,
         "Create a text in the UI domain."},
+    {"create_train", sim_create_train, METH_VARARGS,
+        "Create a train in the UI domain."},
     {NULL, NULL, 0, NULL}
 };
 
