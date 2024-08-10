@@ -29,7 +29,11 @@ public:
     enum { Type = TRAIN_ITEM_TYPE };
     enum TrainType { Step, Conditional, StartEnd, Io, TrackPoint };
 
-    TrainItem(QMenu *contextMenu, int sim_id = 0, QGraphicsItem *parent = nullptr);
+    TrainItem(  QMenu *contextMenu, 
+                int sim_id = 0,
+                int firstArrow = 0,
+                bool enabled = true,
+                QGraphicsItem *parent = nullptr);
 
     // void removeArrow(Arrow *arrow);
     void removeArrows();
@@ -49,6 +53,8 @@ public:
     TrainType TrainItemType;
     bool editing;
     QList<Arrow *> arrows;
+    bool enabled;
+    int firstArrow;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;

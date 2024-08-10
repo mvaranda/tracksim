@@ -14,11 +14,17 @@
 
 int TrainItem::train_cnt = 0;
 
-TrainItem::TrainItem(QMenu *contextMenu, int sim_id,
-                         QGraphicsItem *parent)
+TrainItem::TrainItem(   QMenu *contextMenu,
+                        int sim_id,
+                        int _firstArrow,
+                        bool _enabled,
+                        QGraphicsItem *parent)
+
     : QGraphicsPixmapItem(parent), 
     SimItemID(sim_id),
-    m_ContextMenu(contextMenu)
+    m_ContextMenu(contextMenu),
+    firstArrow(_firstArrow),
+    enabled(_enabled)
 {
     trainr_number = ++train_cnt;
     setEditing(true);

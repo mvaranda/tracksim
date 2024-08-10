@@ -312,6 +312,8 @@ void DiagramScene::saveItems(QString & name)
             train.pos_y = train_obj->pos().y();
             train.speed = TRAIN_DEFAULT_SPEED;
             train.startTime = TRAIN_DEFAULT_START_TIME;
+            train.firstArrow = train_obj->firstArrow;
+            train.enabled = train_obj->enabled;
             int i = 0;
             foreach( Arrow *arrow, train_obj->arrows ) {
                 if (i >= NUM_MAX_SEGMENTS_PER_ROUTE) {
