@@ -214,7 +214,7 @@ void simInt_destroy()
 
 bool simInt_init(const char * _program)
 {
-    const char * filename = "simulator";
+    const char * filename = "python_int";
     PyObject *pName = NULL;
 
     if (pModule) {
