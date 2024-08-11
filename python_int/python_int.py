@@ -9,6 +9,7 @@
 ###########################################################
 
 import traceback
+import sim_classes
 import simulator
 
 if __name__ != "__main__":
@@ -56,8 +57,11 @@ def save(filename):
 
 def start():
   trains = []
+  segments = []
+  tracks = []
+
   for t in gTrains:
-    train = simulator.Train(
+    train = sim_classes.Train(
               t["sim_id"],
               t["train_number"],
               t["speed"],      # Num ticks to run over a segment
@@ -66,7 +70,37 @@ def start():
               t["start_time"],  # in ticks
               t["route"])
     trains.append(train)
-  simulator.sim_start(trains)
+
+
+  for t in gSegments:
+    seg = sim_classes.Segment(
+              t["sim_id"],
+              t["startTrackPoint_id"],
+              t["endTrackPoint_id"],      # Num ticks to run over a segment
+              t["startLightState"],
+              t["endLightState"])
+    segments.append(seg)
+
+  for t in gItems:
+    print("TrackPoint:")
+    print(t)
+    segs = []
+    if t["segment_id_0"] != 0:
+       segs.append(t["segment_id_0"])
+    if t["segment_id_1"] != 0:
+       segs.append(t["segment_id_1"])
+    if t["segment_id_2"] != 0:
+       segs.append(t["segment_id_2"])
+    if t["segment_id_3"] != 0:
+       segs.append(t["segment_id_3"])
+
+    track = sim_classes.TrackPoint(
+              t["sim_id"],
+              segs)
+    tracks.append(track)
+
+
+  simulator.sim_start(trains, segments, tracks)
 
 def load(filename):
   try:
