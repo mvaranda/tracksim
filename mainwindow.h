@@ -87,6 +87,11 @@ private:
     bool startPython();
     void stopPython();
 
+    void timerTick();
+    bool timerIsRunning;
+
+    QTimer *timer;
+
     DiagramScene *scene;
     QGraphicsView *view;
 

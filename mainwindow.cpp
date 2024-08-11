@@ -93,7 +93,9 @@ void MainWindow::stopPython()
 }
 
 //! [0]
-MainWindow::MainWindow()
+MainWindow::MainWindow() :
+    timer(NULL),
+    timerIsRunning(false)
 {
     MainWindow_instance = this;
     // QStringList args = QCoreApplication::arguments();
@@ -572,9 +574,44 @@ void MainWindow::createToolBox()
 }
 //! [22]
 
-void MainWindow::play() {}
-void MainWindow::pause() {}
-void MainWindow::stop() {}
+void MainWindow::play()
+{
+    pauseAction->setDisabled(false);
+    stopAction->setDisabled(false);
+    playAction->setDisabled(true);
+
+    if (timer == NULL) {
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::timerTick));
+        timer->start(500);
+    }
+
+    timerIsRunning = true;
+}
+
+void MainWindow::pause() 
+{
+    timerIsRunning = !timerIsRunning;
+}
+
+void MainWindow::stop()
+{
+    timerIsRunning = false;
+    pauseAction->setDisabled(true);
+    stopAction->setDisabled(true);
+    playAction->setDisabled(false);
+
+    if (pauseAction->isChecked()) {
+        pauseAction->toggle();
+    }
+}
+
+void MainWindow::timerTick()
+{
+    if (!timerIsRunning) return;
+    qDebug() << "Timer tick";
+
+}
 
 //! [23]
 void MainWindow::createActions()
@@ -589,17 +626,19 @@ void MainWindow::createActions()
     playAction->setShortcut(tr("Ctrl+S"));
     playAction->setStatusTip(tr("Start Simulation"));
     connect(playAction, &QAction::triggered, this, &MainWindow::play);
-    playAction->setCheckable(true);
 
     pauseAction = new QAction(QIcon(":/images/pause.png"), tr("Pause Simulation"), this);
     pauseAction->setShortcut(tr("Ctrl+S"));
     pauseAction->setStatusTip(tr("Pause Simulation"));
     connect(pauseAction, &QAction::triggered, this, &MainWindow::pause);
+    pauseAction->setDisabled(true);
+    pauseAction->setCheckable(true);
 
     stopAction = new QAction(QIcon(":/images/stop.png"), tr("Stop Simulation"), this);
     stopAction->setShortcut(tr("Ctrl+S"));
     stopAction->setStatusTip(tr("Stop Simulation"));
-    connect(stopAction, &QAction::triggered, this, &MainWindow::pause);
+    connect(stopAction, &QAction::triggered, this, &MainWindow::stop);
+    stopAction->setDisabled(true);
 
     sendBackAction = new QAction(QIcon(":/images/sendtoback.png"), tr("Send to &Back"), this);
     sendBackAction->setShortcut(tr("Ctrl+T"));
