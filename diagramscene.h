@@ -15,6 +15,13 @@
 
 #define DEFAULT_ITEM_COLOR Qt::yellow
 
+typedef enum {
+    CMD_SEGMENT_TRAIN_UNPRESENT,
+    CMD_SEGMENT_TRAIN_PRESENT,
+    CMD_SEGMENT_LIGHT_GREEN,
+    CMD_SEGMENT_LIGHT_RED
+} cmd_for_segment_t;
+
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
 class QMenu;
@@ -59,6 +66,14 @@ public:
     void loadScene(QString data);
     void sendItemsToSim();
     void loadItems(QString &  name);
+    void cmd_for_segment(   cmd_for_segment_t cmd, 
+                            int id, 
+                            int par1 = 0, 
+                            int par2 = 0,
+                            int par3 = 0, 
+                            int par4 = 0);
+    void reset_railway();
+
 
 public slots:
     void setMode(Mode mode);

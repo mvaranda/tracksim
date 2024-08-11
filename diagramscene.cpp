@@ -405,6 +405,61 @@ void DiagramScene::addTrain(train_t * train)
 //    emit textInserted(textItem);
 }
 
+void DiagramScene::reset_railway()
+{
+    Segment *segment = NULL;
+    foreach( QGraphicsItem *item, items() ) {
+        if (item->type() == Segment::Type) {
+            segment = qgraphicsitem_cast<Segment *>(item);
+            segment->showTrain = false;
+            segment->trafficLightStart = Segment::noLight;
+        }
+    }
+}
+
+void DiagramScene::cmd_for_segment( cmd_for_segment_t cmd, 
+                                    int seg_id, 
+                                    int par1, 
+                                    int par2,
+                                    int par3, 
+                                    int par4)
+{
+    Segment *segment = NULL;
+    bool valid = false;
+    foreach( QGraphicsItem *item, items() ) {
+        if (item->type() == Segment::Type) {
+            segment = qgraphicsitem_cast<Segment *>(item);
+            if (segment->GetSimItemID() == seg_id) {
+                valid = true;
+                break;
+            }
+        }
+    }
+    if (!valid) {
+        qWarning() << "cmd_for_segment: can not fine obj for seg_id " << seg_id;
+        return;
+    }
+    switch(cmd) {
+        case CMD_SEGMENT_TRAIN_UNPRESENT:
+            segment->showTrain = false;
+            break;
+        case CMD_SEGMENT_TRAIN_PRESENT:
+            segment->showTrain = true;
+            break;
+        case CMD_SEGMENT_LIGHT_GREEN:
+            segment->trafficLightStart = Segment::GreenLight;
+            break;
+        case CMD_SEGMENT_LIGHT_RED:
+            segment->trafficLightStart = Segment::RedLight;
+            break;
+        default:
+            qWarning() << "cmd_for_segment: unknown command";
+            break;
+    }
+
+
+}
+
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (mouseEvent->button() != Qt::LeftButton)

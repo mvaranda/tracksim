@@ -55,9 +55,41 @@ bool cpp_sim_create_train(train_t * train)
     return false;
 }
 
-bool MainWindow::SimCmdToUI(const char * cmd)
+// Must match with defs in sim_classes.py
+//########### Cammnads to UI ############
+#define CMD_TRAIN_PRESENT       "CMD_TRAIN_PRESENT"
+#define CMD_TRAIN_UNPRESENT     "CMD_TRAIN_UNPRESENT"
+#define CMD_LIGHT_GREEN         "CMD_LIGHT_GREEN"
+#define CMD_LIGHT_RED           "CMD_LIGHT_RED"
+
+bool MainWindow::SimCmdToUI(const char * _cmd)
 {
-    qDebug() << "Cmd from Sim: " << cmd;
+    qDebug() << "Cmd from Sim: " << _cmd;
+    QString cmd_str = _cmd;
+    QStringList cmd = cmd_str.split( " " );
+    int id = cmd[1].toInt();
+    if (cmd[0] == CMD_TRAIN_PRESENT) {
+        qDebug() << "command " << cmd[0];
+        scene->cmd_for_segment(CMD_SEGMENT_TRAIN_PRESENT, id);
+    }
+    else if (cmd[0] == CMD_TRAIN_UNPRESENT) {
+        qDebug() << "command " << cmd[0];
+        scene->cmd_for_segment(CMD_SEGMENT_TRAIN_UNPRESENT, id);
+    }
+    else if (cmd[0] == CMD_LIGHT_GREEN) {
+        int pos = cmd[2].toInt();
+        qDebug() << "command " << cmd[0];
+        scene->cmd_for_segment(CMD_SEGMENT_LIGHT_GREEN, id, pos);
+    }
+    else if (cmd[0] == CMD_LIGHT_RED) {
+        int pos = cmd[2].toInt();
+        scene->cmd_for_segment(CMD_SEGMENT_LIGHT_RED, id, pos);
+        qDebug() << "command " << cmd[0];
+    }
+    else {
+        qDebug() << "Error: Unknown command " << cmd[0];
+    }
+
     return true;
 }
 
@@ -596,7 +628,7 @@ void MainWindow::play()
     stopAction->setDisabled(false);
     playAction->setDisabled(true);
 
-
+    scene->reset_railway();
 
     if (!startPython()) {
         qWarning() << "Could not start python";

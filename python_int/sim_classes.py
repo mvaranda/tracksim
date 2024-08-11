@@ -24,6 +24,14 @@ TRAIN_STATE__INITIAL = 0
 SEG_POS_END = "end"
 SEG_POS_START = "start"
 
+
+########### Cammnads to UI ############
+CMD_TRAIN_PRESENT = "CMD_TRAIN_PRESENT"
+CMD_TRAIN_UNPRESENT = "CMD_TRAIN_UNPRESENT"
+CMD_LIGHT_GREEN = "CMD_LIGHT_GREEN"
+CMD_LIGHT_RED = "CMD_LIGHT_RED"
+
+
 class Train:
   """Describes a Train object.
 
@@ -64,17 +72,17 @@ class Segment:
     self.startLightState = startLightState
     self.endLightState = endLightState
 
-  def set_train_on(self):
-    sim.cmd_to_ui("set_train_on " + str(self.sim_id))
+  def set_train_present(self):
+    sim.cmd_to_ui(CMD_TRAIN_PRESENT + " " + str(self.sim_id))
 
-  def set_train_off(self):
-    sim.cmd_to_ui("set_train_off " + str(self.sim_id))
+  def set_train_unpresent(self):
+    sim.cmd_to_ui(CMD_TRAIN_UNPRESENT + " " + str(self.sim_id))
 
   def set_light_red(self, seg_pos):
-    sim.cmd_to_ui("set_light_red " + str(self.sim_id) + " " + seg_pos)
+    sim.cmd_to_ui(CMD_LIGHT_RED + " " + str(self.sim_id) + " " + seg_pos)
 
   def set_light_green(self, seg_pos):
-    sim.cmd_to_ui("set_light_green " + str(self.sim_id) + " " + seg_pos)
+    sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + seg_pos)
 
 class TrackPoint:
   """Describes a TrackPoint object.

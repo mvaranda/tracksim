@@ -44,8 +44,8 @@ def sim_start(trains, segments, tracks):
   segment_id = trains[0].route[0]
   seg_obj = segment_from_id(segment_id)
 
-  seg_obj.set_train_on()
-  seg_obj.set_train_off()
+  seg_obj.set_train_unpresent()
+  seg_obj.set_train_present()
   seg_obj.set_light_red(sim_classes.SEG_POS_END)
 
 
