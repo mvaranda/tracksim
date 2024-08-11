@@ -28,13 +28,17 @@ TrainItem::TrainItem(   QMenu *contextMenu,
     reverse(_reverse),
     train_number(_train_number)
 {
-    if (! train_number)
+
+    if (! train_number) {
+        // User is adding a train
         train_number = ++train_cnt;
-    setEditing(true);
-    //QPixmap img(":/images/train.png");
-    // QPixmap img(":/images/train_editing.png");
-    // QPixmap _img = img.scaled(QSize(60,60));
-    // setPixmap(_img);
+        setEditing(true);
+    }
+    else {
+        // loader is adding, so no in edit mode
+        setEditing(false);
+    }
+
 
     QString t = "Train ";
     t += QString::number(train_number);

@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#ifndef ARROW_H
-#define ARROW_H
+#ifndef SEGMENT_H
+#define SEGMENT_H
 
 #include <QGraphicsLineItem>
 #include "simitemid.h"
@@ -57,4 +57,4 @@ private:
 };
 //! [0]
 
-#endif // ARROW_H
+#endif // SEGMENT_H

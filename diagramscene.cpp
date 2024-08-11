@@ -204,7 +204,7 @@ void DiagramScene::AddSegment(segment_t * seg)
         return;
     }
 
-    Segment *segment = new Segment(startItem, endItem, 0);
+    Segment *segment = new Segment(startItem, endItem, seg->sim_id);
     segment->setColor(color);
     startItem->addSegment(segment);
     endItem->addSegment(segment);
@@ -379,6 +379,11 @@ void DiagramScene::addTrain(train_t * train)
         train->sim_id,
         train->reverse,
         train->enabled );
+
+        connect(trainItem, &TrainItem::routingEnded,
+                this, &DiagramScene::routingHasEnded);
+        connect(trainItem, &TrainItem::routingStarted,
+                this, &DiagramScene::routingHasStarted);
 
         int i = 0;
         while (i < NUM_MAX_SEGMENTS_PER_ROUTE) {
