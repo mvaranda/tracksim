@@ -92,6 +92,7 @@ private:
     bool timerIsRunning;
 
     QTimer *timer;
+    bool timer_initted;
 
     DiagramScene *scene;
     QGraphicsView *view;

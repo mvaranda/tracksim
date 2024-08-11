@@ -139,7 +139,7 @@ void MainWindow::stopPython()
 
 //! [0]
 MainWindow::MainWindow() :
-    timer(NULL),
+    timer_initted(false),
     timerIsRunning(false)
 {
     MainWindow_instance = this;
@@ -642,10 +642,11 @@ void MainWindow::play()
 
 //    stopPython();
 
-    if (timer == NULL) {
+    if (timer_initted == false) {
+        timer_initted = true;
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::timerTick));
-        timer->start(2000);
+        timer->start(TIMER_TICK_PERIOD);
     }
 
     timerIsRunning = true;
@@ -673,7 +674,6 @@ void MainWindow::stop()
 void MainWindow::timerTick()
 {
     if (!timerIsRunning) return;
-    //qDebug() << "Timer tick";
     simInt_timer_tick();
 
 }

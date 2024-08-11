@@ -11,9 +11,10 @@
 
 #pragma once
 
-#define SIMULATOR_TIME_TICK  10  // 10 ticks per second
-#define TRAIN_DEFAULT_SPEED  5   // ticks per segment
-#define TRAIN_DEFAULT_START_TIME  5 // ticks
+#define TIMER_TICK_PERIOD     500 // 0.5 seconds
+#define SIMULATOR_TIME_TICK   10  // 10 ticks per second
+#define TRAIN_DEFAULT_SPEED   2   // ticks per segment
+#define TRAIN_DEFAULT_START_TIME  1 // ticks
 
 #define MAX_NUM_SEGS_PER_TRACKPOINT 4
 #define NUM_MAX_SEGMENTS_PER_ROUTE  64
