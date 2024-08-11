@@ -36,6 +36,7 @@ public:
     MainWindow();
 //    Simulator * sim;
     bool SimCreateItem(item_t * it);
+    bool SimCmdToUI(const char * cmd);
     bool SimCreateSegment(segment_t * seg);
     bool SimCreateText(text_t * txt);
     bool SimCreateTrain(train_t * train);

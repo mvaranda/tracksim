@@ -22,6 +22,7 @@ extern bool cpp_sim_create_item(item_t * it);
 extern bool cpp_sim_create_segment(segment_t * seg);
 extern bool cpp_sim_create_text(text_t * txt);
 extern bool cpp_sim_create_train(train_t * train);
+extern bool cpp_sim_cmd_to_ui(const char * cmd);
 
 
 #ifdef __cplusplus
@@ -35,6 +36,20 @@ static PyObject *pModule = NULL;
 //****************************************************
 
 static int numargs=0;
+
+static PyObject* sim_cmd_to_ui(PyObject *self, PyObject *args)
+{
+    char *str_ptr;
+    if (!PyArg_ParseTuple(args, "s",
+        &str_ptr)) {
+            printf("PyArg_ParseTuple fail\n");
+            PyErr_Print();
+            return NULL;
+    }
+    cpp_sim_cmd_to_ui(str_ptr);
+
+    Py_RETURN_NONE;
+}
 
 static PyObject* sim_create_item(PyObject *self, PyObject *args)
 {
@@ -180,6 +195,9 @@ static PyMethodDef SimMethods[] = {
         "Create a text in the UI domain."},
     {"create_train", sim_create_train, METH_VARARGS,
         "Create a train in the UI domain."},
+    {"cmd_to_ui", sim_cmd_to_ui, METH_VARARGS,
+        "Create a train in the UI domain."},
+        
     {NULL, NULL, 0, NULL}
 };
 

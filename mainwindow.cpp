@@ -27,6 +27,13 @@ bool cpp_sim_create_item(item_t * it)
     return false;
 }
 
+bool cpp_sim_cmd_to_ui(const char * cmd)
+{
+    if (MainWindow_instance)
+        return MainWindow_instance->SimCmdToUI(cmd);
+    return false;   
+}
+
 bool cpp_sim_create_segment(segment_t * seg)
 {
     if (MainWindow_instance)
@@ -46,6 +53,12 @@ bool cpp_sim_create_train(train_t * train)
     if (MainWindow_instance)
         return MainWindow_instance->SimCreateTrain(train);
     return false;
+}
+
+bool MainWindow::SimCmdToUI(const char * cmd)
+{
+    qDebug() << "Cmd from Sim: " << cmd;
+    return true;
 }
 
 bool MainWindow::SimCreateItem(item_t * it)
