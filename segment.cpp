@@ -12,7 +12,9 @@
 
 // Colors demo: https://doc.qt.io/qt-6/qml-color.html
 #define SELECTED_COLOR Qt::cyan
-#define ROUTE_COLOR Qt::green //QColorConstants::Svg::blueviolet //Qt::blue
+//#define ROUTE_COLOR Qt::green //QColorConstants::Svg::blueviolet //Qt::blue
+#define ROUTE_COLOR QColorConstants::Svg::blueviolet
+
 #define HAS_TRAIN_COLOR Qt::blue
 
 Segment::Segment(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGraphicsItem *parent)
@@ -81,6 +83,7 @@ void Segment::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, 
     setLine(QLineF(intersectPoint, m_StartItem->pos()));
     painter->drawLine(line());
 
+    //-------- lights --------
     if (trafficLightEnd == TrafficLight::RedLight) {
         painter->setPen(Qt::red);
         painter->setBrush(Qt::red);
@@ -104,21 +107,6 @@ void Segment::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, 
         painter->drawPolygon(segmentHead);
     }
 
-    // if (showTrain || hasTrain) {
-    //     painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 8, Qt::SolidLine));
-    //     QLineF m_Line = line();
-    //     m_Line.translate(0, 4.0);
-    //     painter->drawLine(m_Line);
-    //     m_Line.translate(0,-8.0);
-    //     painter->drawLine(m_Line);
-    //     return;        
-    // }
-
-    // setLine(QLineF(intersectPoint, m_StartItem->pos()));
-    // painter->drawLine(line());
-
-
-
     if (isSelected()) {
         painter->setPen(QPen(SELECTED_COLOR, 1, Qt::DashLine));
         QLineF m_Line = line();
@@ -141,8 +129,7 @@ void Segment::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, 
         m_Line.translate(0,-8.0);
         painter->drawLine(m_Line);
         return;        
-    }
-                  
+    }               
 }
 
 void Segment::paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *,

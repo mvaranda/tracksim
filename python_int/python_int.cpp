@@ -778,6 +778,28 @@ bool simInt_start()
     return result;
 }
 
+bool simInt_timer_tick()
+{
+    PyObject *pFunc, *pValue;
+    bool result = false;
+
+    const char * func_name = "timer_tick";
+
+    pFunc = PyObject_GetAttrString(pModule, func_name);
+    if (pFunc && PyCallable_Check(pFunc)) {
+        pValue = PyObject_CallObject(pFunc, NULL);
+        if (pValue != NULL) {
+            int r = PyLong_AsLong(pValue);
+            LOG("simInt_start: Python Items size: %d\n", r);
+            Py_DECREF(pValue);
+            result = r;
+        }
+    }
+    Py_DECREF(pFunc); 
+
+    return result;
+}
+
 bool simInt_load(const char * file)
 {
     PyObject *pFunc, *pValue, *filename, *pArgs;

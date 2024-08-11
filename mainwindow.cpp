@@ -270,6 +270,8 @@ void MainWindow::saveItems()
 
 void MainWindow::loadItems()
 {
+    scene->clear();
+    //invalidate();
     auto fileName = QFileDialog::getOpenFileName(this,
     tr("Load Railway"), "./", tr("Railway Files (*.rlw)"), 0, QFileDialog::DontUseNativeDialog);
     //scene->loadItems(fileName); //.toStdString());
@@ -643,7 +645,7 @@ void MainWindow::play()
     if (timer == NULL) {
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::timerTick));
-        timer->start(500);
+        timer->start(2000);
     }
 
     timerIsRunning = true;
@@ -672,6 +674,7 @@ void MainWindow::timerTick()
 {
     if (!timerIsRunning) return;
     //qDebug() << "Timer tick";
+    simInt_timer_tick();
 
 }
 

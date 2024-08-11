@@ -102,6 +102,9 @@ def start():
 
   simulator.sim_start(trains, segments, tracks)
 
+def timer_tick():
+   simulator.timer_tick()
+
 def load(filename):
   try:
     f = open(filename)

@@ -15,37 +15,48 @@ import sim, sim_classes
 """
   For class definitions read "sim_classes.py" file.
 """
-################# Railway Classes #################
 
-g_trains = None
-g_segments = None
-g_tracks = None
+class SimRunner:
+  """Describes a Train object.
 
-def segment_from_id(id):
-  ret = None
-  for s in g_segments:
-    if s.sim_id == id:
-      ret = s
-      break
-  return ret
+  Train details...
+  """
+  def __init__(self, trains, segments, tracks):
+                self.trains = trains
+                self.segments = segments
+                self.tracks = tracks
+                self.tick_counter = 0
+
+  def segment_from_id(self, id):
+    ret = None
+    for s in segments:
+      if s.sim_id == id:
+        ret = s
+        break
+    return ret
+
+
+simRunner = None
+
+
 
 def sim_start(trains, segments, tracks):
-  global g_trains
-  global g_segments
-  global g_tracks
-  g_trains = trains
-  g_segments = segments
-  g_tracks = tracks
+    global simRunner
+    print("*************** Starting Simulator ***************")
+    #
+    # Create the simulator runner object
+    #
+    simRunner = SimRunner(trains, segments, tracks)
 
-  print("hello from sim, trains:")
-  for train in trains:
-    print("Train number: " + str(train.train_number))
-  #sim.cmd_to_ui("This is a command to UI")
-  segment_id = trains[0].route[0]
-  seg_obj = segment_from_id(segment_id)
 
-  seg_obj.set_train_unpresent()
-  seg_obj.set_train_present()
-  seg_obj.set_light_red(sim_classes.SEG_POS_END)
+def timer_tick():
+    global simRunner
+
+    for train in simRunner.trains:
+      print("Train number: " + str(train.train_number))
+
+    simRunner.tick_counter += 1
+    print("tick " + str(simRunner.tick_counter))
+
 
 
