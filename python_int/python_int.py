@@ -61,6 +61,14 @@ def start():
   tracks = []
 
   for t in gTrains:
+    ## if train is disabled we ignore it
+    if t["enabled"] == False:
+       continue
+    ## sort route
+    if t["reverse"] == True:
+       route = t["route"].sort()
+    else:
+       route = t["route"]
     train = sim_classes.Train(
               t["sim_id"],
               t["train_number"],
@@ -68,7 +76,7 @@ def start():
               t["enabled"],
               t["reverse"],
               t["start_time"],  # in ticks
-              t["route"])
+              route)
     trains.append(train)
 
 
