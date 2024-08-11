@@ -28,8 +28,8 @@ qt_add_executable(tracksim
     mainwindow.cpp mainwindow.h
     common.cpp common.h
     store.cpp store.h
-    simulator/python_int.cpp
-    simulator/simitemid.cpp
+    python_int/python_int.cpp
+    python_int/simitemid.cpp
 )
 
 target_compile_features(tracksim PRIVATE cxx_std_20)
@@ -74,7 +74,7 @@ set(tracksim_resource_files
     "images/route_editing.png"
 )
 
-target_include_directories(tracksim PRIVATE ./simulator
+target_include_directories(tracksim PRIVATE ./python_int
 ./rapidjson)
 
 qt_add_resources(tracksim "tracksim"
