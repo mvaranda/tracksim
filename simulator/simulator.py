@@ -52,49 +52,48 @@ simRunner = None
 
 
 def sim_start(trains, segments, tracks):
-    global simRunner
-    print("*************** Starting Simulator ***************")
-    #
-    # Create the simulator runner object
-    #
-    simRunner = SimRunner(trains, segments, tracks)
+  global simRunner
+  print("*************** Starting Simulator ***************")
+  #
+  # Create the simulator runner object
+  #
+  simRunner = SimRunner(trains, segments, tracks)
 
-    ###### Search for intercessions #######
-    print(simRunner.tracks)
-    simRunner.intercessions = []       # add "intercession" variable to the object
-    for i in simRunner.tracks:
-        if len(i.segments) > 2:
-            simRunner.intercessions.append(i)
-            print("found intercession in TrackPoint " + str(i.sim_id) + ", segments:")
-            print(i.segments)
-            for seg_id in i.segments:
-                seg = simRunner.segment_from_id(seg_id)
-                seg.set_light_green(sim_classes.SEG_POS_END)
-    
-    # init trains
-    for train in simRunner.trains:
-        # place train in initial seg
-        seg_id = train.route[0]
-        seg = obj_from_id(simRunner.segments, seg_id)
-        seg.set_train_present()
-        train.state = TRAIN_STATE__INITIAL      # add "state" variable to the train object
-    return 1
+  ###### Search for intercessions #######
+  print(simRunner.tracks)
+  simRunner.intercessions = []       # add "intercession" variable to the object
+  for i in simRunner.tracks:
+    if len(i.segments) > 2:
+      simRunner.intercessions.append(i)
+      print("found intercession in TrackPoint " + str(i.sim_id) + ", segments:")
+      print(i.segments)
+      for seg_id in i.segments:
+        seg = simRunner.segment_from_id(seg_id)
+        seg.set_light_green(sim_classes.SEG_POS_END)
+  
+  # init trains
+  for train in simRunner.trains:
+    # place train in initial seg
+    seg_id = train.route[0]
+    seg = obj_from_id(simRunner.segments, seg_id)
+    seg.set_train_present()
+    train.state = TRAIN_STATE__INITIAL      # add "state" variable to the train object
+  return 1
 
 
 def timer_tick():
-    global simRunner
+  global simRunner
 
-    for train in simRunner.trains:
+  for train in simRunner.trains:
+    print("Train number: " + str(train.train_number))
 
-      print("Train number: " + str(train.train_number))
+  simRunner.tick_counter += 1
 
-    simRunner.tick_counter += 1
-
-    if simRunner.tick_counter == 6:
-      #sim_classes.finish_ok("OK Message. Bye Now MV !!!")
-      sim_classes.finish_error("Error Message. Bye Now MV !!!")
-      
-    print("tick " + str(simRunner.tick_counter))
+  if simRunner.tick_counter == 6:
+    #sim_classes.finish_ok("OK Message. Bye Now MV !!!")
+    sim_classes.finish_error("Error Message. Bye Now MV !!!")
+    
+  print("tick " + str(simRunner.tick_counter))
 
 
 
