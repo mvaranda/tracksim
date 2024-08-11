@@ -626,7 +626,7 @@ void MainWindow::stop()
 void MainWindow::timerTick()
 {
     if (!timerIsRunning) return;
-    qDebug() << "Timer tick";
+    //qDebug() << "Timer tick";
 
 }
 

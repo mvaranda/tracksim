@@ -403,7 +403,7 @@ bool simInt_addItem(item_t * item)
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
             // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
-            LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
+            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }
@@ -523,7 +523,7 @@ bool simInt_addTrain(train_t * train)
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
             // LOG("Result of add_train call: %s\n", PyUnicode_AsUTF8(pValue)); //
-            LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
+            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }
@@ -616,7 +616,7 @@ bool simInt_addSegment(segment_t * seg)
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
             // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
-            LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
+            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }
@@ -740,35 +740,22 @@ bool simInt_save(const char * file)
 
 bool simInt_start()
 {
-    PyObject *pFunc, *pValue, *filename, *pArgs;
+    PyObject *pFunc, *pValue;
     bool result = false;
 
     const char * func_name = "start";
 
-    // filename = PyUnicode_FromString(file);
-    // pArgs = PyTuple_New(1);
-    // if (!pArgs) {
-    //     LOG_E("simInt_save: could not create args\n");
-    //     Py_DECREF(filename);
-    //     return false;
-    // }
-
-    // PyTuple_SetItem(pArgs, 0, filename);
-
-    // call python function passing the dic as argument
     pFunc = PyObject_GetAttrString(pModule, func_name);
     if (pFunc && PyCallable_Check(pFunc)) {
-        pValue = PyObject_CallObject(pFunc, NULL); //pArgs);
+        pValue = PyObject_CallObject(pFunc, NULL);
         if (pValue != NULL) {
             int r = PyLong_AsLong(pValue);
-            LOG("simInt_save: Python Items size: %d\n", r);
+            LOG("simInt_start: Python Items size: %d\n", r);
             Py_DECREF(pValue);
             result = r;
         }
     }
-    Py_DECREF(pFunc);
-    Py_DECREF(pArgs);   
-//    Py_DECREF(filename);  // PyTuple_SetItem steals ref for filename
+    Py_DECREF(pFunc); 
 
     return result;
 }
