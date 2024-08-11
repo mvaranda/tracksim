@@ -11,6 +11,7 @@ This is a C++ Application based on Qt6. Native C++ code implements the Railway E
     sudo apt install python3-dev
 - Launch the QtCreator and Open the CMakeLists.txt file
 - Build the App using Qt Creator for the first time
+- Run the following command once: "cmake -G Ninja ./build/Desktop_Qt_6_7_2-Debug"
 - Subsequent builds can be done by just running ./mk command line
 # Run
 To run just use either ./run or ./run-dark commands

@@ -88,6 +88,7 @@ void simInt_destroy();
 
 bool simInt_save(const char * file);
 bool simInt_load(const char * file);
+bool simInt_start();
 
 #ifdef __cplusplus
   }

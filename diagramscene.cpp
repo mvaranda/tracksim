@@ -213,11 +213,10 @@ void DiagramScene::AddSegment(segment_t * seg)
     segment->updatePosition();
 }
 
-void DiagramScene::saveItems(QString & name)
+void DiagramScene::sendItemsToSim()
 {
 
     foreach( QGraphicsItem *item, items() ) {
-        qDebug() << "type: " << item->type();
         if (item->type() == Segment::Type) {
             // ******************************
             // *                            *
@@ -327,13 +326,11 @@ void DiagramScene::saveItems(QString & name)
             simInt_addTrain(&train);
         }
         else {
-            qDebug() << "Item is unknown: " << item->type();
+            qWarning() << "Item is unknown: " << item->type();
 
         }
 
     }
-
-    simInt_save(name.toStdString().c_str());
 }
 
 void DiagramScene::loadItems(QString &  name)
@@ -391,7 +388,6 @@ void DiagramScene::addTrain(train_t * train)
             if (seg_id == 0) 
                 break;
             foreach( QGraphicsItem *item, items() ) {
-                qDebug() << "type: " << item->type();
                 if (item->type() == Segment::Type) {
                     Segment *segment = qgraphicsitem_cast<Segment *>(item);
                     if (segment->GetSimItemID() == seg_id) {

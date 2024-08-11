@@ -64,6 +64,10 @@ def add_train(train):
 def save(filename):
     return sim_store.store(filename, gItems, gSegments, gTexts, gTrains)
 
+def start():
+   print("Sim has started in python, gItems:")
+   print(gItems)
+
 # def load(filename):
 #     d = sim_store.load(filename)
 #     if d == None:

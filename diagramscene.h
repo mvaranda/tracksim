@@ -57,7 +57,7 @@ public:
     void addText(text_t * txt);
     void addTrain(train_t * train);
     void loadScene(QString data);
-    void saveItems(QString &  name);
+    void sendItemsToSim();
     void loadItems(QString &  name);
 
 public slots:

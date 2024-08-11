@@ -216,7 +216,10 @@ void MainWindow::saveItems()
         qWarning() << "Could not start python";
         return;
     }
-    scene->saveItems(fileName);
+    scene->sendItemsToSim();
+
+    simInt_save(fileName.toStdString().c_str());
+
     stopPython();
 }
 
@@ -580,6 +583,18 @@ void MainWindow::play()
     stopAction->setDisabled(false);
     playAction->setDisabled(true);
 
+
+
+    if (!startPython()) {
+        qWarning() << "Could not start python";
+        return;
+    }
+    scene->sendItemsToSim();
+
+    simInt_start();
+
+//    stopPython();
+
     if (timer == NULL) {
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::timerTick));
@@ -596,6 +611,8 @@ void MainWindow::pause()
 
 void MainWindow::stop()
 {
+    stopPython();
+
     timerIsRunning = false;
     pauseAction->setDisabled(true);
     stopAction->setDisabled(true);
