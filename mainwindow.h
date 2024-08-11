@@ -93,6 +93,7 @@ private:
 
     QTimer *timer;
     bool timer_initted;
+    bool stopRequest;
 
     DiagramScene *scene;
     QGraphicsView *view;

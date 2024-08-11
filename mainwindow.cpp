@@ -104,6 +104,8 @@ bool MainWindow::SimCmdToUI(const char * _cmd)
                     //QWidget *parent = nullptr, 
                     //Qt::WindowFlags f = Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint)
         msgBox.exec();
+
+        stopRequest = true; // we can not just call stop() as we need to return to python
     }
 
 
@@ -651,6 +653,7 @@ void MainWindow::play()
     stopAction->setDisabled(false);
     playAction->setDisabled(true);
 
+    stopRequest = false;
     scene->reset_railway();
 
     if (!startPython()) {
@@ -695,6 +698,10 @@ void MainWindow::stop()
 void MainWindow::timerTick()
 {
     if (!timerIsRunning) return;
+    if (stopRequest) {
+        stop();
+        return;
+    }
     simInt_timer_tick();
 
 }
