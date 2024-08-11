@@ -768,7 +768,7 @@ bool simInt_start()
         pValue = PyObject_CallObject(pFunc, NULL);
         if (pValue != NULL) {
             int r = PyLong_AsLong(pValue);
-            LOG("simInt_start: Python Items size: %d\n", r);
+            // LOG("simInt_start: Python Items size: %d\n", r);
             Py_DECREF(pValue);
             result = r;
         }
@@ -790,7 +790,7 @@ bool simInt_timer_tick()
         pValue = PyObject_CallObject(pFunc, NULL);
         if (pValue != NULL) {
             int r = PyLong_AsLong(pValue);
-            LOG("simInt_start: Python Items size: %d\n", r);
+            // LOG("simInt_start: Python Items size: %d\n", r);
             Py_DECREF(pValue);
             result = r;
         }

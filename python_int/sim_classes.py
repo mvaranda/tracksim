@@ -89,6 +89,7 @@ class Segment:
     sim.cmd_to_ui(CMD_LIGHT_RED + " " + str(self.sim_id) + " " + seg_pos)
 
   def set_light_green(self, seg_pos):
+    print("--green --")
     sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + seg_pos)
 
 

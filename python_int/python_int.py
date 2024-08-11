@@ -62,13 +62,14 @@ def start():
 
   for t in gTrains:
     ## if train is disabled we ignore it
-    if t["enabled"] == False:
+    if t["enabled"] == 0:
        continue
     ## sort route
-    if t["reverse"] == True:
-       route = t["route"].sort()
+    route = t["route"]
+    if t["reverse"] != 0:
+       route.sort(reverse=True)
     else:
-       route = t["route"]
+       route.sort()
     train = sim_classes.Train(
               t["sim_id"],
               t["train_number"],
