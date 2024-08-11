@@ -16,6 +16,9 @@ import sim, sim_classes
   For class definitions read "sim_classes.py" file.
 """
 
+TRAIN_STATE__INITIAL = 0
+
+
 class SimRunner:
   """Describes a Train object.
 
@@ -58,10 +61,10 @@ def sim_start(trains, segments, tracks):
 
     ###### Search for intercessions #######
     print(simRunner.tracks)
-    simRunner.intercession = []       # add "intercession" variable to the object
+    simRunner.intercessions = []       # add "intercession" variable to the object
     for i in simRunner.tracks:
         if len(i.segments) > 2:
-            simRunner.intercession.append(i)
+            simRunner.intercessions.append(i)
             print("found intercession in TrackPoint " + str(i.sim_id) + ", segments:")
             print(i.segments)
             for seg_id in i.segments:
@@ -74,6 +77,7 @@ def sim_start(trains, segments, tracks):
         seg_id = train.route[0]
         seg = obj_from_id(simRunner.segments, seg_id)
         seg.set_train_present()
+        train.state = TRAIN_STATE__INITIAL      # add "state" variable to the train object
     return 1
 
 

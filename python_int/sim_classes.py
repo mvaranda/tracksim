@@ -20,7 +20,6 @@ import sim
 
 ################# Railway Classes #################
 
-TRAIN_STATE__INITIAL = 0
 SEG_POS_END = "end"
 SEG_POS_START = "start"
 
@@ -59,7 +58,6 @@ class Train:
     self.reverse = reverse
     self.start_time = start_time  # in ticks
     self.route = route
-    self.state = TRAIN_STATE__INITIAL
 
 
 class Segment:
