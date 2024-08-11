@@ -61,6 +61,7 @@ bool cpp_sim_create_train(train_t * train)
 #define CMD_TRAIN_UNPRESENT     "CMD_TRAIN_UNPRESENT"
 #define CMD_LIGHT_GREEN         "CMD_LIGHT_GREEN"
 #define CMD_LIGHT_RED           "CMD_LIGHT_RED"
+#define CMD_MESSAGE_DONE             "CMD_MESSAGE_DONE"
 
 bool MainWindow::SimCmdToUI(const char * _cmd)
 {
@@ -68,6 +69,7 @@ bool MainWindow::SimCmdToUI(const char * _cmd)
     QString cmd_str = _cmd;
     QStringList cmd = cmd_str.split( " " );
     int id = cmd[1].toInt();
+
     if (cmd[0] == CMD_TRAIN_PRESENT) {
         qDebug() << "command " << cmd[0];
         scene->cmd_for_segment(CMD_SEGMENT_TRAIN_PRESENT, id);
@@ -86,6 +88,25 @@ bool MainWindow::SimCmdToUI(const char * _cmd)
         scene->cmd_for_segment(CMD_SEGMENT_LIGHT_RED, id, pos);
         qDebug() << "command " << cmd[0];
     }
+
+    else if (cmd[0] == CMD_MESSAGE_DONE) {
+        qDebug() << "id = " << id;
+        QString msg;
+        for (int i = 2; i < cmd.size(); i++) {
+            msg += cmd[i];
+            msg += " ";
+        }
+
+        QMessageBox msgBox( (QMessageBox::Icon) id, //QMessageBox::Icon icon, 
+                    "TrackSim", //const QString &title, 
+                    msg); //const QString &text, 
+                    //QMessageBox::StandardButtons buttons = NoButton, 
+                    //QWidget *parent = nullptr, 
+                    //Qt::WindowFlags f = Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint)
+        msgBox.exec();
+    }
+
+
     else {
         qDebug() << "Error: Unknown command " << cmd[0];
     }

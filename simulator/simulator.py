@@ -56,6 +56,11 @@ def timer_tick():
       print("Train number: " + str(train.train_number))
 
     simRunner.tick_counter += 1
+
+    if simRunner.tick_counter == 6:
+      #sim_classes.finish_ok("OK Message. Bye Now MV !!!")
+      sim_classes.finish_error("Error Message. Bye Now MV !!!")
+      
     print("tick " + str(simRunner.tick_counter))
 
 

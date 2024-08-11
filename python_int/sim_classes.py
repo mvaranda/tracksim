@@ -30,6 +30,13 @@ CMD_TRAIN_PRESENT = "CMD_TRAIN_PRESENT"
 CMD_TRAIN_UNPRESENT = "CMD_TRAIN_UNPRESENT"
 CMD_LIGHT_GREEN = "CMD_LIGHT_GREEN"
 CMD_LIGHT_RED = "CMD_LIGHT_RED"
+CMD_MESSAGE_DONE = "CMD_MESSAGE_DONE"
+
+ICON_NONE = 0
+ICON_INFO = 1
+ICON_WARNING = 2
+ICON_CRITICAL = 3
+ICON_QUESTION = 4
 
 
 class Train:
@@ -84,6 +91,8 @@ class Segment:
   def set_light_green(self, seg_pos):
     sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + seg_pos)
 
+
+
 class TrackPoint:
   """Describes a TrackPoint object.
 
@@ -94,3 +103,10 @@ class TrackPoint:
                 segments):
     self.sim_id = sim_id
     self.segments = segments
+
+## Helper functions
+def finish_ok(msg):
+  sim.cmd_to_ui(CMD_MESSAGE_DONE  + " " + str(ICON_INFO) + " " + msg)
+
+def finish_error(msg):
+  sim.cmd_to_ui(CMD_MESSAGE_DONE  + " " + str(ICON_CRITICAL) + " " + msg)
