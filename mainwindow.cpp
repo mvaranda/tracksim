@@ -61,36 +61,35 @@ bool cpp_sim_create_train(train_t * train)
 #define CMD_TRAIN_UNPRESENT     "CMD_TRAIN_UNPRESENT"
 #define CMD_LIGHT_GREEN         "CMD_LIGHT_GREEN"
 #define CMD_LIGHT_RED           "CMD_LIGHT_RED"
-#define CMD_MESSAGE_DONE             "CMD_MESSAGE_DONE"
+#define CMD_MESSAGE_DONE        "CMD_MESSAGE_DONE"
+#define CMD_SEGMENT_RED         "CMD_SEGMENT_RED"
 
 bool MainWindow::SimCmdToUI(const char * _cmd)
 {
-    qDebug() << "Cmd from Sim: " << _cmd;
     QString cmd_str = _cmd;
     QStringList cmd = cmd_str.split( " " );
     int id = cmd[1].toInt();
 
     if (cmd[0] == CMD_TRAIN_PRESENT) {
-        qDebug() << "command " << cmd[0];
         scene->cmd_for_segment(CMD_SEGMENT_TRAIN_PRESENT, id);
     }
     else if (cmd[0] == CMD_TRAIN_UNPRESENT) {
-        qDebug() << "command " << cmd[0];
         scene->cmd_for_segment(CMD_SEGMENT_TRAIN_UNPRESENT, id);
     }
     else if (cmd[0] == CMD_LIGHT_GREEN) {
         int pos = cmd[2].toInt();
-        qDebug() << "command " << cmd[0];
         scene->cmd_for_segment(CMD_SEGMENT_LIGHT_GREEN, id, pos);
     }
     else if (cmd[0] == CMD_LIGHT_RED) {
         int pos = cmd[2].toInt();
         scene->cmd_for_segment(CMD_SEGMENT_LIGHT_RED, id, pos);
-        qDebug() << "command " << cmd[0];
+    }
+    else if (cmd[0] == CMD_SEGMENT_RED) {
+        int pos = cmd[2].toInt();
+        scene->cmd_for_segment(CMD_SEGMENT_INT_RED, id, pos);
     }
 
     else if (cmd[0] == CMD_MESSAGE_DONE) {
-        qDebug() << "id = " << id;
         QString msg;
         for (int i = 2; i < cmd.size(); i++) {
             msg += cmd[i];
@@ -110,7 +109,7 @@ bool MainWindow::SimCmdToUI(const char * _cmd)
 
 
     else {
-        qDebug() << "Error: Unknown command " << cmd[0];
+        qWarning() << "Error: Unknown command " << cmd[0];
     }
 
     return true;
@@ -151,7 +150,6 @@ bool MainWindow::SimCreateTrain(train_t * train)
 bool MainWindow::startPython()
 {
     QStringList args = QCoreApplication::arguments();
-    qDebug() << args[0];
     return simInt_init(args[0].toStdString().c_str());
 }
 
@@ -166,9 +164,6 @@ MainWindow::MainWindow() :
     timerIsRunning(false)
 {
     MainWindow_instance = this;
-    // QStringList args = QCoreApplication::arguments();
-    // qDebug() << args[0];
-    // simInt_init(args[0].toStdString().c_str());
 
     createActions();
     createToolBox();
@@ -196,27 +191,8 @@ MainWindow::MainWindow() :
     setWindowTitle(tr("TrackSim - Ecobee Case-Study"));
     setUnifiedTitleAndToolBarOnMac(true);
     centerAndResize();
-
-    // Get simulator
-    // sim = Simulator::GetInstance();
-    // sim->AddSegment( 111 );
-
-    // load scene
-    //scene->loadScene("Test");
-    //if (startPython()) {
-    //  simInt_load("test.rlw");
-    //  stopPython();
-    //}
-    //else {
-    //  qDebug() << "Could not start python";
-    //}
-
-    // Initializa embedded Python
-
 }
-//! [0]
 
-//! [1]
 void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
 {
     const QList<QAbstractButton *> buttons = backgroundButtonGroup->buttons();
@@ -237,17 +213,13 @@ void MainWindow::backgroundButtonGroupClicked(QAbstractButton *button)
     scene->update();
     view->update();
 }
-//! [1]
 
-//! [2]
 void MainWindow::buttonGroupClicked(QAbstractButton *button)
 {
     if (gMode == EditingTrain) {
-        qDebug() << "ignore button (in train edit mode)";
         return;
     }
     if (gMode == Simulating) {
-        qDebug() << "ignore button (Simulating mode)";
         return;
     }
 
@@ -504,44 +476,20 @@ void MainWindow::about()
                        tr("The <b>Tracks Simulator</b><br>\n"
                           "\nBy: Marcelo Varanda."));
 
-    // QList<QGraphicsItem *> items = scene->items();
-    // foreach( QGraphicsItem *item, items ) {
-    //     if (item->type() == Segment::Type) {
-    //         Segment *segment = qgraphicsitem_cast<Segment *>(item);
-    //         QPointF startPos = segment->getStartPos();
-    //         QPointF endPos = segment->getEndPos();
-    //         qDebug() << "Item is an Segment, sim ID = " << segment->GetSimItemID();
-    //         qDebug() << "  Start x: " << startPos.x() << ", y: " << startPos.y();
-    //         qDebug() << "  End x: " << endPos.x() << ", y: " << endPos.y();
-    //     }
-    //     else if (item->type() == DiagramItem::Type) {
-    //          DiagramItem * dia = qgraphicsitem_cast<DiagramItem *>(item);
-    //          qDebug() << "Item is a DiagramItem type: " << dia->diagramItemType << ", sim ID = " << dia->GetSimItemID();
-
-    //     }
-    //     else if (item->type() == 65539) {
-    //         qDebug() << "Item is Text";
-    //     }
-    //     else {
-    //         qDebug() << "Item is unknown: " << item->type();
-    //     }
-
-    // }
-
     // test text
-    startPython();
-    text_t txt;
-    memset(&txt, 0, sizeof(txt));
-    strncpy(txt.text, "Test Text !!!", sizeof(txt.text) - 1);
-    strncpy(txt.font_name, "Sans", sizeof(txt.font_name) - 1);
-    txt.size =  9;
-    txt.pos_x =  2356;
-    txt.pos_y =  2544;
-    txt.color_r =  0;
-    txt.color_g =  0;
-    txt.color_b =  0;
-    simInt_addText(&txt);
-    stopPython();
+    // startPython();
+    // text_t txt;
+    // memset(&txt, 0, sizeof(txt));
+    // strncpy(txt.text, "Test Text !!!", sizeof(txt.text) - 1);
+    // strncpy(txt.font_name, "Sans", sizeof(txt.font_name) - 1);
+    // txt.size =  9;
+    // txt.pos_x =  2356;
+    // txt.pos_y =  2544;
+    // txt.color_r =  0;
+    // txt.color_g =  0;
+    // txt.color_b =  0;
+    // simInt_addText(&txt);
+    // stopPython();
 
 }
 //! [20]
@@ -1030,10 +978,8 @@ void MainWindow::centerAndResize() {
     QSize availableSize = QApplication::primaryScreen()->geometry().size();  // Qt6 , along with the #include <QScreen>
     int width = availableSize.width();
     int height = availableSize.height();
-    qDebug() << "Available dimensions " << width << "x" << height;
     width *= 0.75; // 75% of the screen size
     height *= 0.7; // 70% of the screen size
-    qDebug() << "Computed dimensions " << width << "x" << height;
     setMinimumSize(width,height);
 }
 

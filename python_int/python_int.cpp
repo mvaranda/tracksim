@@ -69,9 +69,6 @@ static PyObject* sim_create_item(PyObject *self, PyObject *args)
             return NULL;
     }
     strncpy(it.type, str_ptr, sizeof(it.type) - 1);
-
-    //printf("sim_create_item for sim_id: %d\n", it.sim_id);
-    printf("sim_create_item for sim_id: %d\ntype: %s\n", it.sim_id, it.type);
     cpp_sim_create_item(&it);
 
     Py_RETURN_NONE;
@@ -80,7 +77,6 @@ static PyObject* sim_create_item(PyObject *self, PyObject *args)
 static PyObject* sim_create_segment(PyObject *self, PyObject *args)
 {
     static segment_t seg; // it sems that python has a limited stack ?
-printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
     char * str_ptr; // = "Hello";
 
     memset(&seg, 0, sizeof(seg));
@@ -102,7 +98,6 @@ printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
     }
 
     strncpy(seg.type, str_ptr, sizeof(seg.type) - 1);
-    printf("sim_create_segment for sim_id: %d\ntype: %s\n", seg.sim_id, seg.type);
     cpp_sim_create_segment(&seg);
 
     Py_RETURN_NONE;
@@ -111,7 +106,6 @@ printf("<<<<<<<<<<< sim_create_segment >>>>>>>>>>>>>>\n");
 static PyObject* sim_create_text(PyObject *self, PyObject *args)
 {
     static text_t txt; // it sems that python has a limited stack ?
-printf("<<<<<<<<<<< sim_create_text >>>>>>>>>>>>>>\n");
     char * text_ptr, * font_ptr;
 
     memset(&txt, 0, sizeof(txt));
@@ -130,7 +124,6 @@ printf("<<<<<<<<<<< sim_create_text >>>>>>>>>>>>>>\n");
     }
 
     strncpy(txt.text, text_ptr, sizeof(txt.text) - 1);
-    printf("sim_create_text for text: %s\n", txt.text);
     cpp_sim_create_text(&txt);
 
     Py_RETURN_NONE;
@@ -141,7 +134,6 @@ printf("<<<<<<<<<<< sim_create_text >>>>>>>>>>>>>>\n");
 static PyObject* sim_create_train(PyObject *self, PyObject *args)
 {
     static train_t train; // it sems that python has a limited stack ?
-printf("<<<<<<<<<<< sim_create_train >>>>>>>>>>>>>>\n");
     char * text_ptr, * font_ptr;
     PyObject * listObj;
     int type;
@@ -167,7 +159,6 @@ printf("<<<<<<<<<<< sim_create_train >>>>>>>>>>>>>>\n");
     for (int i=0; i < size; i++) {
         PyObject * intObj = PyList_GetItem(listObj, i);
         train.route_seg_ids[i] = PyLong_AsLong( intObj );
-        LOG("train.route_seg_ids[%d] = %d\n", i, train.route_seg_ids[i] );
     }
 
 
@@ -420,20 +411,12 @@ bool simInt_addItem(item_t * item)
     if (pFunc && PyCallable_Check(pFunc)) {
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
-            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
-            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }
     Py_DECREF(pFunc);
     Py_DECREF(pArgs);
     // Note: no need to Py_DECREF(dic) as PyTuple_SetItem seals reference
-
-    // Hack to test object access for potential console
-    // PyRun_SimpleString("print(\"GLOBAL_VAR from PyRun_SimpleString:\")\n"
-    //                    "print(GLOBAL_VAR)\n");
-    // PyRun_SimpleString("print(\"PyRun_SimpleString: make a = 100\")\na = \"abcd\"\n"
-    //                    "print(\"PyRun_SimpleString: a = \" + a)\n");
 
     return true;
 }
@@ -540,8 +523,6 @@ bool simInt_addTrain(train_t * train)
     if (pFunc && PyCallable_Check(pFunc)) {
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
-            // LOG("Result of add_train call: %s\n", PyUnicode_AsUTF8(pValue)); //
-            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }
@@ -633,8 +614,6 @@ bool simInt_addSegment(segment_t * seg)
     if (pFunc && PyCallable_Check(pFunc)) {
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
-            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
-            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }
@@ -709,7 +688,6 @@ bool simInt_addText(text_t * txt)
     if (pFunc && PyCallable_Check(pFunc)) {
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
-            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
             LOG("Python text size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
@@ -768,7 +746,6 @@ bool simInt_start()
         pValue = PyObject_CallObject(pFunc, NULL);
         if (pValue != NULL) {
             int r = PyLong_AsLong(pValue);
-            // LOG("simInt_start: Python Items size: %d\n", r);
             Py_DECREF(pValue);
             result = r;
         }
@@ -790,7 +767,6 @@ bool simInt_timer_tick()
         pValue = PyObject_CallObject(pFunc, NULL);
         if (pValue != NULL) {
             int r = PyLong_AsLong(pValue);
-            // LOG("simInt_start: Python Items size: %d\n", r);
             Py_DECREF(pValue);
             result = r;
         }
@@ -868,8 +844,6 @@ bool simInt_SendSegmentClick(int id)
     if (pFunc && PyCallable_Check(pFunc)) {
         pValue = PyObject_CallObject(pFunc, pArgs);
         if (pValue != NULL) {
-            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
-            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
             Py_DECREF(pValue);
         }
     }

@@ -26,7 +26,8 @@ Segment::Segment(DiagramItem *startItem, DiagramItem *endItem, int sim_id, QGrap
         trafficLightEnd(TrafficLight::noLight), // GreenLight),
         trafficLightStart(TrafficLight::noLight), //GreenLight),
         showTrain(false),
-        hasTrain(false)
+        hasTrain(false),
+        showRed(false)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(m_Color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
@@ -121,6 +122,16 @@ void Segment::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, 
 
     // draw reverse track
     paint_reverse(painter, _style, _widget);
+
+    if (showRed) {
+        painter->setPen(QPen(Qt::red , 4, Qt::SolidLine));
+        QLineF m_Line = line();
+        m_Line.translate(0, 3.0);
+        painter->drawLine(m_Line);
+        m_Line.translate(0,-6.0);
+        painter->drawLine(m_Line);
+        return;        
+    }     
 
     if (showTrain || hasTrain) {
         painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 4, Qt::SolidLine));

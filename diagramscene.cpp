@@ -101,24 +101,12 @@ void DiagramScene::editorLostFocus(DiagramTextItem *item)
 
 void DiagramScene::routingHasStarted(QGraphicsItem *_item)
 {
-    qDebug("got routingHasStarted Signal");
-    // TrainItem *trainitem = qgraphicsitem_cast<TrainItem *>(_item);
-    // foreach( QGraphicsItem *it, items() ) {
-    //     if (it->type() == Segment::Type) {
-    //         Segment *segment = qgraphicsitem_cast<Segment *>(it);
-    //         if (segment->showTrain) {
-    //             trainitem->addSegment(segment);
-    //             segment->showTrain = false;
-    //         }
-    //     }
-    // }
     setMode(EditingTrain);
     invalidate();
 }
 
 void DiagramScene::routingHasEnded(QGraphicsItem *_item)
 {
-    qDebug("got routingHasEnded Signal");
     TrainItem *trainitem = qgraphicsitem_cast<TrainItem *>(_item);
     foreach( QGraphicsItem *it, items() ) {
         if (it->type() == Segment::Type) {
@@ -251,8 +239,7 @@ void DiagramScene::sendItemsToSim()
             // ******************************
 
              DiagramItem * dia_obj = qgraphicsitem_cast<DiagramItem *>(item);
-             qDebug() << "Item is a DiagramItem type: " << DiagramItem::Type << ", sim ID = " << dia_obj->GetSimItemID();
-            if (dia_obj->diagramType() == DiagramItem::DiagramType::TrackPoint) {
+             if (dia_obj->diagramType() == DiagramItem::DiagramType::TrackPoint) {
                 item_t it;
                 memset(&it, 0, sizeof(it));
                 strncpy(it.name, "TrackPoint", sizeof(it.name) - 1);
@@ -270,13 +257,11 @@ void DiagramScene::sendItemsToSim()
                         break;
                     }
                     it.segment_id[i++] = a->GetSimItemID();
-                    //qDebug() << "add segment_id[" << i-1 << "] = " << a->GetSimItemID();
                 }
                 simInt_addItem(&it);
             }
         }
         else if (item->type() == TEXT_ITEM_TYPE) {
-            qDebug() << "Item is Text";
             DiagramTextItem * txt_obj = qgraphicsitem_cast<DiagramTextItem *>(item);
             text_t t;
             memset(&t, 0, sizeof(t));
@@ -284,16 +269,13 @@ void DiagramScene::sendItemsToSim()
             if (q_txt.isEmpty())
                 continue;
             strncpy(t.text, q_txt.toStdString().c_str(), sizeof(t.text) - 1);
-            qDebug() << "Text: " << t.text;
             t.pos_x = txt_obj->pos().x(); 
             t.pos_y = txt_obj->pos().y();
             QColor color = txt_obj->defaultTextColor();
             color.getRgb(&t.color_r, &t.color_g, &t.color_b);
             QFont f = font();
-            qDebug() << "Font size: " << f.pointSize() ;
             t.size = f.pointSize();
             QString family = f.family();
-            qDebug() << "Family: " << family;
             strncpy(t.font_name, family.toStdString().c_str(), sizeof(t.font_name) - 1);
             simInt_addText(&t);
         }
@@ -413,6 +395,7 @@ void DiagramScene::reset_railway()
         if (item->type() == Segment::Type) {
             segment = qgraphicsitem_cast<Segment *>(item);
             segment->showTrain = false;
+            segment->showRed = false;
             segment->trafficLightStart = Segment::noLight;
             segment->trafficLightEnd = Segment::noLight;
         }
@@ -447,6 +430,9 @@ void DiagramScene::cmd_for_segment( cmd_for_segment_t cmd,
             break;
         case CMD_SEGMENT_TRAIN_PRESENT:
             segment->showTrain = true;
+            break;
+        case CMD_SEGMENT_INT_RED:
+            segment->showRed = par1;
             break;
         case CMD_SEGMENT_LIGHT_GREEN:
             if (par1)
@@ -500,21 +486,6 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
         case EditingTrain:
             qDebug() << "Editing train";
-            // {
-            //     QList s = selectedItems();
-            //     if (s.count() > 0) {
-            //         qDebug() << "type: " << s[0]->type();
-
-            //         if (s[0]->type() == Segment::Type) {
-            //             Segment *segment = qgraphicsitem_cast<Segment *>(s[0]);
-            //             segment->showTrain = !segment->showTrain;
-            //         }
-
-            //     }
-            //     else {
-            //         qDebug() << "no selection";
-            //     }
-            // }
             break;
 
 //! [6] //! [7]

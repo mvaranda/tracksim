@@ -40,6 +40,7 @@ public:
 
     bool showTrain;
     bool hasTrain;
+    bool showRed;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 

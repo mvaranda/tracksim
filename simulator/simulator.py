@@ -72,14 +72,10 @@ def sim_start(trains, segments, tracks):
   simRunner = SimRunner(trains, segments, tracks)
 
   ######## Initialize for intercessions and lights #######
-  log(simRunner.tracks)
-  #simRunner.intercessions = []       # add "intercession" variable to the object
   for track in simRunner.tracks:
     if len(track.segments) > 2:
       dic = {"trackpoint": track.sim_id, "taken_by_train_id": 0}
       simRunner.intercessions.append(track)
-      log("found intercession in TrackPoint " + str(track.sim_id) + ", segments:")
-      log(track.segments)
       segs = []
       for seg_id in track.segments:
         seg = simRunner.segment_from_id(seg_id)
@@ -91,7 +87,6 @@ def sim_start(trains, segments, tracks):
           simRunner.segs_with_light.append(seg.sim_id)
       dic["segs"] = segs
       simRunner.intercessions.append(dic)
-  log(simRunner.intercessions)
   
   ########## Initialize trains
   for train in simRunner.trains:
@@ -117,11 +112,9 @@ def sim_start(trains, segments, tracks):
 
 def timer_tick():
   global simRunner
-  #show_all_tracks()
 
   ## run Train state machine
   for train in simRunner.trains:
-    log("Train number: " + str(train.train_number))
     if train.state == TRAIN_STATE__INITIAL:
        train_state__initial(train)
     elif train.state == TRAIN_STATE__MOVING:
@@ -141,11 +134,8 @@ def timer_tick():
      sim_classes.finish_ok("Simulation ended fine !!!")
      return
      
-
   simRunner.tick_counter += 1
     
-  log("tick " + str(simRunner.tick_counter))
-
   if sim_classes.gSegmentClickID > 0:
     seg_id = sim_classes.gSegmentClickID
     sim_classes.gSegmentClickID = 0
@@ -157,11 +147,15 @@ def timer_tick():
       seg.red_flag = False
       seg.set_light_green(sim_classes.SEG_POS_END)
 
+  detect_seg = detect_collision()
+  if detect_seg > 0:
+     seg = obj_from_id(simRunner.segments, detect_seg)
+     seg.set_segment_red(1)
+     sim_classes.finish_error("Collision detected !!!")
 
 
 def train_state__initial(train):
    global simRunner
-   log("**** state_initial ****")
    if simRunner.tick_counter > train.start_time:
       train.state = TRAIN_STATE__MOVING
 
@@ -178,7 +172,6 @@ def show_all_tracks():
 
 def train_state__moving(train):
    global simRunner
-   log("**** state moving, speed: " + str(train.speed))
    
    ## check if train has arrived
    if train.location == train.route[len(train.route) - 1]:
@@ -206,33 +199,21 @@ def train_state__moving(train):
          return
       
       # check if the next segment leads to an intercession
-      log (">>>>>>>>>>>>>>> next_seg_id = " + str(next_seg_id))
-      log(simRunner.segs_with_light)
       if next_seg_id in simRunner.segs_with_light:
-        #show_all_tracks()
-        # we take other forward segment connected to the intercession
-        #next_seg_obj = obj_from_id(simRunner.segments, next_seg_id)
         inter_id = next_seg_obj.endTrackPoint_id
-        log("inter_id = " + str(inter_id))
         track_obj = obj_from_id(simRunner.tracks, inter_id)
         track_segs_list = track_obj.segments.copy()
-        log("track_segs_list:")
-        log(track_segs_list)
-        log(track_obj.segments)
         track_segs_list.remove(next_seg_id)
         seg_obj_to_turn_red = None
         for other_seg_id in track_segs_list:
           other_seg_obj = obj_from_id(simRunner.segments, other_seg_id)
           if (other_seg_obj.endTrackPoint_id == inter_id):
               seg_obj_to_turn_red = other_seg_obj
-              print("type of seg_obj_to_turn_red: " + str(type(seg_obj_to_turn_red)))
               seg_obj_to_turn_red.set_light_red(sim_classes.SEG_POS_END)
               seg_obj_to_turn_red.red_flag = True
-              # train.segs_in_red = [] # ex: [ {"route_seg" : 5, "seg_in_red": 3}, {... same ...} ]
               # Add the other taken segment to segs_in_red
               d = {"route_seg": next_seg_id, "seg_in_red": seg_obj_to_turn_red.sim_id, }
               train.segs_in_red.append(d)
-              log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>other seg = " + str(seg_obj_to_turn_red.sim_id))
 
 
       train.route_idx += 1
@@ -271,3 +252,24 @@ def train_state__moving(train):
 
 def train_state__arrived(train):
    pass # nothing to do (placeholder)
+
+def detect_collision():
+  global simRunner
+  for train in simRunner.trains:
+    log("Check collision train " + str(train.sim_id))
+    counter = 0
+    loc = train.location
+    tail = train.tail_seg_id
+    if tail == 0:
+       continue
+    for other_train in simRunner.trains:
+      if loc == other_train.location:
+         counter += 1
+      if tail == other_train.tail_seg_id:
+         counter += 1
+      if counter > 1:
+        log("detected collision")
+        return loc 
+
+  return 0
+         

@@ -32,6 +32,7 @@ CMD_TRAIN_UNPRESENT = "CMD_TRAIN_UNPRESENT"
 CMD_LIGHT_GREEN = "CMD_LIGHT_GREEN"
 CMD_LIGHT_RED = "CMD_LIGHT_RED"
 CMD_MESSAGE_DONE = "CMD_MESSAGE_DONE"
+CMD_SEGMENT_RED = "CMD_SEGMENT_RED"
 
 ICON_NONE = 0
 ICON_INFO = 1
@@ -98,8 +99,10 @@ class Segment:
     sim.cmd_to_ui(CMD_LIGHT_RED + " " + str(self.sim_id) + " " + str(seg_pos))
 
   def set_light_green(self, seg_pos):
-    print("--green --")
     sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + str(seg_pos))
+
+  def set_segment_red(self, yes_1_no_0):
+    sim.cmd_to_ui(CMD_SEGMENT_RED + " " + str(self.sim_id) + " " + str(yes_1_no_0))
 
 
 #################################
