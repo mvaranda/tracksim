@@ -105,6 +105,12 @@ def sim_start(trains, segments, tracks):
     train.last_move_tick = 0
     train.route_idx = 0
     train.tail_seg_id = 0
+    train.segs_in_red = [] # ex: [ {"route_seg" : 5, "seg_in_ref": 3}, {... same ...} ]
+
+  ########## Initialize segments
+  for seg in simRunner.segments:
+    # add extra variable to segment object
+    seg.red_flag = False
 
   return 1
 
@@ -186,7 +192,9 @@ def train_state__moving(train):
 
       # check if there is a signal taken for the next segment
       next_seg_id = train.route[train.route_idx] # + 1]
-      if next_seg_id in simRunner.red_light_taken_segmets:
+      next_seg_obj = obj_from_id(simRunner.segments, next_seg_id)
+      
+      if next_seg_obj.red_flag == True:  #next_seg_id in simRunner.red_light_taken_segmets:
          log ("waiting on red light for segment " + str(next_seg_id))
          return
       
@@ -196,7 +204,7 @@ def train_state__moving(train):
       if next_seg_id in simRunner.segs_with_light:
         #show_all_tracks()
         # we take other forward segment connected to the intercession
-        next_seg_obj = obj_from_id(simRunner.segments, next_seg_id)
+        #next_seg_obj = obj_from_id(simRunner.segments, next_seg_id)
         inter_id = next_seg_obj.endTrackPoint_id
         log("inter_id = " + str(inter_id))
         track_obj = obj_from_id(simRunner.tracks, inter_id)
@@ -212,8 +220,12 @@ def train_state__moving(train):
               seg_obj_to_turn_red = other_seg_obj
               print("type of seg_obj_to_turn_red: " + str(type(seg_obj_to_turn_red)))
               seg_obj_to_turn_red.set_light_red(sim_classes.SEG_POS_END)
-        
-        log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>other seg = " + str(seg_obj_to_turn_red.sim_id))
+              seg_obj_to_turn_red.red_flag = True
+              # train.segs_in_red = [] # ex: [ {"route_seg" : 5, "seg_in_red": 3}, {... same ...} ]
+              # Add the other taken segment to segs_in_red
+              d = {"route_seg": next_seg_id, "seg_in_red": seg_obj_to_turn_red.sim_id, }
+              train.segs_in_red.append(d)
+              log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>other seg = " + str(seg_obj_to_turn_red.sim_id))
 
 
       train.route_idx += 1
@@ -231,6 +243,22 @@ def train_state__moving(train):
 
       train.last_move_tick = simRunner.tick_counter
 
+      ## remove red_flag for all free segs
+      ## 
+      i = 0
+      remove_flag = False
+      for d in train.segs_in_red:
+        # d ex: {"route_seg" : 5, "seg_in_red": 3}
+        if d["route_seg"] != train.location and d["route_seg"] != train.tail_seg_id:
+          other_obj = obj_from_id(simRunner.segments, d["seg_in_red"])
+          other_obj.red_flag = False
+          other_obj.set_light_green(sim_classes.SEG_POS_END)
+          remove_flag = True
+          break
+        i += 1
+      if remove_flag == True:
+         del(train.segs_in_red[i])
+            
 
       #train.state == TRAIN_STATE__MOVING
 
