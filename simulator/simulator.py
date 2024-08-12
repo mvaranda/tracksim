@@ -31,6 +31,8 @@ class SimRunner:
                 self.segments = segments
                 self.tracks = tracks
                 self.tick_counter = 0
+                self.intercessions = []
+                self.segs_with_light = []
 
   def segment_from_id(self, id):
     ret = None
@@ -64,10 +66,10 @@ def sim_start(trains, segments, tracks):
 
   ######## Initialize for intercessions and lights #######
   print(simRunner.tracks)
-  simRunner.intercessions = []       # add "intercession" variable to the object
+  #simRunner.intercessions = []       # add "intercession" variable to the object
   for track in simRunner.tracks:
     if len(track.segments) > 2:
-      dic = {"trackpoint": track.sim_id}
+      dic = {"trackpoint": track.sim_id, "taken_by_train_id": 0}
       simRunner.intercessions.append(track)
       print("found intercession in TrackPoint " + str(track.sim_id) + ", segments:")
       print(track.segments)
@@ -79,6 +81,7 @@ def sim_start(trains, segments, tracks):
         if seg.endTrackPoint_id == track.sim_id:
           seg.set_light_green(sim_classes.SEG_POS_END)
           segs.append(seg.sim_id)
+          simRunner.segs_with_light.append(seg.sim_id)
       dic["segs"] = segs
       simRunner.intercessions.append(dic)
   print(simRunner.intercessions)
@@ -147,7 +150,11 @@ def train_state__moving(train):
    
    ## check if train has arrived
    if train.location == train.route[len(train.route) - 1]:
-      train.state = TRAIN_STATE__ARRIVED
+      if simRunner.tick_counter > (train.last_move_tick + train.speed):
+        train.state = TRAIN_STATE__ARRIVED
+      else:
+         ## we need to wait to the tail be also in final seg
+         return
 
       if train.tail_seg_id > 0:
         seg_id = train.tail_seg_id
