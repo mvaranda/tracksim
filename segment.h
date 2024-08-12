@@ -11,7 +11,7 @@
 class DiagramItem;
 
 //! [0]
-class Segment : public QGraphicsLineItem, public SimItemID
+class Segment : public QObject, public QGraphicsLineItem, public SimItemID
 {
 public:
     enum { Type = ARROW_ITEM_TYPE };
@@ -53,7 +53,6 @@ private:
     QPolygonF segmentHead;
     QColor m_Color = Qt::black;
     void paint_reverse(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
-
 };
 //! [0]
 

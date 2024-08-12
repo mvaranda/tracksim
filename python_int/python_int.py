@@ -26,6 +26,7 @@ gSegments = []
 gTexts = []
 gTrains = []
 
+
 def sim_init():
     print("\n******* Hello from simulator.py ********\n")
 
@@ -54,6 +55,9 @@ def add_train(train):
 
 def save(filename):
     return sim_store.store(filename, gItems, gSegments, gTexts, gTrains)
+
+def click_segment(dic):
+   sim_classes.gSegmentClickID = dic["sim_id"]
 
 def start():
   trains = []

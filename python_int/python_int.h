@@ -80,6 +80,7 @@ bool simInt_addItem(item_t * item);
 bool simInt_addText(text_t * txt);
 bool simInt_addSegment(segment_t * seg);
 bool simInt_addTrain(train_t * train);
+bool simInt_SendSegmentClick(int id);
 
 void simInt_add(int x, int y);
 

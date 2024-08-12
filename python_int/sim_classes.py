@@ -18,6 +18,8 @@ Provide the pre-defined classes that the TrackSim feeds the simulator.
 import traceback
 import sim
 
+gSegmentClickID = 0
+
 ################# Railway Classes #################
 
 SEG_POS_END = 1

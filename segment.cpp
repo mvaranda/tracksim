@@ -5,6 +5,7 @@
 #include "segment.h"
 #include "diagramitem.h"
 #include "common.h"
+#include "python_int.h"
 
 #include <QPainter>
 #include <QPen>
@@ -209,5 +210,9 @@ void Segment::mousePressEvent(QGraphicsSceneMouseEvent *event)
     qDebug() << "Segment mousePressEvent";
     if (gMode == EditingTrain) {
         showTrain = ! showTrain;
+    }
+
+    if (gMode == Simulating) {
+        simInt_SendSegmentClick(GetSimItemID());
     }
 }

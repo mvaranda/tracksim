@@ -835,6 +835,51 @@ bool simInt_load(const char * file)
     return result;
 }
 
+bool simInt_SendSegmentClick(int id)
+{
+    PyObject *pFunc, *pValue, *dic, *pArgs;
+
+    const char * func_name = "click_segment";
+
+    // create a dictionary for the seg
+    dic = PyDict_New();
+    if (!dic) {
+        LOG_E("could not create a dic for simInt_SendSegmentClick\n");
+        return false;
+    }
+
+    // populate all fields
+    if (!add_long_to_dic(dic, "sim_id", id)) {
+        Py_DECREF(dic);
+        return false;
+    }
+
+    pArgs = PyTuple_New(1);
+    if (!pArgs) {
+        LOG_E("could not create args tuple\n");
+        Py_DECREF(dic);
+        return false;
+    }
+
+    PyTuple_SetItem(pArgs, 0, dic);
+
+    // call python function passing the dic as argument
+    pFunc = PyObject_GetAttrString(pModule, func_name);
+    if (pFunc && PyCallable_Check(pFunc)) {
+        pValue = PyObject_CallObject(pFunc, pArgs);
+        if (pValue != NULL) {
+            // LOG("Result of add_item call: %s\n", PyUnicode_AsUTF8(pValue)); //
+            //LOG("Python Items size: %ld\n", PyLong_AsLong(pValue));
+            Py_DECREF(pValue);
+        }
+    }
+    Py_DECREF(pFunc);
+    Py_DECREF(pArgs);    
+    // Note: no need to Py_DECREF(dic) as PyTuple_SetItem seals reference
+
+    return true;
+}
+
 #ifdef __cplusplus
   }
 #endif

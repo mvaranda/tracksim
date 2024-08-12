@@ -658,6 +658,8 @@ void MainWindow::play()
     playAction->setDisabled(true);
 
     stopRequest = false;
+    scene->setMode(DiagramScene::Simulating);
+
     scene->reset_railway();
 
     if (!startPython()) {
@@ -698,6 +700,7 @@ void MainWindow::stop()
     if (pauseAction->isChecked()) {
         pauseAction->toggle();
     }
+    scene->setMode(DiagramScene::MoveItem);
 }
 
 void MainWindow::timerTick()

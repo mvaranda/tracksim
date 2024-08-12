@@ -151,6 +151,18 @@ def timer_tick():
     
   log("tick " + str(simRunner.tick_counter))
 
+  if sim_classes.gSegmentClickID > 0:
+    seg_id = sim_classes.gSegmentClickID
+    sim_classes.gSegmentClickID = 0
+    seg = obj_from_id(simRunner.segments, seg_id)
+    if seg.red_flag == False:
+      seg.red_flag = True
+      seg.set_light_red(sim_classes.SEG_POS_END)
+    else:
+      seg.red_flag = False
+      seg.set_light_green(sim_classes.SEG_POS_END)
+
+
 
 def train_state__initial(train):
    global simRunner
