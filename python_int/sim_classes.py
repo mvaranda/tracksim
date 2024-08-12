@@ -20,8 +20,8 @@ import sim
 
 ################# Railway Classes #################
 
-SEG_POS_END = "end"
-SEG_POS_START = "start"
+SEG_POS_END = 1
+SEG_POS_START = 0
 
 
 ########### Cammnads to UI ############
@@ -84,11 +84,11 @@ class Segment:
     sim.cmd_to_ui(CMD_TRAIN_UNPRESENT + " " + str(self.sim_id))
 
   def set_light_red(self, seg_pos):
-    sim.cmd_to_ui(CMD_LIGHT_RED + " " + str(self.sim_id) + " " + seg_pos)
+    sim.cmd_to_ui(CMD_LIGHT_RED + " " + str(self.sim_id) + " " + str(seg_pos))
 
   def set_light_green(self, seg_pos):
     print("--green --")
-    sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + seg_pos)
+    sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + str(seg_pos))
 
 
 

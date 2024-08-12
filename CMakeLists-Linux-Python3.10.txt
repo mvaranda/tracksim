@@ -72,6 +72,7 @@ set(tracksim_resource_files
     "images/light.png"
     "images/route.png"
     "images/route_editing.png"
+    "images/clear.png"
 )
 
 target_include_directories(tracksim PRIVATE ./python_int

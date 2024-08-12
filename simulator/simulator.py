@@ -69,7 +69,7 @@ def sim_start(trains, segments, tracks):
       print(i.segments)
       for seg_id in i.segments:
         seg = simRunner.segment_from_id(seg_id)
-        seg.set_light_green(sim_classes.SEG_POS_END)
+        seg.set_light_green(sim_classes.SEG_POS_START)
   
   # init trains
   for train in simRunner.trains:

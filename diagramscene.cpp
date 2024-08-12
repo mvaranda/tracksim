@@ -413,6 +413,7 @@ void DiagramScene::reset_railway()
             segment = qgraphicsitem_cast<Segment *>(item);
             segment->showTrain = false;
             segment->trafficLightStart = Segment::noLight;
+            segment->trafficLightEnd = Segment::noLight;
         }
     }
 }
@@ -436,7 +437,7 @@ void DiagramScene::cmd_for_segment( cmd_for_segment_t cmd,
         }
     }
     if (!valid) {
-        qWarning() << "cmd_for_segment: can not fine obj for seg_id " << seg_id;
+        qWarning() << "cmd_for_segment: can not find obj for seg_id " << seg_id;
         return;
     }
     switch(cmd) {
@@ -447,10 +448,16 @@ void DiagramScene::cmd_for_segment( cmd_for_segment_t cmd,
             segment->showTrain = true;
             break;
         case CMD_SEGMENT_LIGHT_GREEN:
-            segment->trafficLightStart = Segment::GreenLight;
+            if (par1)
+                segment->trafficLightEnd = Segment::GreenLight;
+            else
+                segment->trafficLightStart = Segment::GreenLight;
             break;
         case CMD_SEGMENT_LIGHT_RED:
-            segment->trafficLightStart = Segment::RedLight;
+            if (par1)
+                segment->trafficLightEnd = Segment::RedLight;
+            else
+                segment->trafficLightStart = Segment::RedLight;
             break;
         default:
             qWarning() << "cmd_for_segment: unknown command";

@@ -646,6 +646,10 @@ void MainWindow::createToolBox()
     toolBox->addItem(backgroundWidget, tr("Backgrounds"));
 }
 //! [22]
+void MainWindow::reset()
+{
+    scene->reset_railway();
+}
 
 void MainWindow::play()
 {
@@ -714,6 +718,11 @@ void MainWindow::createActions()
     toFrontAction->setShortcut(tr("Ctrl+F"));
     toFrontAction->setStatusTip(tr("Bring item to front"));
     connect(toFrontAction, &QAction::triggered, this, &MainWindow::bringToFront);
+
+    resetAction = new QAction(QIcon(":/images/clear.png"), tr("Start Simulation"), this);
+    resetAction->setShortcut(tr("Ctrl+R"));
+    resetAction->setStatusTip(tr("Clear Routes"));
+    connect(resetAction, &QAction::triggered, this, &MainWindow::reset);
 
     playAction = new QAction(QIcon(":/images/play.png"), tr("Start Simulation"), this);
     playAction->setShortcut(tr("Ctrl+S"));
@@ -819,6 +828,7 @@ void MainWindow::createToolbars()
     editToolBar->addAction(toFrontAction);
     editToolBar->addAction(sendBackAction);
 
+    editToolBar->addAction(resetAction);
     editToolBar->addAction(playAction);
     editToolBar->addAction(pauseAction);
     editToolBar->addAction(stopAction);
@@ -881,6 +891,7 @@ void MainWindow::createToolbars()
     pointerButton->setCheckable(true);
     pointerButton->setChecked(true);
     pointerButton->setIcon(QIcon(":/images/pointer.png"));
+
     QToolButton *linePointerButton = new QToolButton;
     linePointerButton->setCheckable(true);
     linePointerButton->setIcon(QIcon(":/images/segment.png"));
@@ -904,6 +915,9 @@ void MainWindow::createToolbars()
     pointerToolbar->addWidget(pointerButton);
     pointerToolbar->addWidget(linePointerButton);
     pointerToolbar->addWidget(sceneScaleCombo);
+
+
+
 //! [27]
 }
 //! [27]

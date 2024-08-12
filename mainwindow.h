@@ -51,6 +51,7 @@ private slots:
     void pointerGroupClicked();
     void bringToFront();
     void sendToBack();
+    void reset();
     void play();
     void stop();
     void pause();
@@ -111,6 +112,7 @@ private:
     QAction *playAction;
     QAction *stopAction;
     QAction *pauseAction;
+    QAction *resetAction;
 
     QMenu *fileMenu;
     QMenu *itemMenu;
