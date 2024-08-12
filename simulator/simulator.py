@@ -143,11 +143,6 @@ def timer_tick():
      
 
   simRunner.tick_counter += 1
-
-
-
-  if simRunner.tick_counter == 20:
-    sim_classes.finish_ok("Simulation ended fine !!!")
     
   log("tick " + str(simRunner.tick_counter))
 
