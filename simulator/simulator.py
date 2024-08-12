@@ -94,6 +94,7 @@ def sim_start(trains, segments, tracks):
     train.state = TRAIN_STATE__INITIAL
     train.last_move_tick = 0
     train.route_idx = 0
+    train.tail_seg_id = 0
 
   return 1
 
@@ -147,20 +148,34 @@ def train_state__moving(train):
    ## check if train has arrived
    if train.location == train.route[len(train.route) - 1]:
       train.state = TRAIN_STATE__ARRIVED
+
+      if train.tail_seg_id > 0:
+        seg_id = train.tail_seg_id
+        seg = obj_from_id(simRunner.segments, seg_id)
+        seg.set_train_unpresent()
       return
    
    ## check if it is time to move the train to the next segment
    if simRunner.tick_counter > (train.last_move_tick + train.speed):
       # move train
-      seg_id = train.location
-      seg = obj_from_id(simRunner.segments, seg_id)
-      seg.set_train_unpresent()
+      # seg_id = train.location
+      # seg = obj_from_id(simRunner.segments, seg_id)
+      # seg.set_train_unpresent()
       train.route_idx += 1
       seg_id = train.route[train.route_idx]
       train.location = seg_id
       seg = obj_from_id(simRunner.segments, seg_id)
       seg.set_train_present()
-      train.last_move_tick = simRunner.tick_counter  
+
+      # remove tail
+      if train.route_idx > 1:
+        seg_id = train.route[train.route_idx - 2]
+        seg = obj_from_id(simRunner.segments, seg_id)
+        seg.set_train_unpresent()
+        train.tail_seg_id = train.route[train.route_idx - 1]
+
+      train.last_move_tick = simRunner.tick_counter
+
 
       #train.state == TRAIN_STATE__MOVING
 
