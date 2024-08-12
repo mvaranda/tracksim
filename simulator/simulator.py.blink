@@ -1,0 +1,104 @@
+
+
+###########################################################
+#                                                         #
+#               Part of the Tracks Simulator              #
+#                                                         #
+#  Copyright: Marcelo Varanda                             #
+#  License: GPL3                                          #
+#                                                         #
+###########################################################
+
+
+import sim_classes
+
+"""
+  For class definitions read "sim_classes.py" file.
+"""
+
+def dummy_log(t):
+   pass
+
+log = print
+#log = dummy_log    # uncomment to disable logs
+
+TRAIN_STATE__INITIAL = 0
+TRAIN_STATE__MOVING = 1
+TRAIN_STATE__ARRIVED = 2
+
+
+class SimRunner:
+  """Describes a Train object.
+
+  Train details...
+  """
+  def __init__(self, trains, segments, tracks):
+                self.trains = trains
+                self.segments = segments
+                self.tracks = tracks
+                self.tick_counter = 0
+                self.blink_on = False
+
+  def segment_from_id(self, id):
+    ret = None
+    for s in self.segments:
+      if s.sim_id == id:
+        ret = s
+        break
+    return ret
+
+## Helper functions
+def obj_from_id(list, id):
+  ret = None
+  for s in list:
+    if s.sim_id == id:
+      ret = s
+      break
+  return ret
+
+simRunner = None
+
+
+
+def sim_start(trains, segments, tracks):
+  global simRunner
+  log("*************** Starting Simulator ***************")
+
+  #
+  # Create the simulator runner object
+  #
+  simRunner = SimRunner(trains, segments, tracks)
+
+
+  ########## Initialize segments
+  for seg in simRunner.segments:
+    # add extra variable to segment object
+    seg.red_flag = False
+
+  return 1
+
+
+def timer_tick():
+  global simRunner
+
+  simRunner.tick_counter += 1
+
+  if simRunner.tick_counter % 4 == 0:
+      if simRunner.blink_on:
+          for seg in simRunner.segments:
+            # add extra variable to segment object
+            seg.set_light_green(sim_classes.SEG_POS_END)
+            seg.set_light_green(sim_classes.SEG_POS_START)
+            seg.set_segment_red(1)
+      else:
+          for seg in simRunner.segments:
+            # add extra variable to segment object
+            seg.set_light_red(sim_classes.SEG_POS_END)
+            seg.set_light_red(sim_classes.SEG_POS_START)
+            seg.set_segment_red(0)
+      simRunner.blink_on = ~simRunner.blink_on
+
+        
+     
+
+         

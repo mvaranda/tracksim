@@ -19,7 +19,7 @@ import sim_store
 import json
 
 
-GLOBAL_VAR = "*********** This is my global var **************"
+GLOBAL_VAR = "**"
 
 gItems = []
 gSegments = []
@@ -28,7 +28,7 @@ gTrains = []
 
 
 def sim_init():
-    print("\n******* Hello from simulator.py ********\n")
+    pass
 
 def print_global():
     print(GLOBAL_VAR)
@@ -95,8 +95,6 @@ def start():
     segments.append(seg)
 
   for t in gItems:
-    print("TrackPoint:")
-    print(t)
     segs = []
     if t["segment_id_0"] != 0:
        segs.append(t["segment_id_0"])

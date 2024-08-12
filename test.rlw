@@ -1031,6 +1031,39 @@
     }
   ]
 ,
+  "texts": [
+    {
+      "text": "Yellow Line",
+      "font_name": "",
+      "size": 20,
+      "pos_x": 2082,
+      "pos_y": 2585,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 0
+    },
+    {
+      "text": "Blue Line",
+      "font_name": "",
+      "size": 20,
+      "pos_x": 2091,
+      "pos_y": 2701,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 255
+    },
+    {
+      "text": "Simple demo",
+      "font_name": "",
+      "size": 20,
+      "pos_x": 2431,
+      "pos_y": 2248,
+      "color_r": 0,
+      "color_g": 0,
+      "color_b": 255
+    }
+  ]
+,
   "trains": [
     {
       "sim_id": 56,
