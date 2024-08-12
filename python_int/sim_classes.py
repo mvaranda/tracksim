@@ -1,5 +1,3 @@
-
-
 ###########################################################
 #                                                         #
 #               Part of the Tracks Simulator              #
@@ -46,26 +44,30 @@ ICON_QUESTION = 4
 #
 #################################
 class Train:
-  """Describes a Train object.
+    """Describes a Train object.
 
-  Train details...
-  """
-  def __init__( self, 
-                sim_id,
-                train_number,
-                speed,      # Num ticks to run over a segment
-                enabled,
-                reverse,
-                start_time,  # in ticks
-                route):
-    self.sim_id = sim_id
-    self.train_number = train_number
-    self.speed = speed      # Num ticks to run over a segment
-    self.enabled = enabled
-    self.reverse = reverse
-    self.start_time = start_time  # in ticks
-    self.route = route
-    self.location = route[0]  # segment sim_id of the first segment
+    Train details...
+    """
+
+    def __init__(
+        self,
+        sim_id,
+        train_number,
+        speed,  # Num ticks to run over a segment
+        enabled,
+        reverse,
+        start_time,  # in ticks
+        route,
+    ):
+        self.sim_id = sim_id
+        self.train_number = train_number
+        self.speed = speed  # Num ticks to run over a segment
+        self.enabled = enabled
+        self.reverse = reverse
+        self.start_time = start_time  # in ticks
+        self.route = route
+        self.location = route[0]  # segment sim_id of the first segment
+
 
 #################################
 #
@@ -73,36 +75,39 @@ class Train:
 #
 #################################
 class Segment:
-  """Describes a Segment object.
+    """Describes a Segment object.
 
-  Segment details...
-  """
-  def __init__( self, 
-                sim_id,
-                startTrackPoint_id,
-                endTrackPoint_id,
-                startLightState,
-                endLightState):
-    self.sim_id = sim_id
-    self.startTrackPoint_id = startTrackPoint_id
-    self.endTrackPoint_id = endTrackPoint_id
-    self.startLightState = startLightState
-    self.endLightState = endLightState
+    Segment details...
+    """
 
-  def set_train_present(self):
-    sim.cmd_to_ui(CMD_TRAIN_PRESENT + " " + str(self.sim_id))
+    def __init__(
+        self,
+        sim_id,
+        startTrackPoint_id,
+        endTrackPoint_id,
+        startLightState,
+        endLightState,
+    ):
+        self.sim_id = sim_id
+        self.startTrackPoint_id = startTrackPoint_id
+        self.endTrackPoint_id = endTrackPoint_id
+        self.startLightState = startLightState
+        self.endLightState = endLightState
 
-  def set_train_unpresent(self):
-    sim.cmd_to_ui(CMD_TRAIN_UNPRESENT + " " + str(self.sim_id))
+    def set_train_present(self):
+        sim.cmd_to_ui(CMD_TRAIN_PRESENT + " " + str(self.sim_id))
 
-  def set_light_red(self, seg_pos):
-    sim.cmd_to_ui(CMD_LIGHT_RED + " " + str(self.sim_id) + " " + str(seg_pos))
+    def set_train_unpresent(self):
+        sim.cmd_to_ui(CMD_TRAIN_UNPRESENT + " " + str(self.sim_id))
 
-  def set_light_green(self, seg_pos):
-    sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + str(seg_pos))
+    def set_light_red(self, seg_pos):
+        sim.cmd_to_ui(CMD_LIGHT_RED + " " + str(self.sim_id) + " " + str(seg_pos))
 
-  def set_segment_red(self, yes_1_no_0):
-    sim.cmd_to_ui(CMD_SEGMENT_RED + " " + str(self.sim_id) + " " + str(yes_1_no_0))
+    def set_light_green(self, seg_pos):
+        sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + str(seg_pos))
+
+    def set_segment_red(self, yes_1_no_0):
+        sim.cmd_to_ui(CMD_SEGMENT_RED + " " + str(self.sim_id) + " " + str(yes_1_no_0))
 
 
 #################################
@@ -111,15 +116,15 @@ class Segment:
 #
 #################################
 class TrackPoint:
-  """Describes a TrackPoint object.
+    """Describes a TrackPoint object.
 
-  TrackPoint details...
-  """
-  def __init__( self, 
-                sim_id,
-                segments):
-    self.sim_id = sim_id
-    self.segments = segments
+    TrackPoint details...
+    """
+
+    def __init__(self, sim_id, segments):
+        self.sim_id = sim_id
+        self.segments = segments
+
 
 ####################################
 #
@@ -128,7 +133,8 @@ class TrackPoint:
 ####################################
 ## Helper functions
 def finish_ok(msg):
-  sim.cmd_to_ui(CMD_MESSAGE_DONE  + " " + str(ICON_INFO) + " " + msg)
+    sim.cmd_to_ui(CMD_MESSAGE_DONE + " " + str(ICON_INFO) + " " + msg)
+
 
 def finish_error(msg):
-  sim.cmd_to_ui(CMD_MESSAGE_DONE  + " " + str(ICON_CRITICAL) + " " + msg)
+    sim.cmd_to_ui(CMD_MESSAGE_DONE + " " + str(ICON_CRITICAL) + " " + msg)
