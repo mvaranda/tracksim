@@ -37,7 +37,11 @@ ICON_WARNING = 2
 ICON_CRITICAL = 3
 ICON_QUESTION = 4
 
-
+#################################
+#
+#            T R A I N
+#
+#################################
 class Train:
   """Describes a Train object.
 
@@ -58,8 +62,13 @@ class Train:
     self.reverse = reverse
     self.start_time = start_time  # in ticks
     self.route = route
+    self.location = route[0]  # segment sim_id of the first segment
 
-
+#################################
+#
+#          S E G M E N T
+#
+#################################
 class Segment:
   """Describes a Segment object.
 
@@ -91,7 +100,11 @@ class Segment:
     sim.cmd_to_ui(CMD_LIGHT_GREEN + " " + str(self.sim_id) + " " + str(seg_pos))
 
 
-
+#################################
+#
+#       T R A C K P O I N T
+#
+#################################
 class TrackPoint:
   """Describes a TrackPoint object.
 
@@ -103,6 +116,11 @@ class TrackPoint:
     self.sim_id = sim_id
     self.segments = segments
 
+####################################
+#
+#  H E L P E R   F U N C T I O N S
+#
+####################################
 ## Helper functions
 def finish_ok(msg):
   sim.cmd_to_ui(CMD_MESSAGE_DONE  + " " + str(ICON_INFO) + " " + msg)

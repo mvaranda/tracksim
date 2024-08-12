@@ -9,14 +9,16 @@
 #                                                         #
 ###########################################################
 
-import traceback
-import sim, sim_classes
+
+import sim_classes
 
 """
   For class definitions read "sim_classes.py" file.
 """
 
 TRAIN_STATE__INITIAL = 0
+TRAIN_STATE__MOVING = 1
+TRAIN_STATE__ARRIVED = 2
 
 
 class SimRunner:
@@ -60,7 +62,7 @@ def sim_start(trains, segments, tracks):
   #
   simRunner = SimRunner(trains, segments, tracks)
 
-  ###### Search for intercessions #######
+  ######## Initialize for intercessions and lights #######
   print(simRunner.tracks)
   simRunner.intercessions = []       # add "intercession" variable to the object
   for track in simRunner.tracks:
@@ -81,13 +83,17 @@ def sim_start(trains, segments, tracks):
       simRunner.intercessions.append(dic)
   print(simRunner.intercessions)
   
-  # init trains
+  ########## Initialize trains
   for train in simRunner.trains:
     # place train in initial seg
-    seg_id = train.route[0]
+    seg_id = train.location
     seg = obj_from_id(simRunner.segments, seg_id)
     seg.set_train_present()
-    train.state = TRAIN_STATE__INITIAL      # add "state" variable to the train object
+
+    # add extra variable to train object
+    train.state = TRAIN_STATE__INITIAL
+    train.last_move_tick = 0
+    train.route_idx = 0
 
   return 1
 
@@ -95,16 +101,68 @@ def sim_start(trains, segments, tracks):
 def timer_tick():
   global simRunner
 
+  ## run Train state machine
   for train in simRunner.trains:
     print("Train number: " + str(train.train_number))
+    if train.state == TRAIN_STATE__INITIAL:
+       train_state__initial(train)
+    elif train.state == TRAIN_STATE__MOVING:
+       train_state__moving(train)
+    elif train.state == TRAIN_STATE__ARRIVED:
+       train_state__arrived(train)
+    else:
+       print("unexpected state")
+
+  ## detect arrivals
+  finished = True
+  for train in simRunner.trains:
+     if train.state != TRAIN_STATE__ARRIVED:
+        finished = False
+        break
+  if finished == True:
+     sim_classes.finish_ok("Simulation ended fine !!!")
+     return
+     
 
   simRunner.tick_counter += 1
 
-  if simRunner.tick_counter == 6:
-    #sim_classes.finish_ok("OK Message. Bye Now MV !!!")
-    sim_classes.finish_error("Error Message. Bye Now MV !!!")
+
+
+  if simRunner.tick_counter == 20:
+    sim_classes.finish_ok("Simulation ended fine !!!")
     
   print("tick " + str(simRunner.tick_counter))
 
 
+def train_state__initial(train):
+   global simRunner
+   print("**** state_initial ****")
+   if simRunner.tick_counter > train.start_time:
+      train.state = TRAIN_STATE__MOVING
 
+def train_state__moving(train):
+   global simRunner
+   print("**** state moving ****")
+   
+   ## check if train has arrived
+   if train.location == train.route[len(train.route) - 1]:
+      train.state = TRAIN_STATE__ARRIVED
+      return
+   
+   ## check if it is time to move the train to the next segment
+   if simRunner.tick_counter > (train.last_move_tick + train.speed):
+      # move train
+      seg_id = train.location
+      seg = obj_from_id(simRunner.segments, seg_id)
+      seg.set_train_unpresent()
+      train.route_idx += 1
+      seg_id = train.route[train.route_idx]
+      train.location = seg_id
+      seg = obj_from_id(simRunner.segments, seg_id)
+      seg.set_train_present()
+      train.last_move_tick = simRunner.tick_counter  
+
+      #train.state == TRAIN_STATE__MOVING
+
+def train_state__arrived(train):
+   pass # nothing to do (placeholder)
