@@ -309,7 +309,7 @@ void DiagramScene::sendItemsToSim()
             train.sim_id = train_obj->GetSimItemID();
             train.pos_x = train_obj->pos().x(); 
             train.pos_y = train_obj->pos().y();
-            train.speed = TRAIN_DEFAULT_SPEED;
+            train.speed = train_obj->speed; //TRAIN_DEFAULT_SPEED;
             train.start_time = TRAIN_DEFAULT_START_TIME;
             train.reverse = train_obj->reverse;
             train.enabled = train_obj->enabled;
@@ -376,6 +376,7 @@ void DiagramScene::addTrain(train_t * train)
         train->sim_id,
         train->reverse,
         train->enabled );
+        trainItem->speed = train->speed;
 
         connect(trainItem, &TrainItem::routingEnded,
                 this, &DiagramScene::routingHasEnded);

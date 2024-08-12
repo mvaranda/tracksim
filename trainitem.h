@@ -59,6 +59,7 @@ public:
     bool enabled;
     bool reverse;
     int train_number;
+    int speed;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;

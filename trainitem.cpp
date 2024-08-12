@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "trainitem.h"
-//#include "segment.h"
+#include "python_int.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -26,7 +26,8 @@ TrainItem::TrainItem(   QMenu *contextMenu,
     m_ContextMenu(contextMenu), 
     enabled(_enabled),
     reverse(_reverse),
-    train_number(_train_number)
+    train_number(_train_number),
+    speed(TRAIN_DEFAULT_SPEED)
 {
 
     if (! train_number) {

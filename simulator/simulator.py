@@ -16,6 +16,12 @@ import sim_classes
   For class definitions read "sim_classes.py" file.
 """
 
+def dummy_log(t):
+   pass
+
+log = print
+#log = dummy_log    # uncomment to disable logs
+
 TRAIN_STATE__INITIAL = 0
 TRAIN_STATE__MOVING = 1
 TRAIN_STATE__ARRIVED = 2
@@ -57,7 +63,7 @@ simRunner = None
 
 def sim_start(trains, segments, tracks):
   global simRunner
-  print("*************** Starting Simulator ***************")
+  log("*************** Starting Simulator ***************")
 
   #
   # Create the simulator runner object
@@ -65,14 +71,14 @@ def sim_start(trains, segments, tracks):
   simRunner = SimRunner(trains, segments, tracks)
 
   ######## Initialize for intercessions and lights #######
-  print(simRunner.tracks)
+  log(simRunner.tracks)
   #simRunner.intercessions = []       # add "intercession" variable to the object
   for track in simRunner.tracks:
     if len(track.segments) > 2:
       dic = {"trackpoint": track.sim_id, "taken_by_train_id": 0}
       simRunner.intercessions.append(track)
-      print("found intercession in TrackPoint " + str(track.sim_id) + ", segments:")
-      print(track.segments)
+      log("found intercession in TrackPoint " + str(track.sim_id) + ", segments:")
+      log(track.segments)
       segs = []
       for seg_id in track.segments:
         seg = simRunner.segment_from_id(seg_id)
@@ -84,7 +90,7 @@ def sim_start(trains, segments, tracks):
           simRunner.segs_with_light.append(seg.sim_id)
       dic["segs"] = segs
       simRunner.intercessions.append(dic)
-  print(simRunner.intercessions)
+  log(simRunner.intercessions)
   
   ########## Initialize trains
   for train in simRunner.trains:
@@ -107,7 +113,7 @@ def timer_tick():
 
   ## run Train state machine
   for train in simRunner.trains:
-    print("Train number: " + str(train.train_number))
+    log("Train number: " + str(train.train_number))
     if train.state == TRAIN_STATE__INITIAL:
        train_state__initial(train)
     elif train.state == TRAIN_STATE__MOVING:
@@ -115,7 +121,7 @@ def timer_tick():
     elif train.state == TRAIN_STATE__ARRIVED:
        train_state__arrived(train)
     else:
-       print("unexpected state")
+       log("unexpected state")
 
   ## detect arrivals
   finished = True
@@ -135,18 +141,18 @@ def timer_tick():
   if simRunner.tick_counter == 20:
     sim_classes.finish_ok("Simulation ended fine !!!")
     
-  print("tick " + str(simRunner.tick_counter))
+  log("tick " + str(simRunner.tick_counter))
 
 
 def train_state__initial(train):
    global simRunner
-   print("**** state_initial ****")
+   log("**** state_initial ****")
    if simRunner.tick_counter > train.start_time:
       train.state = TRAIN_STATE__MOVING
 
 def train_state__moving(train):
    global simRunner
-   print("**** state moving ****")
+   log("**** state moving, speed: " + str(train.speed))
    
    ## check if train has arrived
    if train.location == train.route[len(train.route) - 1]:
