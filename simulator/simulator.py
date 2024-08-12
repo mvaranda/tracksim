@@ -260,14 +260,20 @@ def detect_collision():
     counter = 0
     loc = train.location
     tail = train.tail_seg_id
+    log("loc: " + str(loc))
+    log("tail: " + str(tail))
     if tail == 0:
+       log("tail is zero")
        continue
     for other_train in simRunner.trains:
+      log("Other train " + str(other_train.sim_id))
       if loc == other_train.location:
+         log("match loc ")
          counter += 1
       if tail == other_train.tail_seg_id:
+         log("match tail")
          counter += 1
-      if counter > 1:
+      if counter > 2:
         log("detected collision")
         return loc 
 

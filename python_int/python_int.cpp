@@ -317,29 +317,6 @@ static bool add_long_to_dic(PyObject * dic, const char * _key, int _val)
     return true;
 }
 
-//PyLong_FromLong
-#if 0 // not in use right now
-static bool add_float_to_dic(PyObject * dic, const char * _key, float _val)
-{
-    PyObject *key = PyUnicode_FromString(_key);
-    if (!key) {
-        LOG_E("could not create a key %s\n", _key);
-        return false;
-    }
-
-    PyObject *value = PyLong_FromDouble(_val);
-    if (!value) {
-        LOG_E("could not create a value %f\n", _val);
-        Py_DECREF(key);
-        return false;
-    }
-    PyDict_SetItem(dic, key, value);
-    Py_DECREF(key);
-    Py_DECREF(value);
-    return true;
-}
-#endif
-
 bool simInt_addItem(item_t * item)
 {
     PyObject *pFunc, *pValue, *dic, *pArgs;
