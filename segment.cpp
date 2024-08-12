@@ -122,11 +122,11 @@ void Segment::paint(QPainter *painter, const QStyleOptionGraphicsItem * _style, 
     paint_reverse(painter, _style, _widget);
 
     if (showTrain || hasTrain) {
-        painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 8, Qt::SolidLine));
+        painter->setPen(QPen(hasTrain ? HAS_TRAIN_COLOR : ROUTE_COLOR , 4, Qt::SolidLine));
         QLineF m_Line = line();
-        m_Line.translate(0, 4.0);
+        m_Line.translate(0, 3.0);
         painter->drawLine(m_Line);
-        m_Line.translate(0,-8.0);
+        m_Line.translate(0,-6.0);
         painter->drawLine(m_Line);
         return;        
     }               

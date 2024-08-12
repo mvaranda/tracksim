@@ -54,30 +54,42 @@ simRunner = None
 def sim_start(trains, segments, tracks):
   global simRunner
   print("*************** Starting Simulator ***************")
-  #
-  # Create the simulator runner object
-  #
-  simRunner = SimRunner(trains, segments, tracks)
+  try:
+    #
+    # Create the simulator runner object
+    #
+    simRunner = SimRunner(trains, segments, tracks)
 
-  ###### Search for intercessions #######
-  print(simRunner.tracks)
-  simRunner.intercessions = []       # add "intercession" variable to the object
-  for i in simRunner.tracks:
-    if len(i.segments) > 2:
-      simRunner.intercessions.append(i)
-      print("found intercession in TrackPoint " + str(i.sim_id) + ", segments:")
-      print(i.segments)
-      for seg_id in i.segments:
-        seg = simRunner.segment_from_id(seg_id)
-        seg.set_light_green(sim_classes.SEG_POS_START)
-  
-  # init trains
-  for train in simRunner.trains:
-    # place train in initial seg
-    seg_id = train.route[0]
-    seg = obj_from_id(simRunner.segments, seg_id)
-    seg.set_train_present()
-    train.state = TRAIN_STATE__INITIAL      # add "state" variable to the train object
+    ###### Search for intercessions #######
+    print(simRunner.tracks)
+    simRunner.intercessions = []       # add "intercession" variable to the object
+    for track in simRunner.tracks:
+      if len(track.segments) > 2:
+        simRunner.intercessions.append(track)
+        print("found intercession in TrackPoint " + str(track.sim_id) + ", segments:")
+        print(track.segments)
+        for seg_id in track.segments:
+          seg = simRunner.segment_from_id(seg_id)
+          ## for now only forward lights
+          print("*** check endpoint ***")
+          print(seg.endTrackPoint_id)
+          print(track.sim_id)
+
+          if seg.endTrackPoint_id == track.sim_id:
+            seg.set_light_green(sim_classes.SEG_POS_END)
+    
+    # init trains
+    for train in simRunner.trains:
+      # place train in initial seg
+      seg_id = train.route[0]
+      seg = obj_from_id(simRunner.segments, seg_id)
+      seg.set_train_present()
+      train.state = TRAIN_STATE__INITIAL      # add "state" variable to the train object
+
+  except:
+     print("********************* exception ***********************")
+     print(traceback.format_exc())
+
   return 1
 
 

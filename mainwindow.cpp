@@ -677,6 +677,7 @@ void MainWindow::play()
         timer->start(TIMER_TICK_PERIOD);
     }
 
+    scene->invalidate();
     timerIsRunning = true;
 }
 
@@ -707,7 +708,7 @@ void MainWindow::timerTick()
         return;
     }
     simInt_timer_tick();
-
+    scene->invalidate();
 }
 
 //! [23]

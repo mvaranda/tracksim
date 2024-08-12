@@ -10,7 +10,7 @@
 #include <QPainter>
 #include <QDebug>
 
-#define TRACK_POINT_CIRCLE_SIZE 20.0
+#define TRACK_POINT_CIRCLE_SIZE 12.0
 
 //! [0]
 DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu, int sim_id,
