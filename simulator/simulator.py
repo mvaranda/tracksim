@@ -195,7 +195,7 @@ def train_state__moving(train):
       next_seg_obj = obj_from_id(simRunner.segments, next_seg_id)
       
       if next_seg_obj.red_flag == True:  #next_seg_id in simRunner.red_light_taken_segmets:
-         log ("waiting on red light for segment " + str(next_seg_id))
+         #log ("waiting on red light for segment " + str(next_seg_id))
          return
       
       # check if the next segment leads to an intercession
@@ -256,25 +256,17 @@ def train_state__arrived(train):
 def detect_collision():
   global simRunner
   for train in simRunner.trains:
-    log("Check collision train " + str(train.sim_id))
     counter = 0
     loc = train.location
     tail = train.tail_seg_id
-    log("loc: " + str(loc))
-    log("tail: " + str(tail))
     if tail == 0:
-       log("tail is zero")
        continue
     for other_train in simRunner.trains:
-      log("Other train " + str(other_train.sim_id))
       if loc == other_train.location:
-         log("match loc ")
          counter += 1
       if tail == other_train.tail_seg_id:
-         log("match tail")
          counter += 1
       if counter > 2:
-        log("detected collision")
         return loc 
 
   return 0
