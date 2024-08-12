@@ -164,6 +164,7 @@ MainWindow::MainWindow() :
     timerIsRunning(false)
 {
     MainWindow_instance = this;
+    simSpeedDiv = 1;
 
     createActions();
     createToolBox();
@@ -386,6 +387,22 @@ void MainWindow::sceneScaleChanged(const QString &scale)
     view->scale(newScale, newScale);
 }
 //! [11]
+
+void MainWindow::simSpeedChanged(const QString &speed)
+{
+    if (speed == "x1") {
+        simSpeedDiv = 1;
+    }
+    else if (speed == "x2") {
+        simSpeedDiv = 2;
+    }
+    else if (speed == "x4") {
+        simSpeedDiv = 4;
+    }
+    else if (speed == "x8") {
+        simSpeedDiv = 8;
+    }
+}
 
 //! [12]
 void MainWindow::textColorChanged()
@@ -624,7 +641,7 @@ void MainWindow::play()
         timer_initted = true;
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::timerTick));
-        timer->start(TIMER_TICK_PERIOD);
+        timer->start(TIMER_TICK_PERIOD / simSpeedDiv);
     }
 
     scene->invalidate();
@@ -863,10 +880,20 @@ void MainWindow::createToolbars()
     connect(sceneScaleCombo, &QComboBox::currentTextChanged,
             this, &MainWindow::sceneScaleChanged);
 
+    sceneSpeedCombo = new QComboBox;
+    QStringList speeds;
+    speeds << tr("x1") << tr("x2") << tr("x4") << tr("x8");
+    sceneSpeedCombo->addItems(speeds);
+    sceneSpeedCombo->setCurrentIndex(0);
+    connect(sceneSpeedCombo, &QComboBox::currentTextChanged,
+            this, &MainWindow::simSpeedChanged);
+
+
     pointerToolbar = addToolBar(tr("Pointer type"));
     pointerToolbar->addWidget(pointerButton);
     pointerToolbar->addWidget(linePointerButton);
     pointerToolbar->addWidget(sceneScaleCombo);
+    pointerToolbar->addWidget(sceneSpeedCombo);
 
 
 

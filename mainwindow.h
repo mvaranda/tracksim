@@ -60,6 +60,7 @@ private slots:
     void currentFontChanged(const QFont &font);
     void fontSizeChanged(const QString &size);
     void sceneScaleChanged(const QString &scale);
+    void simSpeedChanged(const QString &scale);
     void textColorChanged();
     void itemColorChanged();
     void lineColorChanged();
@@ -95,6 +96,7 @@ private:
     QTimer *timer;
     bool timer_initted;
     bool stopRequest;
+    int simSpeedDiv;
 
     DiagramScene *scene;
     QGraphicsView *view;
@@ -125,6 +127,7 @@ private:
     QToolBar *pointerToolbar;
 
     QComboBox *sceneScaleCombo;
+    QComboBox *sceneSpeedCombo;
     QComboBox *itemColorCombo;
     QComboBox *textColorCombo;
     QComboBox *fontSizeCombo;
