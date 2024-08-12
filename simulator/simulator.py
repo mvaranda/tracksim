@@ -39,6 +39,7 @@ class SimRunner:
                 self.tick_counter = 0
                 self.intercessions = []
                 self.segs_with_light = []
+                self.red_light_taken_segmets = []
 
   def segment_from_id(self, id):
     ret = None
@@ -110,6 +111,7 @@ def sim_start(trains, segments, tracks):
 
 def timer_tick():
   global simRunner
+  #show_all_tracks()
 
   ## run Train state machine
   for train in simRunner.trains:
@@ -150,6 +152,17 @@ def train_state__initial(train):
    if simRunner.tick_counter > train.start_time:
       train.state = TRAIN_STATE__MOVING
 
+def show_all_tracks():
+  global simRunner
+  log("------------------------------")
+  log("show_all_tracks")
+  for track in simRunner.tracks:
+     log("track id = " + str(track.sim_id))
+     log(track.segments)
+  log("------------------------------")
+     
+
+
 def train_state__moving(train):
    global simRunner
    log("**** state moving, speed: " + str(train.speed))
@@ -170,10 +183,39 @@ def train_state__moving(train):
    
    ## check if it is time to move the train to the next segment
    if simRunner.tick_counter > (train.last_move_tick + train.speed):
-      # move train
-      # seg_id = train.location
-      # seg = obj_from_id(simRunner.segments, seg_id)
-      # seg.set_train_unpresent()
+
+      # check if there is a signal taken for the next segment
+      next_seg_id = train.route[train.route_idx] # + 1]
+      if next_seg_id in simRunner.red_light_taken_segmets:
+         log ("waiting on red light for segment " + str(next_seg_id))
+         return
+      
+      # check if the next segment leads to an intercession
+      log (">>>>>>>>>>>>>>> next_seg_id = " + str(next_seg_id))
+      log(simRunner.segs_with_light)
+      if next_seg_id in simRunner.segs_with_light:
+        #show_all_tracks()
+        # we take other forward segment connected to the intercession
+        next_seg_obj = obj_from_id(simRunner.segments, next_seg_id)
+        inter_id = next_seg_obj.endTrackPoint_id
+        log("inter_id = " + str(inter_id))
+        track_obj = obj_from_id(simRunner.tracks, inter_id)
+        track_segs_list = track_obj.segments.copy()
+        log("track_segs_list:")
+        log(track_segs_list)
+        log(track_obj.segments)
+        track_segs_list.remove(next_seg_id)
+        seg_obj_to_turn_red = None
+        for other_seg_id in track_segs_list:
+          other_seg_obj = obj_from_id(simRunner.segments, other_seg_id)
+          if (other_seg_obj.endTrackPoint_id == inter_id):
+              seg_obj_to_turn_red = other_seg_obj
+              print("type of seg_obj_to_turn_red: " + str(type(seg_obj_to_turn_red)))
+              seg_obj_to_turn_red.set_light_red(sim_classes.SEG_POS_END)
+        
+        log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>other seg = " + str(seg_obj_to_turn_red.sim_id))
+
+
       train.route_idx += 1
       seg_id = train.route[train.route_idx]
       train.location = seg_id
