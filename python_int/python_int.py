@@ -76,11 +76,11 @@ def start():
         if t["enabled"] == 0:
             continue
         ## sort route
-        route = t["route"]
-        if t["reverse"] != 0:
-            route.sort(reverse=True)
-        else:
-            route.sort()
+        # route = t["route"]
+        # if t["reverse"] != 0:
+        #     route.sort(reverse=True)
+        # else:
+        #     route.sort()
         train = sim_classes.Train(
             t["sim_id"],
             t["train_number"],
@@ -88,7 +88,7 @@ def start():
             t["enabled"],
             t["reverse"],
             t["start_time"],  # in ticks
-            route,
+            t["route"],
         )
         trains.append(train)
 

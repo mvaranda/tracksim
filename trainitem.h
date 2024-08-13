@@ -41,6 +41,9 @@ public:
     // TrainType diagramType() const { return TrainItemType; }
     // QPolygonF polygon() const { return m_Polygon; }
     void addSegment(Segment *segment);
+
+    void updateSegment(Segment * seg, bool add);
+
     // QPixmap image() const;
     int type() const override { return Type; }
     void setColor(const QColor &color) { m_Color = color; }
@@ -71,6 +74,9 @@ private:
     QString text;
     QGraphicsTextItem * txtItem;
     static int train_cnt;
+
+public:
+    static TrainItem * trainEditing;
 
 signals:
     void routingStarted(QGraphicsItem *item);

@@ -112,7 +112,7 @@ void DiagramScene::routingHasEnded(QGraphicsItem *_item)
         if (it->type() == Segment::Type) {
             Segment *segment = qgraphicsitem_cast<Segment *>(it);
             if (segment->showTrain) {
-                trainitem->addSegment(segment);
+                // trainitem->addSegment(segment);
                 segment->showTrain = false;
             }
         }

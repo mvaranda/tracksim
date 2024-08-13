@@ -6,6 +6,7 @@
 #include "diagramitem.h"
 #include "common.h"
 #include "python_int.h"
+#include "trainitem.h"
 
 #include <QPainter>
 #include <QPen>
@@ -221,6 +222,9 @@ void Segment::mousePressEvent(QGraphicsSceneMouseEvent *event)
     qDebug() << "Segment mousePressEvent";
     if (gMode == EditingTrain) {
         showTrain = ! showTrain;
+        if (TrainItem::trainEditing) {
+            TrainItem::trainEditing->updateSegment(this, showTrain);
+        }
     }
 
     if (gMode == Simulating) {

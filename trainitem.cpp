@@ -13,6 +13,7 @@
 #define TRACK_POINT_CIRCLE_SIZE 20.0
 
 int TrainItem::train_cnt = 0;
+TrainItem * TrainItem::trainEditing = NULL;
 
 TrainItem::TrainItem(   QMenu *contextMenu,
                         int _train_number,
@@ -59,9 +60,11 @@ void TrainItem::setEditing(bool ed)
     QPixmap img;
     if (ed) {
         img = QPixmap(":/images/train_editing.png");
+        trainEditing = this;
     }
     else {
         img = QPixmap(":/images/train.png");
+        trainEditing = NULL;
     }
 
     QPixmap _img = img.scaled(QSize(60,60));
@@ -71,12 +74,62 @@ void TrainItem::setEditing(bool ed)
 
 void TrainItem::removeSegments()
 {
-    segments.clear();
+    qDebug() << "removeSegments to be removed";
+    //segments.clear();
 }
 
 void TrainItem::addSegment(Segment *segment)
 {
     segments.append(segment);
+}
+
+// int searchSegment(QList * list, int id)
+// {
+//     bool found = false;
+//     int i = 0;
+//     for (auto s in list) {
+//         if (s == id) {
+//             return i;
+//         }
+//         i++;
+//     }
+//     return -1;
+// }
+
+void TrainItem::updateSegment(Segment * seg, bool add)
+{
+    int seg_sim_id = seg->GetSimItemID();
+    int i = 0;
+    bool found = false;
+
+    if (add) {
+        foreach (auto s, segments) {
+            if (s == seg) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            qDebug( ) << "segments size before adding" << segments.size();
+            segments.append(seg);
+            qDebug( ) << "adding segment id = " << seg_sim_id;
+            qDebug( ) << "segments size after adding" << segments.size();
+        }
+    } else {
+        foreach (auto s, segments) {
+            if (s == seg) {
+                found = true;
+                break;
+            }
+            i++;
+        }
+        if (found) {
+            qDebug( ) << "segments size before remove" << segments.size();
+            segments.remove(i);
+            qDebug( ) << "removing segment id = " << seg_sim_id;
+            qDebug( ) << "segments size after remove" << segments.size();
+        }
+    }
 }
 
 void TrainItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -100,8 +153,13 @@ void TrainItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (editing) {
         setEditing(false);
-        emit routingEnded(this);
+
     }
+    // TODO: remove later
+    emit routingEnded(this);
+    // foreach( Segment *segment, segments ) {
+    //     segment->showTrain = false;
+    //}
 }
 
 void TrainItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -117,7 +175,8 @@ void TrainItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     foreach( Segment *segment, segments ) {
         segment->showTrain = true;
     }
-    segments.clear();
-    emit routingStarted(this);
+    // TODO: clean up later
+    // segments.clear();
+    routingStarted(this);
 }
 
