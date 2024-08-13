@@ -44,13 +44,13 @@ ICON_QUESTION = 4
 #
 #################################
 class Train:
-    """Describes a Train object.
-
-    Train details...
+    """! The Train class.
+    Provides all information passed by the UI. Simulator may add more variable if needed.
     """
 
     def __init__(
         self,
+        ## Object identifier shared. UI also share the same ID.
         sim_id,
         train_number,
         speed,  # Num ticks to run over a segment
@@ -59,7 +59,9 @@ class Train:
         start_time,  # in ticks
         route,
     ):
+        ## Object identifier shared. UI also share the same ID.
         self.sim_id = sim_id
+        ## Train number. UI uses this to render the train label.
         self.train_number = train_number
         self.speed = speed  # Num ticks to run over a segment
         self.enabled = enabled

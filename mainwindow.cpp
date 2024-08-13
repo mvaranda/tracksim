@@ -1005,7 +1005,7 @@ void MainWindow::centerAndResize() {
     QSize availableSize = QApplication::primaryScreen()->geometry().size();  // Qt6 , along with the #include <QScreen>
     int width = availableSize.width();
     int height = availableSize.height();
-    width *= 0.75; // 75% of the screen size
+    width *= 0.8; // 80% of the screen size
     height *= 0.7; // 70% of the screen size
     setMinimumSize(width,height);
 }
