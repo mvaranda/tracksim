@@ -639,9 +639,12 @@ void MainWindow::play()
 
     if (timer_initted == false) {
         timer_initted = true;
-        QTimer *timer = new QTimer(this);
+        timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::timerTick));
         timer->start(TIMER_TICK_PERIOD / simSpeedDiv);
+    }
+    else {
+        timer->setInterval(TIMER_TICK_PERIOD / simSpeedDiv);
     }
 
     scene->invalidate();
