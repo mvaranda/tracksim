@@ -1,7 +1,7 @@
 # Railway Traffic Simulator
 This is a C++ Application based on Qt6. Native C++ code implements the Railway Editor and has an embedded python interpreter to provide a powerful/flexible simulation 
 
-![image](images/editor-sample.png)
+![image](images/demo.gif)
 
 # Videos
 [TrackSim Demo](https://rumble.com/v5av1at-tracksim.html)
