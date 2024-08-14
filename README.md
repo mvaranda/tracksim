@@ -3,6 +3,11 @@ This is a C++ Application based on Qt6. Native C++ code implements the Railway E
 
 ![image](images/editor-sample.png)
 
+# Videos
+![TrackSim Demo](https://rumble.com/v5av1at-tracksim.html)
+<br><br>
+![TrackSim - Shows how flexible it is for python developers](https://rumble.com/v5av2zu-tracksim-python-makes-things-very-flexible.html)
+
 # Building for Linux
 - Instsall Qt6
 - Copy CMakeLists-Linux-PythonXXX.txt to CMakeLists.txt where XXX matches the version of the installed python3
