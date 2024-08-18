@@ -6,8 +6,13 @@ This is a C++ Application based on Qt6. Native C++ code implements the Railway E
 # Videos
 [TrackSim Demo](https://rumble.com/v5av1at-tracksim.html)
 
-
 [TrackSim Shows how flexible it is for python developers](https://rumble.com/v5av2zu-tracksim-python-makes-things-very-flexible.html)
+
+# Architecture/Directories
+![architecture](docs/directories.png)
+
+# Presentation (pdf):
+[presentation.pdf](docs/presentation.pdf)
 
 # Building for Linux
 - Install Qt6
